@@ -1,0 +1,7 @@
+title = "brain (日本語)"
+baseURL = "https://brain-ja.tamnd.com/"
+description = "tamnd のノート"
+contentDir = "content"
+outputDir = "public"
+staticDir = "static"
+theme = "zen"
