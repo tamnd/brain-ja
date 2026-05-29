@@ -1,10 +1,8 @@
 ---
-title: "brain (日本語)"
+title: "タムンドの脳"
 tags: ["mathematics", "programming", "knowledge"]
 type: docs
 cascade:
   type: docs
-date: 2026-05-29T14:33:40Z
+date: 2026-05-02T11:27:02+07:00
 ---
-
-[tamnd's brain](https://brain.tamnd.com) の自動翻訳版です。\nコンテンツは順次更新されています。
