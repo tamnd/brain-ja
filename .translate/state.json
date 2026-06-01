@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "lang": "ja",
+  "source_repo": "/tmp/brain",
+  "target_repo": "/tmp/bs/ja/repo",
+  "last_run": null,
+  "batch": 0,
+  "translator": {
+    "provider": "google",
+    "model": "gpt-4o"
+  },
+  "files": {}
+}
