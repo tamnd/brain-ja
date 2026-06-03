@@ -3,7 +3,7 @@
   "lang": "ja",
   "source_repo": "/tmp/brain",
   "target_repo": "/tmp/bs/ja/repo",
-  "last_run": "2026-06-03T21:10:08.531186Z",
+  "last_run": "2026-06-03T22:21:09.329552Z",
   "batch": 0,
   "translator": {
     "provider": "google",
@@ -3166,6 +3166,86 @@
       "source_hash": "sha256:dd395c182500dbe749ce88c96888c407ebe48e9547912ed33cd46cbd2301d2f7",
       "translated_at": "2026-06-03T21:10:08.531163Z",
       "dest_path": "content/languages/chinese/hsk/2/vocabulary/白.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/2/vocabulary/看见.md": {
+      "source_hash": "sha256:05d704fbba87b657a792913770711fd0d4e5fd00e8eb5c2679f13e0b13661eac",
+      "translated_at": "2026-06-03T22:20:27.938089Z",
+      "dest_path": "content/languages/chinese/hsk/2/vocabulary/看见.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/2/vocabulary/真.md": {
+      "source_hash": "sha256:57512f5b229815fcf355223760a8c521e5e79f92fd35f412385de5003df4310f",
+      "translated_at": "2026-06-03T22:20:32.382487Z",
+      "dest_path": "content/languages/chinese/hsk/2/vocabulary/真.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/2/vocabulary/着急.md": {
+      "source_hash": "sha256:2bb8b581a6c898cd48185402f8ccb58dc64875ac45259a87f1c91f2246e4fec4",
+      "translated_at": "2026-06-03T22:20:36.677518Z",
+      "dest_path": "content/languages/chinese/hsk/2/vocabulary/着急.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/2/vocabulary/篇.md": {
+      "source_hash": "sha256:703ae770cb18330ce3899bd357f4d375f36d5c293601fb841807020dca191b71",
+      "translated_at": "2026-06-03T22:20:40.556947Z",
+      "dest_path": "content/languages/chinese/hsk/2/vocabulary/篇.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/2/vocabulary/红.md": {
+      "source_hash": "sha256:29f50078396240693a006219aa61c7fb407466dbc34499eb478f7417c19a492d",
+      "translated_at": "2026-06-03T22:20:45.377299Z",
+      "dest_path": "content/languages/chinese/hsk/2/vocabulary/红.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/2/vocabulary/终于.md": {
+      "source_hash": "sha256:ed44bc33b77fc63da80cdc43936d8bcf486f91e84f810b7eccc298de1d40f71c",
+      "translated_at": "2026-06-03T22:20:49.626466Z",
+      "dest_path": "content/languages/chinese/hsk/2/vocabulary/终于.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/2/vocabulary/自己.md": {
+      "source_hash": "sha256:be2830340c03386d3ef071a8054b44e8fc892c3e589d941602d4b38c4426b026",
+      "translated_at": "2026-06-03T22:20:55.439378Z",
+      "dest_path": "content/languages/chinese/hsk/2/vocabulary/自己.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/2/vocabulary/舒服.md": {
+      "source_hash": "sha256:04b32c8dd64f1e6573341e4dfb4afee4c0c4826e22255ef5ffa2a7134fe9d4c7",
+      "translated_at": "2026-06-03T22:21:00.154846Z",
+      "dest_path": "content/languages/chinese/hsk/2/vocabulary/舒服.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/2/vocabulary/船.md": {
+      "source_hash": "sha256:98a23f8f71520d87bcfa8f8ddf01906ce68d57fa5c1d765da97718eedfa160b7",
+      "translated_at": "2026-06-03T22:21:05.341389Z",
+      "dest_path": "content/languages/chinese/hsk/2/vocabulary/船.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/2/vocabulary/花.md": {
+      "source_hash": "sha256:ea49e64aa09174a42ad89b67d14cc43b2f2dd3333fe8c4d808c88c0c04ef1b39",
+      "translated_at": "2026-06-03T22:21:09.329526Z",
+      "dest_path": "content/languages/chinese/hsk/2/vocabulary/花.md",
       "status": "done",
       "tokens_used": 0,
       "provider": "google"
