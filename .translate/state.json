@@ -3,7 +3,7 @@
   "lang": "ja",
   "source_repo": "/tmp/brain",
   "target_repo": "/tmp/bs/ja/repo",
-  "last_run": "2026-06-05T00:57:32.229611Z",
+  "last_run": "2026-06-05T01:51:53.191463Z",
   "batch": 0,
   "translator": {
     "provider": "google",
@@ -4926,6 +4926,86 @@
       "source_hash": "sha256:3f98a3ce23763f36ba8e09b371fe0f60f39948761dee3a87f2d819d023fec006",
       "translated_at": "2026-06-05T00:57:32.229587Z",
       "dest_path": "content/languages/chinese/hsk/3/vocabulary/好不容易.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/字.md": {
+      "source_hash": "sha256:fb11d9d358b0616f35e3f27bad63ae010741bff8f0d788838a1c701b86363f69",
+      "translated_at": "2026-06-05T01:51:11.438675Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/字.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/季节.md": {
+      "source_hash": "sha256:ac8f755383ede718c014f09016981000c87a0b7c60871e01a77e41a741fe0d80",
+      "translated_at": "2026-06-05T01:51:15.842898Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/季节.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/学期.md": {
+      "source_hash": "sha256:23f09e503b73bf108ccc620df1474103a20ae0cd476265df318d7d7e9ef0c1a9",
+      "translated_at": "2026-06-05T01:51:22.101449Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/学期.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/安全.md": {
+      "source_hash": "sha256:a4517d450e4f17937f12e78c88c070b2f7344378de8b64b5bb92f5270544bfde",
+      "translated_at": "2026-06-05T01:51:26.035405Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/安全.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/安排.md": {
+      "source_hash": "sha256:951a871fc9e79460b02e953dea4a27c57a6dd753d03de7c11e3e50fd3da4268f",
+      "translated_at": "2026-06-05T01:51:29.948234Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/安排.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/安静.md": {
+      "source_hash": "sha256:eea74f94df6fbb2536e2eccb0e37bddd21bc4a8053c1996147f1b9d0248499bb",
+      "translated_at": "2026-06-05T01:51:34.470004Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/安静.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/完全.md": {
+      "source_hash": "sha256:2782a15b80064dafa1cd9611344ecb46c8ce2e9bfc7326d764ffa2ed34600425",
+      "translated_at": "2026-06-05T01:51:38.510597Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/完全.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/完成.md": {
+      "source_hash": "sha256:dee119049f6534467f525b83d9a8a38a559f9e262e36eadf6c23aa1c50b4db91",
+      "translated_at": "2026-06-05T01:51:41.790003Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/完成.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/实现.md": {
+      "source_hash": "sha256:56062f6266384f9be10be08ef3f9a721360eb9b88de6ee6942e3b2d5e00bc44b",
+      "translated_at": "2026-06-05T01:51:46.481282Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/实现.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/客人.md": {
+      "source_hash": "sha256:2fed3c7a2784a9be2a670962504a743e23b7476835e191f2f5945502feae054b",
+      "translated_at": "2026-06-05T01:51:53.191430Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/客人.md",
       "status": "done",
       "tokens_used": 0,
       "provider": "google"
