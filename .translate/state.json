@@ -3,7 +3,7 @@
   "lang": "ja",
   "source_repo": "/tmp/brain",
   "target_repo": "/tmp/bs/ja/repo",
-  "last_run": "2026-06-05T06:54:34.513557Z",
+  "last_run": "2026-06-05T08:25:41.457458Z",
   "batch": 0,
   "translator": {
     "provider": "google",
@@ -5246,6 +5246,86 @@
       "source_hash": "sha256:1f9470ed580e03e5e1abc8977692881fde674f3024ca98c8c687f86a1f9cf4e8",
       "translated_at": "2026-06-05T06:54:34.513530Z",
       "dest_path": "content/languages/chinese/hsk/3/vocabulary/得到.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/必须.md": {
+      "source_hash": "sha256:6cc4961aab5df7a76af5be38538642e8817c5c915b320409fd1e6d0a0dbda086",
+      "translated_at": "2026-06-05T08:25:01.313539Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/必须.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/态度.md": {
+      "source_hash": "sha256:2456cff329b6ddff0e9099abe657046d3fdb493346f1ec38f9850a2ac47b5c94",
+      "translated_at": "2026-06-05T08:25:06.549934Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/态度.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/总结.md": {
+      "source_hash": "sha256:c2e70fd2635f86aa94fd64c92a2b5b516150c7777bcd600bc5641a9ea071055f",
+      "translated_at": "2026-06-05T08:25:10.971932Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/总结.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/情况.md": {
+      "source_hash": "sha256:251e01d0ecf940035378c642fa9f54ed81ef58e4623d138eee68013ce857a3b4",
+      "translated_at": "2026-06-05T08:25:15.188051Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/情况.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/意义.md": {
+      "source_hash": "sha256:f3d5d4ea7fbd2727fd1d81d8aa20a8ce7efb1be6ef95444f5b1a49c686f7d85c",
+      "translated_at": "2026-06-05T08:25:20.585293Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/意义.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/意思.md": {
+      "source_hash": "sha256:e3f39f24b2c5a24ca3c85688f2663707bea0dc55204c322a6194d1fe969cdfac",
+      "translated_at": "2026-06-05T08:25:23.353425Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/意思.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/意见.md": {
+      "source_hash": "sha256:1fec718dfaacac9bbe3ed397c602a907de0971802d5851c0e847d1aa14c8dc4d",
+      "translated_at": "2026-06-05T08:25:29.331364Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/意见.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/感冒.md": {
+      "source_hash": "sha256:2cec54e05e00bfd1d0f8a89e9c5e02e4c48f55f4515e22112b479fecb8927ff4",
+      "translated_at": "2026-06-05T08:25:33.792519Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/感冒.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/感动.md": {
+      "source_hash": "sha256:38ecdf19bfeec1d955c555d8293394cb9a5704cbd9ebf922720e03f913926c0b",
+      "translated_at": "2026-06-05T08:25:37.809678Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/感动.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/3/vocabulary/感情.md": {
+      "source_hash": "sha256:98989db05a3354c5c1f501737fa4c7e5cfcfc548985ccaf834bad02ee0dbd7e9",
+      "translated_at": "2026-06-05T08:25:41.457434Z",
+      "dest_path": "content/languages/chinese/hsk/3/vocabulary/感情.md",
       "status": "done",
       "tokens_used": 0,
       "provider": "google"
