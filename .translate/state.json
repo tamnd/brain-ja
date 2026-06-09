@@ -3,7 +3,7 @@
   "lang": "ja",
   "source_repo": "/tmp/brain",
   "target_repo": "/tmp/bs/ja/repo",
-  "last_run": "2026-06-09T17:47:58.159084Z",
+  "last_run": "2026-06-09T18:49:32.743682Z",
   "batch": 0,
   "translator": {
     "provider": "google",
@@ -13086,6 +13086,86 @@
       "source_hash": "sha256:63d0f61acf8ebe60f2d16545ffc2ea81e0f4ed2ec8f17ae8ae5b14ffa7d38216",
       "translated_at": "2026-06-09T17:47:58.159058Z",
       "dest_path": "content/languages/chinese/hsk/5/vocabulary/培训.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/基本.md": {
+      "source_hash": "sha256:c3471879c65ccf25c0be63bc23dd199e83a01e2481acba52daed9527cafa0557",
+      "translated_at": "2026-06-09T18:48:49.432043Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/基本.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/基础.md": {
+      "source_hash": "sha256:ed487393a265cfdbaaf16eaed3eff32f2e1d5e8aa8907fda10c3b8c4ff318a9b",
+      "translated_at": "2026-06-09T18:48:54.169752Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/基础.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/增长.md": {
+      "source_hash": "sha256:7770755d0971bf57c360bede683b2adf7c1b10d68724a45b74f747c7ffd189cd",
+      "translated_at": "2026-06-09T18:48:59.419318Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/增长.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/声誉.md": {
+      "source_hash": "sha256:6bddf49b21b69ae7a0aa9467683d2122a5677c2a8944b12d8c72322055e127c4",
+      "translated_at": "2026-06-09T18:49:04.786763Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/声誉.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/复杂.md": {
+      "source_hash": "sha256:0da31414d8749613b7c485bf34c01da4e44852f2c9b2496e0915660360fd739b",
+      "translated_at": "2026-06-09T18:49:09.412773Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/复杂.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/复杂化.md": {
+      "source_hash": "sha256:fef218438ae349fbb4bfc5cf909bbb373544dcdb46e7e54f1cdf26d01af12daa",
+      "translated_at": "2026-06-09T18:49:13.370994Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/复杂化.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/外交.md": {
+      "source_hash": "sha256:7e051005d1641a2985da86b382d541e55ae134032f4e84da003a2eb0a6e75d95",
+      "translated_at": "2026-06-09T18:49:19.259539Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/外交.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/外在.md": {
+      "source_hash": "sha256:3898966ab6c1eb1cb48d1174740c01c7511289d5d24573bc47befb51a8312786",
+      "translated_at": "2026-06-09T18:49:23.918954Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/外在.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/外汇.md": {
+      "source_hash": "sha256:0e66496d58ca5064fc25a5b95eab9001fab46a73f79ba78d2ff3a1c499f44cb4",
+      "translated_at": "2026-06-09T18:49:28.577457Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/外汇.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/多样化.md": {
+      "source_hash": "sha256:5619085a052d390fcdd20863c551fcdf13196742f46638c75f28f2b45a85ae89",
+      "translated_at": "2026-06-09T18:49:32.743656Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/多样化.md",
       "status": "done",
       "tokens_used": 0,
       "provider": "google"
