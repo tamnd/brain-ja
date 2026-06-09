@@ -3,7 +3,7 @@
   "lang": "ja",
   "source_repo": "/tmp/brain",
   "target_repo": "/tmp/bs/ja/repo",
-  "last_run": "2026-06-09T20:45:40.405315Z",
+  "last_run": "2026-06-09T21:38:10.728520Z",
   "batch": 0,
   "translator": {
     "provider": "google",
@@ -13326,6 +13326,86 @@
       "source_hash": "sha256:d9493bc0ba4cd7e7edc277f2c1a4564f07be83cbffcc5da8eb59022474f41a3d",
       "translated_at": "2026-06-09T20:45:40.405292Z",
       "dest_path": "content/languages/chinese/hsk/5/vocabulary/尽管.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/展现.md": {
+      "source_hash": "sha256:7879ad72c8facd432919bf1967118da83d5a8a90ca6938521de486a60a332d4b",
+      "translated_at": "2026-06-09T21:37:27.318268Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/展现.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/属性.md": {
+      "source_hash": "sha256:307242d73def020cd1bf01c2d175281a06736c43db7fcf4fdc71cfb7c1ee5745",
+      "translated_at": "2026-06-09T21:37:30.207876Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/属性.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/巩固.md": {
+      "source_hash": "sha256:98acebba04f7fc132e145db068e2a93bf754164d7c178ccfe31ba599f06bfe62",
+      "translated_at": "2026-06-09T21:37:36.221836Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/巩固.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/市场份额.md": {
+      "source_hash": "sha256:439029eced2d0f85d9ea5706ab42dc4ba75425843bcdda6529ab0d3e05b3ce69",
+      "translated_at": "2026-06-09T21:37:40.968225Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/市场份额.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/带动.md": {
+      "source_hash": "sha256:a7b6a5c9002ae5816456c6bf6a01c57a08ba4660bb9e9c4dce800fd581009567",
+      "translated_at": "2026-06-09T21:37:45.995988Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/带动.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/干旱.md": {
+      "source_hash": "sha256:804756b05204b1eb3698c9bfdbb88a8506615ccc2afdd10798642ddd56b02611",
+      "translated_at": "2026-06-09T21:37:51.222986Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/干旱.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/干预.md": {
+      "source_hash": "sha256:b555b5264fb1654ea79142dd0947884d22e93fecd1164f9c1184dbe3d5b60ac1",
+      "translated_at": "2026-06-09T21:37:55.818495Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/干预.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/平台.md": {
+      "source_hash": "sha256:1551f4bca84640379bc6c816802ee34c8ec1b98fb9a7eaa17c0c1b488614f24f",
+      "translated_at": "2026-06-09T21:38:00.080338Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/平台.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/平等.md": {
+      "source_hash": "sha256:c8eb5b5749ac6e8fc6c58ed4d10ece04c361aabba8f75ddc78837cb1b2aef1a4",
+      "translated_at": "2026-06-09T21:38:05.382603Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/平等.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/广泛.md": {
+      "source_hash": "sha256:3dc179496af5c3f8aa8d9a3c132e5acc543e3c282a563e2c5a0fbc7c8f6e2629",
+      "translated_at": "2026-06-09T21:38:10.728497Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/广泛.md",
       "status": "done",
       "tokens_used": 0,
       "provider": "google"
