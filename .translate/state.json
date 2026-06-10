@@ -3,7 +3,7 @@
   "lang": "ja",
   "source_repo": "/tmp/brain",
   "target_repo": "/tmp/bs/ja/repo",
-  "last_run": "2026-06-10T18:22:00.625634Z",
+  "last_run": "2026-06-10T19:24:24.973303Z",
   "batch": 0,
   "translator": {
     "provider": "google",
@@ -14606,6 +14606,86 @@
       "source_hash": "sha256:e70b1653b49521086ba5a139a8ba99ae816005fe882477c722486de77d0a2cd3",
       "translated_at": "2026-06-10T18:22:00.625609Z",
       "dest_path": "content/languages/chinese/hsk/5/vocabulary/潜在.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/激励.md": {
+      "source_hash": "sha256:d3fa5b453d0b0332faab7c408bbc8d7971e04a71b12db2724e0c627a61da8df3",
+      "translated_at": "2026-06-10T19:23:41.711567Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/激励.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/激发.md": {
+      "source_hash": "sha256:38b7eff97c33f95d476eb9ce61ed661db4146e61675f53440c5779e5417b0223",
+      "translated_at": "2026-06-10T19:23:46.669765Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/激发.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/激进的.md": {
+      "source_hash": "sha256:eb92c095f39a4ade2350f81a5608199bc081b21d68c0866d4684981ec0cf8e40",
+      "translated_at": "2026-06-10T19:23:52.665115Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/激进的.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/濒危.md": {
+      "source_hash": "sha256:8b741901f1b547a179c1825ab3a77651e90a2702c26dce3991d31dd92b75292c",
+      "translated_at": "2026-06-10T19:23:56.709636Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/濒危.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/灭绝.md": {
+      "source_hash": "sha256:fefe945f52afa3f7a8e34118b9be186ecf8c74c0095dcdd95f5b35d954ec1a81",
+      "translated_at": "2026-06-10T19:24:01.027215Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/灭绝.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/点击率.md": {
+      "source_hash": "sha256:18a7cf8eb2451ff339d7c6ffef18187a04c119c63a16b5da0244b5a92b0a4ece",
+      "translated_at": "2026-06-10T19:24:05.444408Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/点击率.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/焦虑.md": {
+      "source_hash": "sha256:08fae86addde75828a0860095f762240d7b65539be3cc40f3066cc93ade47abf",
+      "translated_at": "2026-06-10T19:24:09.915689Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/焦虑.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/然而.md": {
+      "source_hash": "sha256:8cfb04575432dd7bd191fc170f931c9d08c412e4754e578fce4378da9a926a7e",
+      "translated_at": "2026-06-10T19:24:14.767315Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/然而.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/片面.md": {
+      "source_hash": "sha256:719985a39f8a5a2eaa0090c3dd2bd5a7a6a7fb0b5b7c88000776b44233a74148",
+      "translated_at": "2026-06-10T19:24:19.900707Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/片面.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/版权.md": {
+      "source_hash": "sha256:e721bafc3e9291840295c8dd212ad56b057a4ec961418e41363d30bb88d854af",
+      "translated_at": "2026-06-10T19:24:24.973279Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/版权.md",
       "status": "done",
       "tokens_used": 0,
       "provider": "google"
