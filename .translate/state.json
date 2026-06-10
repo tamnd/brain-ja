@@ -3,7 +3,7 @@
   "lang": "ja",
   "source_repo": "/tmp/brain",
   "target_repo": "/tmp/bs/ja/repo",
-  "last_run": "2026-06-10T14:11:11.733288Z",
+  "last_run": "2026-06-10T15:48:15.502015Z",
   "batch": 0,
   "translator": {
     "provider": "google",
@@ -14366,6 +14366,86 @@
       "source_hash": "sha256:52ae616180736358ebdf3444c65d57fa354d97f19773aacc2c9c0c523d8e0abd",
       "translated_at": "2026-06-10T14:11:11.733264Z",
       "dest_path": "content/languages/chinese/hsk/5/vocabulary/模型.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/模式.md": {
+      "source_hash": "sha256:68f5de5fc03229c1e605d6aec685c600a1b693fade9a39dfb0e5c0e11920f3da",
+      "translated_at": "2026-06-10T15:47:37.935730Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/模式.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/此外.md": {
+      "source_hash": "sha256:6bb157f352aeaada829e4d2770652f68d86798e0e54a651170a9788356a6a2f0",
+      "translated_at": "2026-06-10T15:47:41.677438Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/此外.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/比喻.md": {
+      "source_hash": "sha256:873b30a2b667bcd90f6f5ad6e19317e4ac8302afccd6d43794aeb40bdb9cb08b",
+      "translated_at": "2026-06-10T15:47:46.558362Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/比喻.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/民主.md": {
+      "source_hash": "sha256:a9ad6c1b781c554c41aceb87f53e1edf3dfbab5542169446bf39fa060e6c6f61",
+      "translated_at": "2026-06-10T15:47:51.667419Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/民主.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/民主的.md": {
+      "source_hash": "sha256:2adc7e3468c13b1264a911cfe2064efcf544e5240046241cb1e458d17846bffe",
+      "translated_at": "2026-06-10T15:47:56.017107Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/民主的.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/民生.md": {
+      "source_hash": "sha256:8dde4d6911398cb28ab1d9ae2a4f920fee46ebb9dbfaa3c3e84e8b1d8c7e95fe",
+      "translated_at": "2026-06-10T15:48:00.779180Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/民生.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/气候变化.md": {
+      "source_hash": "sha256:d98a2764f80fcc223e90db1c2c9c64adf31666f32ed56390e9a669dc56396bd0",
+      "translated_at": "2026-06-10T15:48:04.377846Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/气候变化.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/水资源.md": {
+      "source_hash": "sha256:2121a0b459066b8f2a890f10cc18dca03096300be6cfcb1f862b54b9bfd3144e",
+      "translated_at": "2026-06-10T15:48:07.653116Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/水资源.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/汇报.md": {
+      "source_hash": "sha256:58e5a6213759e0304302e262d942d4fbd701ddf3c6ab7a044ad8796ba652e15f",
+      "translated_at": "2026-06-10T15:48:12.194521Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/汇报.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/languages/chinese/hsk/5/vocabulary/汇率.md": {
+      "source_hash": "sha256:b1081350617544d3dbf4f59a89643edb0140b3c72b933bdebd56c707652d02d9",
+      "translated_at": "2026-06-10T15:48:15.501988Z",
+      "dest_path": "content/languages/chinese/hsk/5/vocabulary/汇率.md",
       "status": "done",
       "tokens_used": 0,
       "provider": "google"
