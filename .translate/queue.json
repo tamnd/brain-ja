@@ -1,66 +1,6 @@
 {
   "pending": [
     {
-      "source_path": "content/en/languages/japanese/grammar/n5/まで.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.251911Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/grammar/n5/も.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.251945Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/grammar/n5/を.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.251980Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/grammar/particles.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.252019Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/grammar/sentence-patterns.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.252061Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/grammar/verb-conjugation.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.252100Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/jlpt/n1/exam-prep.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.252234Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/jlpt/n1/grammar.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.254412Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/jlpt/n1/grammar/atte-no.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.252315Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/jlpt/n1/grammar/beku.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.252355Z",
-      "retries": 0
-    },
-    {
       "source_path": "content/en/languages/japanese/jlpt/n1/grammar/beshi-bekarazu.md",
       "priority": 20,
       "added_at": "2026-06-01T12:15:05.252396Z",
