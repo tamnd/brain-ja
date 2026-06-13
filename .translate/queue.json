@@ -1,66 +1,6 @@
 {
   "pending": [
     {
-      "source_path": "content/en/languages/esperanto/vocabulary/thematic/travel.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.250238Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/esperanto/vocabulary/thematic/work.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.250274Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/grammar/keigo.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.250385Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/grammar/n4/かもしれない.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.250462Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/grammar/n4/せる-させる.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.250504Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/grammar/n4/そうだ-appearance.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.250544Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/grammar/n4/ために.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.250583Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/grammar/n4/たら.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.250621Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/grammar/n4/てあげる.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.250659Z",
-      "retries": 0
-    },
-    {
-      "source_path": "content/en/languages/japanese/grammar/n4/ておく.md",
-      "priority": 20,
-      "added_at": "2026-06-01T12:15:05.250697Z",
-      "retries": 0
-    },
-    {
       "source_path": "content/en/languages/japanese/grammar/n4/てくれる.md",
       "priority": 20,
       "added_at": "2026-06-01T12:15:05.250744Z",
