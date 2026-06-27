@@ -89,9 +89,9 @@ if __name__ == "__main__":
     solve()
 ```コードは 2 つのローリング値を維持します。`dp_odd`は、要素が追加される現在位置で終わる最適な交互サブ配列を表します。これは、サブ配列の長さが奇数であることを意味します。 これは、現在の要素で新しいサブ配列を開始するか、以前の偶数位置の状態を拡張することに対応します。 表現`dp_even + x`継続をキャプチャしますが、`x`再起動をキャプチャします。 
 
-同様に、`dp_even`要素が減算される現在位置で終わる部分配列を表します。 以前の拡張から生じる可能性があります`dp_odd`状態または新たに開始する`-x`。 
+同様に、`dp_even`要素が減算される現在位置で終わる部分配列を表します。 以前の拡張から生じる可能性があります`dp_odd`状態または新たに開始する`-x`.
 
-答えは常に次から得られます`dp_odd`有効な交互部分配列は正の符号で始まらなければならないためです。 
+The answer is always taken from `dp_odd`有効な交互部分配列は正の符号で始まらなければならないためです。 
 
 ## 実用的な例
 
@@ -112,26 +112,30 @@ if __name__ == "__main__":
 
 ### 例 2
 
- 入力配列:`[1, 2, 1, 2, 1]`| 私 | × | dp_奇数 | dp_even |
- | --- | --- | --- | --- |
- | 1 | 1 | 1 | -1 |
- | 2 | 2 | 3 | -1 |
- | 3 | 1 | 4 | -1 |
- | 4 | 2 | 6 | -1 |
- | 5 | 1 | 7 | -1 |
+ 入力配列:`[1, 2, 1, 2, 1]`
 
- この例は、交互の減算が再開または積極的に拡張する能力を決して上回ることがない、着実に増加する構造を示しています。 
+| i | x | dp_odd | dp_even |
+| --- | --- | --- | --- |
+| 1 | 1 | 1 | -1 |
+| 2 | 2 | 3 | -1 |
+| 3 | 1 | 4 | -1 |
+| 4 | 2 | 6 | -1 |
+| 5 | 1 | 7 | -1 |
 
-## 複雑さの分析
+This example shows a steadily increasing structure where alternating subtraction never outweighs the ability to restart or extend positively.
 
- | 測定 | 複雑さ | 説明 |
- | --- | --- | --- |
- | 時間 | テスト ケースあたり O(n) | 各要素は一定時間で 2 つの状態を更新します。 
-| スペース | お(1) | 少数のローリング変数のみが維持されます。 
+## Complexity Analysis
 
-このソリューションは各要素を 1 回処理します。これは、合計入力サイズが数百万の要素に達する可能性があることを考えると必要です。 これ以上複雑な場合は、制限時間内に合格することはできません。 
+| Measure | Complexity | Explanation |
+| --- | --- | --- |
+| Time | O(n) per test case | Each element updates two states in constant time |
+| Space | O(1) | Only a few rolling variables are maintained |
 
-## テストケース```python
+The solution processes each element once, which is necessary given that total input size can reach millions of elements. Any higher complexity would not pass within the time limit.
+
+## Test Cases
+
+```python
 import sys, io
 
 def run(inp: str) -> str:
