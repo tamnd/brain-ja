@@ -1,7 +1,7 @@
 ---
 title: "CF 102391C - クリーニング"
-description: "グリッドは、配列に見せかけた有向グラフです。 すべてのセルは頂点であり、最初のセルがその方向への移動を禁止していない場合、2 つの直交する隣接セルは有向エッジによって接続されます。"
-date: "2026-08-10T19:56:08+07:00"
+description: "すべてのグリッド セルを有向グラフの頂点と考えてください。 辺を共有する 2 つのセルはエッジの候補ですが、セルはそこに書かれた方向に移動することを拒否します。"
+date: "2026-08-12T02:01:21+07:00"
 tags: ["codeforces", "competitive-programming"]
 categories: ["algorithms"]
 codeforces_contest: 102391
@@ -9,8 +9,8 @@ codeforces_index: "C"
 codeforces_contest_name: "XX Open Cup, Grand Prix of Korea"
 rating: 0
 weight: 102391
-solve_time_s: 562
-verified: false
+solve_time_s: 644
+verified: true
 draft: false
 ---
 
@@ -18,261 +18,229 @@ draft: false
 
  **評価:** -
  **タグ:** -
- **解決時間:** 9 分 22 秒
- **確認済み:** いいえ
+ **解決時間:** 10 分 44 秒
+ **確認済み:** はい
 
  ## 解決策
  ## 問題の理解
 
- グリッドは、配列に見せかけた有向グラフです。 すべてのセルは頂点であり、最初のセルがその方向への移動を禁止していない場合、2 つの直交する隣接セルは有向エッジによって接続されます。 マークされたセル`L`たとえば、右、上、または下の隣に移動することはできますが、左の隣に移動することはありません。 グリッドの外への移動は単純に利用できません。 この解釈は元の問題定義と一致します。 
+ すべてのグリッド セルを有向グラフの頂点と考えてください。 辺を共有する 2 つのセルはエッジの候補ですが、セルはそこに書かれた方向に移動することを拒否します。 したがって、すべてのセルには最大 3 つの出力エッジがあり、多くの有向サイクルが含まれている場合でも、グラフは高度に構造化されています。 
 
-各クエリについて、開始セルがわかっています。`s`そしてエンディングセル`t`。 すべての細胞を数える必要がある`v`有向パスが存在するもの`s -> ... -> v -> ... -> t`。 セルは、多くの異なるパスで使用されている場合でも、1 回カウントされます。 もし`t`からは到達できません`s`、答えはゼロです。 
+クエリの場合、プレーヤーはセル (s) から開始し、最終的にセル (t) に立たなければなりません。 セルを訪問する (s) から (t) への有向ウォークが存在する場合、セルは正確にクリーニングされる必要があります。 同様に、必要なセルは (s) から到達可能であり、それ自体 (t) に到達できる頂点です。 
 
-最後の違いは見落としがちです。 から到達可能なすべてのセルをカウントしているわけではありません。`s`。 後ろの独房`t`プレイヤーが最初から到達できるからといってカウントされるわけではありません。 最終的に指定された終了セルに到達する前に、セルが使用可能でなければなりません。 
+グリッドには最大で (10^6) 個のセルが含まれますが、(3\cdot10^5) 個のクエリが存在する可能性があります。 クエリごとに個別にグラフを走査すると、クエリごとに最大 (10^6) 個のセルが検査され、最悪の場合でも約 (3\cdot10^{11}) 個の頂点が検査されます。 非常に最適化された BFS であっても、2 秒の制限をはるかに超えます。 前処理はグリッド サイズにおいて線形に近い必要があり、各クエリにはほぼ対数時間がかかる必要があります。 公式の制約では、2 秒の制限と 1024 MB のメモリが与えられています。 
 
-最大 100 万個のセルと 300,000 個のクエリが存在できます。 クエリごとに独立してグラフ検索を実行するには、最大で約`3 * 10^11`最悪の場合、近隣チェックをカウントする前に、セルが訪問する可能性があります。 グリッドが十分に大きいため、前処理は線形に近くなければなりませんが、各クエリは対数以上である必要があります。 元のコンテストでは 2 秒の時間制限と 1024 MB のメモリが与えられているため、すべてのペアに対して明示的な汎用到達可能性構造を構築するソリューションは大きすぎます。 
-
-いくつかの小さなケースでは、一見無害に見える間違いが明らかになります。 
-
-単一の細胞を考えてみましょう。```
+不注意な実装によって間違った答えが得られる簡単なケースがいくつかあります。 (1\times1) グリッドはそのようなケースの 1 つです。```
 1 1 1
-L
+U
 1 1 1 1
-```答えは`1`。 プレーヤーはそのセルで開始および終了するため、空のパスはすでにそのセルを訪れています。 動きのエッジのみをカウントする不注意な実装では、誤ってゼロが返される可能性があります。 
+```答えは`1`プレーヤーはすでに同じセルで開始および終了しているためです。 空ではない手のみを考慮する到達可能性テストでは、誤ってゼロが返される可能性があります。 
 
-ここで、矢印が外側を向いている 1 × 2 のグリッドを考えてみましょう。```
-1 2 2
+2 番目のトラップは、相互にブロックするセルのペアです。```
+1 2 1
 RL
 1 1 1 2
-1 2 1 1
-```出力は```
-0
-0
-```最初のセルがマークされます`R`, そのため、正しく動くことができません。 2 番目のセルがマークされています`L`, したがって、左に移動することはできません。 2 つのセルは完全な指向性バリアを形成します。 グリッドを無向グラフとして扱うと、グリッドが接続されていると誤って主張してしまいます。 
+```左のセルは右への移動を拒否し、右のセルは左への移動を拒否します。 道はない、だから答えは`0`。 隣接関係を無向接続として扱うと、ターゲットが到達可能であると誤って主張されてしまいます。 
 
-また、境界セルは内部セルよりも有効な手数が少なくなります。 例えば、```
+逆の現象も考えられます。 考慮する```
 1 2 1
-LL
-1 2 1 1
-```答えがあります`0`。 2 番目のセルは、そのセルによって禁止されているため、左に移動できません。`L`、他のセルはありません。 ソース セルの矢印を無視して、ターゲットが隣接しているかどうかだけをチェックするトラバーサルでは、誤った結果が得られます。 
+LR
+1 1 1 2
+```左のセルは右に移動でき、右のセルは左に移動できるため、両方のセルが 1 つの強く接続されたコンポーネントを形成します。 答えは`2`。 強く接続されたコンポーネントを圧縮しても、コンポーネントに元のセルの数を与えるのを忘れると、間違った数が生成されます。 
 
-最後に、複数のセルが 1 つの強く接続されたコンポーネントに属することができます。 サンプル 1 では、最後の行全体がマークされています。`U`。 セルは水平両方向に移動できるため、5 つのセルすべてが 1 つの SCC に属します。 からの問い合わせ`(5,5)`したがって、それ自体に答えがあります`5`、 ない`1`。 
+最後に、到達可能なターゲットは、最初から到達可能なすべてのセルが答えに属することを意味するものではありません。 セルは、スタートからターゲットまでのウォーク上にある必要があります。 フォワード BFS だけでは大きすぎるセットを計算します。 この違いが、ソリューションでより具体的なグラフ表現を必要とする理由です。 
 
 ## アプローチ
 
- 直接的なアプローチは、クエリごとに開始セルから BFS または DFS を実行することです。 検索中に、到達可能なすべてのセルにマークが付けられます。 最後のセルに到達しない場合、答えはゼロになります。 それ以外の場合は、もう 1 つの制限が必要です。到達可能なセルのうち、ターゲットにまだ到達できるセルのみが、有効な開始からターゲットまでのパスに属します。 反転したグラフ上のターゲットから 2 回目の検索を実行すると、これに対処できますが、それでも`O(NM)`クエリごとに。 と`Q = 300000`そして`NM = 10^6`、これはおおよそに達します`3 * 10^11`最悪の場合、頂点を訪問しました。 
+ 直接的なアプローチは、開始セルから検索を実行し、到達可能なすべてのセルを保持し、それらのセルのうちどのセルが最終的にターゲットに到達できるかを個別に決定することです。 2 番目の部分は、ターゲットから反転したグラフをたどることによって実行できます。 それらの交差は、少なくとも 1 回の (s) から (t) への歩行で発生するセルのセットであるため、この方法は正しいです。 
 
-個々のセルに注目するのをやめ、最初に強く接続されたすべてのコンポーネントを縮小すると、有用な構造が現れます。 1 つの SCC 内では、すべてのセルが他のすべてのセルに到達できるため、開始からターゲットまでのパス上にどのセルがあるかを決定するために、コンポーネント全体がセルの数に等しい重みを持つ 1 つの頂点として動作します。 
+問題は繰り返し作業です。 1 つのクエリに (O(NM)) 個の作業が必要な場合があり、(Q) 個のクエリが存在します。 (N,M\le1000) と (Q\le300000) を使用すると、これは (O(QNM)) となり、およそ (3\cdot10^{11}) 回のセル訪問に達します。 すべてのクエリの到達可能なセット全体を保存することも不可能です。 
 
-結果として生じる SCC 凝縮は DAG です。 任意のペア間の到達可能性が複雑になる可能性があるため、一般的な DAG は依然として困難です。 グリッドの制限により、より多くの構造が得られます。 SCC がトポロジー順に挿入される場合、すでに挿入されているセルは常に、互いに素な長方形の集合を形成します。 このようなコンポーネントの 1 つが長方形でない場合、外側のセルは少なくとも 2 つの側面でそれに接触します。 その外側のセルは、選択された位相順序に反して、すでに構築された領域へのエッジを持ちます。 これは、この問題の最初の重要な幾何学的特性です。 
+重要な観察は、このグリッド グラフが任意の有向グラフではないということです。 まず、強く結合したコンポーネントを圧縮します。 1 つのコンポーネント内では、すべてのセルが他のすべてのセルに到達できるため、コンポーネント間を移動する場合、コンポーネント全体が 1 つの頂点として動作します。 さらに重要なことは、これらのコンポーネントがトポロジカルな順序で処理される場合、すでに処理されたセルは常に分離された長方形のコレクションを形成することです。 この幾何学的特性により、巨大な有向グラフが圧縮可能になります。 
 
-長方形は、少数の追加の有向エッジを備えたツリーで表すことができます。 新しい SCC が挿入されると、その境界四角形の内側にある以前に構築されたすべての四角形がツリーの子としてそれに接続されます。 4 つの辺に接する長方形は連続したチェーンにグループ化され、複数の長方形が同じ辺を共有する場合に仮想頂点が使用されます。 仮想頂点は 1 つのツリー接続を提供しますが、新しい SCC への実際の有向接続は非ツリー エッジとして個別に保存されます。 
+次の強結合成分が (C) であるとします。 (C) を含む最小の長方形を考えてみましょう。 その境界長方形の内側にある以前に処理された長方形は、補助構造の (C) にマージできます。 次に、外接する四角形の 4 つの辺を検査します。 一辺に直接接触する長方形は、仮想頂点を介してグループ化されます。 重要な方向特性は、並べて配置された長方形のグループの場合、グループ内のすべてのセルが並べて配置された配置に対して垂直な方向を通ってグループから離れる同じ能力を持っていることです。 したがって、1 つの仮想接続で、元のすべての有向エッジを表すのに十分です。 
 
-2 番目の重要なプロパティは、隣り合った四角形のグループの垂直方向の移動が均一であることを示します。グループ内のすべての四角形がその方向に離れることができるか、どの四角形も離れることができないかのどちらかです。 これにより、すべてのセルを個別に処理するのではなく、側面全体を 1 つの仮想頂点で表現できるようになります。 
+結果として得られる補助グラフはツリーです。 元の強接続コンポーネントはそれぞれ、セルの数に等しい重みを持つ重み付きツリー頂点になります。 仮想頂点の重みはゼロです。 すべてのツリー頂点の子はチェーンに配置され、元の到達可能性関係はそれらのチェーンから復元できます。 
 
-すべての SCC が処理された後、構築されたグラフは特に有用な形状になります。 そのツリーのエッジは根付きツリーを形成し、すべてのツリー頂点の子は 1 つまたは複数の有向チェーンに配置されます。 その後、クエリは、ソースとターゲットが同じ深さになるまでツリー内を上に移動し、その後、それらの 2 つの子が同じ有向チェーンに属しているかどうかをチェックするように縮小できます。 考えられるすべての有効なパス上のセルの数は、順序付けされた子のプレフィックスの合計から取得されます。 
-
-この構築は本質的に、公式ソリューションの中心的な観察です。 元の実装では、素セット ユニオンを使用して、すでに処理された四角形をマージし、最終祖先クエリのバイナリ リフティングを使用します。 以下の Python 実装は同じ構造を使用していますが、バイナリ リフティングをヘビーライト分解に置き換えています。 どちらも対数のクエリ時間を与えます。 
+このツリーが存在すると、クエリはツリー クエリになります。 開始コンポーネントをターゲット コンポーネントと同じ深さになるまで上に移動します。 結果として得られる頂点が同じ親を持たない場合、ターゲットには到達できません。 それ以外の場合、2 つの頂点は 1 つの順序付けられたチェーン内の兄弟であり、一連の兄弟コンポーネントが答えに寄与します。 順序付けされた子のプレフィックス合計により、祖先ジャンプ後のこの範囲のカウントが一定時間になります。 
 
 | アプローチ | 時間計算量 | 空間の複雑さ | 評決 |
  | --- | --- | --- | --- |
- | ブルートフォース |`O(QNM)`|`O(NM)`| 遅すぎる |
- | SCC + 長方形ツリー |`O(NM α(NM) + Q log(NM))`|`O(NM)`梱包されたストレージ | 承認済み |
+ | ブルートフォース | (O(QNM)) | (O(NM)) | 遅すぎる |
+ | SCC + 長方形ツリー + バイナリリフティング | (O(NM\アルファ(NM)+Q\log(NM))) | (O(NM\log(NM))) | 承認済み |
 
- ## アルゴリズムのチュートリアル
+ この構築は基本的に公式ソリューションと同じ構造的な考え方であり、以下の実装では再帰的な C++ DFS 呼び出しを反復的な Python トラバーサルで置き換え、パックされた整数配列を使用してメモリを制御します。 
 
- 1. すべてのセルを有向グラフの頂点として扱います。 各セルについて、その 4 つの隣接する位置を検査し、その方向がセルの禁止方向でない場合は常に、使用可能な遷移を作成します。 グリッドの外側に移動することは不可能であるため、境界位置はトランジションを作成する前に拒否されます。 
-2. Tarjan のアルゴリズムを使用して、すべての強接続コンポーネントを計算します。 SCC が必要なのは、1 つのコンポーネント内ですべてのセルを使用して他のすべてのセルに到達できるため、クエリを個々のセルではなくコンポーネントに対して実行できるためです。 
+## アルゴリズムのチュートリアル
 
-この実装では、再帰的 DFS ではなく、Tarjan の反復バージョンが使用されます。 セル再帰の深さが 100 万個になると、Python の再帰制限を超え、大量のコールスタック メモリも消費します。 
-3. すべての SCC について、そのサイズと最小および最大の行と列を記録します。 4 つの極値はその境界四角形を定義します。 また、各 SCC に属するすべてのセルをリンク リストに保存するため、コンポーネントのセルを反復処理する際に、最大 100 万コンポーネントのリストの Python リストは必要ありません。 
-4. コンポーネント番号を減らして SCC を処理します。 Tarjan は逆のトポロジー順序でコンポーネントを割り当てるため、ソースからシンクに向かって凝縮 DAG が処理されます。 
-
-コンポーネントの処理中`C`、素の集合共用体構造を使用して、境界四角形の内側にあるすでに表現されているすべてのコンポーネントをマージします。`C`。 これらのマージされたオブジェクトは、ツリーの子孫になります。`C`。 
-5. 外接する長方形のすぐ外側の 4 つの辺を検査します。 のすぐ左側にあるセルを検査するとします。`C`。 このようなセルはすべて、1 つの水平境界セグメント上にあります。 すでに同じ四角形にマージされている連続するセルは、1 つの DSU ルートで表されます。 
-
-境界セルがすべてその方向への移動を禁止している場合、`C`、有向エッジは入力できません`C`その側から接続できるため、追加の接続は必要ありません。 それ以外の場合、その辺に接するすべての四角形は 1 つの仮想頂点の下に結合され、仮想頂点は方向付けされた非ツリー エッジを受け取ります。`C`。 
-
-右側、上、下も同様の手順で行います。 四辺に使用される禁止方向はまさに`R`、`L`、`D`、 そして`U`、 それぞれ。 
-6. すべての SCC が処理された後、まだ親を取得していないすべての DSU ルートが 1 つの人工ルートに接続されます。 これで、ツリーにはすべての SCC 頂点とすべての仮想頂点が含まれます。 実際の SCC 頂点の重みはセルの数に等しい正の値になりますが、仮想頂点の重みは 0 です。 
-7. 各ツリー頂点には複数の子があります。 追加の有向エッジは同じ親の子を接続し、それらのエッジは互いに素なチェーンを形成します。 1 つの親の子がこれらのチェーンに沿って左から右に順序付けされるように、すべての子の位置を計算します。 
-
-余分なエッジのみによって形成されるグラフは、最大次数が 2 になります。 隣接ノードの XOR は、すべてのノードの隣接関係リストを保存しなくても、すべてのチェーンを通過するのに十分です。 
-8. 兄弟間の余分なエッジごとに`a`そして`b`を使用してその方向を保存します`dir`。 もし`a`前です`b`そしてエッジは`a -> b`、 セット`dir[a] = 1`。 もし`b`前です`a`、 セット`dir[b] = -1`。 
-
-すべての親について計算します`le[v]`そして`ri[v]`。 これらは、以下を含む有向チェーンの左端と右端の子を識別します。`v`。 プレフィックスの合計`sum[v]`最初の子から次の子までの合計 SCC 重みを保存します。`v`。 
-9. コンピューティング`val[v]`、これは、サブツリーに入るときにカバーできる実際のグリッド セルの数を表します。`v`利用可能な兄弟チェーンの動きを使用します。 再発というのは、`val[v] = val[parent] + sum[ri[v]] - sum[le[v]] + size[le[v]]`。 
-
-追加された項は、正確に、以下に関連付けられた最大兄弟チェーン間隔の重みです。`v`。 
-10. 重光分解を使用して、祖先クエリのツリーを前処理します。 ソースコンポーネントが与えられた場合`a`およびターゲットコンポーネント`b`、まず、の祖先が必要です。`a`その深さはの深さに等しい`b`。 重光分解により、その頂点が見つかります。`O(log(NM))`。 
-11. ソースがターゲットよりも浅い場合、構築されたツリー構造を介してターゲットに到達することはできないため、答えはゼロになります。 Otherwise lift the source to the target's depth.
- 12. リフトされたソースとターゲットは同じ親を持つ必要があります。 親が異なる場合、それらを接続する有効なパスは存在しないため、答えはゼロになります。 
-13. リフトされたソースが親の順序付けされた子の中でターゲットより前にある場合は、ソースから始まる有向チェーンがターゲットに到達するかどうかを確認します。 This is equivalent to checking`pos[ri[source]] >= pos[target]`。 失敗すると、ターゲットに到達できなくなります。 
-14. チェーン条件が成功した場合、答えは 2 つの子の間のプレフィックス合計間隔にパスの祖先部分からの寄与を加えたものになります。 ソースがターゲットの使用後にある対称の場合`le`の代わりに`ri`。 
+1. 暗黙的な有向グリッド グラフを構築し、Tarjan のアルゴリズムを使用してすべての強接続コンポーネントを計算します。 セルには、そのセルに書き込まれた方向を除く、すべての有効な隣接セルへの発信エッジがあります。 すべてのエッジは一定時間内にセルから再生成できるため、すべてのグラフ エッジを明示的に保存することはありません。 
+2. 強結合成分を成分番号の逆順に処理します。 Tarjan はコンポーネントをそのルートが完了した順序で割り当てるため、この順序は構築に必要なトポロジー処理に対応します。 
+3. すべてのコンポーネント (C) について、その境界四角形 ([x_{\min},x_{\max}]\times[y_{\min},y_{\max}]) と元のセルの数を保存します。 強く接続されたコンポーネント内のすべてのセルは、コンポーネント自体が使用可能なときはいつでも使用できるため、コンポーネントの重みはまさにその数値になります。 
+4. すでに処理されたコンポーネントと仮想頂点上で素セットの結合構造を維持します。 (C) を処理する場合、(C) に属するすべてのセルを検査します。 (C) の境界四角形内で検出された処理済みコンポーネントはすべて (C) に向かってマージされます。 これは、それらの領域が内部の長方形構造を介して (C) に入ることができるという事実を表しています。 
+5. 外接する四角形のすぐ上とすぐ下の行を調べます。 既存の各サイドについて、その列を左から右にスキャンします。 連続する処理領域は、複数の領域が発生するたびに、新しく作成された仮想頂点を介して結合されます。 長方形のすぐ左と右の列に対して同様の操作を実行します。 
+6. 側面をスキャンしながら、すべての境界セルが (C) を指す方向を拒否しているかどうかを確認します。 そうなると、側面から (C) への実際のエッジは存在しなくなるため、非ツリー接続は記録されません。 それ以外の場合は、サイドグループと (C) の間の補助接続を 1 つ記録します。 ここで、元のグリッドの方向情報がツリー構造に入力されます。 
+7. すべてのコンポーネントが処理された後、残りのすべての DSU ルートが 1 つの人工ルートに接続されます。 結果として生じる親関係はツリーを形成します。 仮想頂点の重みはゼロですが、元の SCC 頂点はコンポーネント サイズを保持します。 
+8. ツリーの頂点ごとに順序付けられた子配列を構築します。 補助的な非ツリー接続により、すべての子に隣接する兄弟とのチェーン関係が与えられます。 これらの関係に従うことで、すべての子に位置を割り当てることができます。 次数 0 の子は 1 頂点チェーンを開始し、次数 1 の子は、隣接する 2 つのチェーンの XOR を使用してそのチェーンのトラバースを開始します。 
+9. 各子に、そのチェーンが右に続くか左に続くかを示す方向フラグを付けます。 すべてのツリー頂点について、子の重みのプレフィックスの合計を計算します。 計算もする`le[v]`そして`ri[v]`、子を含むチェーンの端 (v)。 
+10. コンピューティング`val[v]`、関連する兄弟チェーンの寄与を含む、ルートから (v) までの補助ツリーの部分によって表されるセルの数。 これらの値を使用すると、クエリでターゲット深度の祖先より上の部分を一定時間で削除できます。 
+11. ツリー用のバイナリ リフティング テーブルを構築します。 クエリでは、開始コンポーネントの深さがターゲット コンポーネントの深さと等しくなるまで、開始コンポーネントを上に移動するだけでよいため、標準の祖先テーブルで十分です。 一般的な LCA 計算は必要ありません。 
+12. クエリ ((s,t)) の場合、両方のグリッド セルを SCC にマップします。 スタートが目標より浅い場合は目標に到達できません。 それ以外の場合は、スタートをターゲットの深さまで上向きにジャンプします。 結果として得られる頂点とターゲットが同じ親を共有しない場合、ターゲットには到達できません。 それらが兄弟である場合は、チェーンのエンドポイントとプレフィックスの合計を使用して、(s)-to-(t) ウォークでセルが出現する可能性のあるコンポーネントを正確に数えます。 
 
 ### なぜ効果があるのか
 
- 1 つの SCC 内のすべてのセルは相互に到達可能であるため、SCC 縮小ではセル間のすべての到達可能性関係が維持されます。 長方形のプロパティは、トポロジー処理中に、すでに構築されているすべての領域を長方形の部分で表現できることを意味します。 unique-exit プロパティにより、可能なパスを失うことなく、各サイド インタラクションを 1 つの仮想頂点と 1 つの有向チェーン関係に圧縮できます。 
+ 中心的な不変条件は、SCC トポロジー順序のプレフィックスを処理した後、処理された領域が互いに素な長方形として表現可能であり、場合によっては並列チェーンにグループ化されることです。 これらの長方形の方向特性により、そのような 1 つのグループ内のすべてのセルが垂直方向に離れる同じ能力を持っていることが保証されます。 したがって、すべての境界接続を単一の仮想接続に置き換えても、到達可能性は変わりません。 
 
-この圧縮後、コンポーネントから別のコンポーネントに向かうすべての可能なルートはルート付きツリーを上向きにたどる必要があり、複数の子が親を共有する場合は必ず、対応する有向兄弟チェーン内に移動します。 祖先リフティングは、ソースがターゲットを満たすことができる唯一の可能なツリー レベルを識別します。 同一親チェックは、そのような会議が構造的に可能であることを検証しますが、`le`そして`ri`境界は、有向兄弟チェーンが実際に 2 つの位置を接続していることを検証します。 
-
-プレフィックスの合計は、可能なパスのコレクション上のすべての SCC を 1 回だけカウントし、仮想頂点の寄与はゼロになります。 SCC サイズは、そこに含まれる元のグリッド セルの数であるため、最終的な合計は、開始セルから終了セルまでの少なくとも 1 つの有効なパス上にあるセルの数と正確に一致します。 
+すべての SCC が処理された後、補助構造はツリーになります。 ある SCC から別の SCC への有向パスは、対応する一意のツリー ルートに従う必要がありますが、兄弟間の移動は記録されたチェーン内で正確に可能です。 クエリ プロシージャは、まずターゲットの深さより上のツリー部分を削除し、次に、結果として得られる 2 つの兄弟が同じ到達可能なチェーン上にあるかどうかを確認します。 プレフィックス合計の式は、そのチェーン上の重み付けされた SCC を正確にカウントします。`val`その上のすでに固定されている部分を説明します。 したがって、カウントされたすべてのセルは、何らかの有効な開始からターゲットまでのウォークに属し、そのようなウォークに属するすべてのセルがカウントされます。 
 
 ## Python ソリューション```python
 import sys
-from array import array
-
 input = sys.stdin.readline
 
-def solve():
-    n, m, q = map(int, input().split())
-    R = n * m
+from array import array
 
+def solve():
+    read = sys.stdin.readline
+    n, m, q = map(int, read().split())
+    cells = n * m
+    MAX = 2 * cells + 5
+
+    # Directions:
     # 0 = L, 1 = R, 2 = U, 3 = D
-    direction = bytearray(R)
+    direction = bytearray(cells)
+
     for i in range(n):
-        s = input().strip()
+        s = read().strip()
         base = i * m
         for j, ch in enumerate(s):
-            if ch == 76:       # L
+            if ch == 'L':
                 direction[base + j] = 0
-            elif ch == 82:     # R
+            elif ch == 'R':
                 direction[base + j] = 1
-            elif ch == 85:     # U
+            elif ch == 'U':
                 direction[base + j] = 2
-            else:              # D
+            else:
                 direction[base + j] = 3
+
+    dx = (-0, 0, -1, 1)
+    dy = (-1, 1, 0, 0)
+
+    def iarr(length, value=0):
+        return array('i', [value]) * length
 
     # ------------------------------------------------------------
     # Iterative Tarjan SCC
     # ------------------------------------------------------------
-    dfn = array('i', [0]) * R
-    low = array('i', [0]) * R
-    bel = array('i', [-1]) * R
 
-    scc_stack = []
+    dfn = iarr(cells, -1)
+    low = iarr(cells, -1)
+    bel = iarr(cells, -1)
+    nxt_cell = iarr(cells, -1)
+
+    # SCC member linked lists.
+    member_head = iarr(MAX, -1)
+    sz = iarr(MAX, 0)
+    xmi = iarr(MAX, n)
+    xma = iarr(MAX, -1)
+    ymi = iarr(MAX, m)
+    yma = iarr(MAX, -1)
+
+    tarjan_stack = []
+    dfs_stack = []
+    it = bytearray(cells)
+
     timer = 0
     cnt = 0
 
-    for start in range(R):
-        if dfn[start]:
+    for root in range(cells):
+        if dfn[root] != -1:
             continue
 
-        dfn[start] = timer + 1
-        low[start] = timer + 1
+        dfn[root] = timer
+        low[root] = timer
         timer += 1
+        tarjan_stack.append(root)
+        dfs_stack.append(root)
 
-        dfs = [start]
-        it = [0]
-        scc_stack.append(start)
-
-        while dfs:
-            u = dfs[-1]
-            k = it[-1]
+        while dfs_stack:
+            u = dfs_stack[-1]
+            k = it[u]
 
             while k < 4:
-                it[-1] = k + 1
+                it[u] = k + 1
 
                 if k == direction[u]:
                     k += 1
                     continue
 
-                if k == 0:
-                    if u % m == 0:
-                        k += 1
-                        continue
-                    v = u - 1
-                elif k == 1:
-                    if u % m == m - 1:
-                        k += 1
-                        continue
-                    v = u + 1
-                elif k == 2:
-                    if u < m:
-                        k += 1
-                        continue
-                    v = u - m
-                else:
-                    if u >= R - m:
-                        k += 1
-                        continue
-                    v = u + m
+                ux = u // m
+                uy = u - ux * m
+                vx = ux + dx[k]
+                vy = uy + dy[k]
 
-                if dfn[v] == 0:
-                    dfn[v] = timer + 1
-                    low[v] = timer + 1
+                if vx < 0 or vx >= n or vy < 0 or vy >= m:
+                    k += 1
+                    continue
+
+                v = vx * m + vy
+
+                if dfn[v] == -1:
+                    dfn[v] = timer
+                    low[v] = timer
                     timer += 1
-                    dfs.append(v)
-                    it.append(0)
-                    scc_stack.append(v)
+                    tarjan_stack.append(v)
+                    dfs_stack.append(v)
                     break
 
                 if bel[v] == -1 and dfn[v] < low[u]:
                     low[u] = dfn[v]
 
-                k += 1
+                k = it[u]
 
             else:
-                dfs.pop()
-                it.pop()
+                dfs_stack.pop()
 
-                if dfs:
-                    p = dfs[-1]
+                if dfs_stack:
+                    p = dfs_stack[-1]
                     if low[u] < low[p]:
                         low[p] = low[u]
 
                 if low[u] == dfn[u]:
                     while True:
-                        v = scc_stack.pop()
+                        v = tarjan_stack.pop()
                         bel[v] = cnt
+
+                        x = v // m
+                        y = v - x * m
+
+                        nxt_cell[v] = member_head[cnt]
+                        member_head[cnt] = v
+                        sz[cnt] += 1
+
+                        if x < xmi[cnt]:
+                            xmi[cnt] = x
+                        if x > xma[cnt]:
+                            xma[cnt] = x
+                        if y < ymi[cnt]:
+                            ymi[cnt] = y
+                        if y > yma[cnt]:
+                            yma[cnt] = y
+
                         if v == u:
                             break
+
                     cnt += 1
 
-    # dfn and low are no longer needed.
-    del dfn, low, scc_stack
-
     # ------------------------------------------------------------
-    # Store SCC members as linked lists and compute bounding boxes.
+    # Auxiliary tree construction
     # ------------------------------------------------------------
-    head = array('i', [-1]) * cnt
-    nxt = array('i', [-1]) * R
 
-    xmin = array('i', [n]) * cnt
-    xmax = array('i', [-1]) * cnt
-    ymin = array('i', [m]) * cnt
-    ymax = array('i', [-1]) * cnt
-    size = array('i', [0]) * cnt
+    parent = iarr(MAX, -1)
+    dsu = array('i', range(MAX))
 
-    for u in range(R):
-        c = bel[u]
-        nxt[u] = head[c]
-        head[c] = u
+    deg = iarr(MAX, 0)
+    chain_xor = iarr(MAX, 0)
 
-        x = u // m
-        y = u - x * m
-
-        if x < xmin[c]:
-            xmin[c] = x
-        if x > xmax[c]:
-            xmax[c] = x
-        if y < ymin[c]:
-            ymin[c] = y
-        if y > ymax[c]:
-            ymax[c] = y
-        size[c] += 1
-
-    # ------------------------------------------------------------
-    # DSU and compressed tree construction.
-    # ------------------------------------------------------------
-    V = 2 * R + 5
-
-    parent = array('i', [-1]) * V
-    dsu = array('i', range(V))
-
-    deg = array('i', [0]) * V
-    ch = array('i', [0]) * V
-
+    # Non-tree edges are kept as packed integer arrays.
     edge_a = array('i')
     edge_b = array('i')
 
@@ -282,157 +250,194 @@ def solve():
             x = dsu[x]
         return x
 
-    # SCCs are numbered in reverse topological order by Tarjan.
     for c in range(cnt - 1, -1, -1):
-        u = head[c]
-
-        # Merge all previously represented components inside C's
-        # bounding rectangle into C.
+        # First merge processed components inside the bounding rectangle.
+        u = member_head[c]
         while u != -1:
             ux = u // m
             uy = u - ux * m
 
-            if uy > ymin[c]:
-                v = u - 1
-                if ymin[c] <= uy - 1 <= ymax[c]:
-                    r = find(bel[v])
-                    if r != c:
-                        parent[r] = c
-                        dsu[r] = c
+            for k in range(4):
+                vx = ux + dx[k]
+                vy = uy + dy[k]
 
-            if uy < ymax[c]:
-                v = u + 1
+                if vx < xmi[c] or vx > xma[c] or vy < ymi[c] or vy > yma[c]:
+                    continue
+
+                v = vx * m + vy
                 r = find(bel[v])
+
                 if r != c:
                     parent[r] = c
                     dsu[r] = c
 
-            if ux > xmin[c]:
-                v = u - m
-                r = find(bel[v])
-                if r != c:
-                    parent[r] = c
-                    dsu[r] = c
+            u = nxt_cell[u]
 
-            if ux < xmax[c]:
-                v = u + m
-                r = find(bel[v])
-                if r != c:
-                    parent[r] = c
-                    dsu[r] = c
-
-            u = nxt[u]
-
-        # Process top and bottom sides.
-        for x in (xmin[c] - 1, xmax[c] + 1):
+        # Scan horizontal sides.
+        for x in (xmi[c] - 1, xma[c] + 1):
             if x < 0 or x >= n:
                 continue
 
-            base = x * m + ymin[c]
-            if bel[base] < c:
+            first_bel = bel[x * m + ymi[c]]
+            if first_bel < c:
                 continue
 
             all_blocked = True
-            u = find(bel[base])
+            group = find(first_bel)
             first = True
 
-            for y in range(ymin[c], ymax[c] + 1):
-                v = x * m + y
+            for y in range(ymi[c], yma[c] + 1):
+                vcell = x * m + y
 
-                # Direction toward C.
-                needed = 3 if x < xmin[c] else 2
-                if direction[v] != needed:
+                forbidden = 3 if x < xmi[c] else 2
+                if direction[vcell] != forbidden:
                     all_blocked = False
 
-                r = find(bel[v])
+                r = find(bel[vcell])
 
-                if r != u:
+                if r != group:
                     if first:
-                        parent[u] = cnt
-                        dsu[u] = cnt
-                        u = cnt
+                        parent[group] = cnt
+                        dsu[group] = cnt
+                        group = cnt
                         cnt += 1
                         first = False
 
-                    parent[r] = u
-                    dsu[r] = u
+                    parent[r] = group
+                    dsu[r] = group
 
             if not all_blocked:
-                edge_a.append(u)
+                edge_a.append(group)
                 edge_b.append(c)
-                deg[u] += 1
-                ch[u] ^= c
+                deg[group] += 1
+                chain_xor[group] ^= c
                 deg[c] += 1
-                ch[c] ^= u
+                chain_xor[c] ^= group
 
-        # Process left and right sides.
-        for y in (ymin[c] - 1, ymax[c] + 1):
+        # Scan vertical sides.
+        for y in (ymi[c] - 1, yma[c] + 1):
             if y < 0 or y >= m:
                 continue
 
-            base = xmin[c] * m + y
-            if bel[base] < c:
+            first_bel = bel[xmi[c] * m + y]
+            if first_bel < c:
                 continue
 
             all_blocked = True
-            u = find(bel[base])
+            group = find(first_bel)
             first = True
 
-            for x in range(xmin[c], xmax[c] + 1):
-                v = x * m + y
+            for x in range(xmi[c], xma[c] + 1):
+                vcell = x * m + y
 
-                # Direction toward C.
-                needed = 1 if y < ymin[c] else 0
-                if direction[v] != needed:
+                forbidden = 1 if y < ymi[c] else 0
+                if direction[vcell] != forbidden:
                     all_blocked = False
 
-                r = find(bel[v])
+                r = find(bel[vcell])
 
-                if r != u:
+                if r != group:
                     if first:
-                        parent[u] = cnt
-                        dsu[u] = cnt
-                        u = cnt
+                        parent[group] = cnt
+                        dsu[group] = cnt
+                        group = cnt
                         cnt += 1
                         first = False
 
-                    parent[r] = u
-                    dsu[r] = u
+                    parent[r] = group
+                    dsu[r] = group
 
             if not all_blocked:
-                edge_a.append(u)
+                edge_a.append(group)
                 edge_b.append(c)
-                deg[u] += 1
-                ch[u] ^= c
+                deg[group] += 1
+                chain_xor[group] ^= c
                 deg[c] += 1
-                ch[c] ^= u
+                chain_xor[c] ^= group
 
-    # Attach every remaining DSU root to one artificial root.
+    # Add one root above all remaining DSU roots.
     root = cnt
-    old_cnt = cnt
 
-    for i in range(old_cnt):
+    for i in range(cnt):
         if dsu[i] == i:
             parent[i] = root
             dsu[i] = root
 
     cnt += 1
-    parent[root] = -1
+    parent[root] = root
+
+    nodes = cnt
 
     # ------------------------------------------------------------
-    # Find the order of children inside every tree vertex.
+    # Store children in contiguous ranges.
     # ------------------------------------------------------------
-    pos = array('i', [-1]) * cnt
-    next_pos = array('i', [0]) * cnt
 
-    for i in range(old_cnt):
+    child_count = iarr(nodes, 0)
+
+    for i in range(nodes - 1):
+        child_count[parent[i]] += 1
+
+    start = iarr(nodes, 0)
+    total = 0
+    for u in range(nodes):
+        start[u] = total
+        total += child_count[u]
+
+    ordered = iarr(nodes - 1, 0)
+    used = iarr(nodes, 0)
+
+    for i in range(nodes - 1):
+        p = parent[i]
+        idx = start[p] + used[p]
+        ordered[idx] = i
+        used[p] += 1
+
+    # ------------------------------------------------------------
+    # Depth and binary lifting.
+    # ------------------------------------------------------------
+
+    depth = iarr(nodes, 0)
+    p0 = iarr(nodes, 0)
+    p0[root] = root
+
+    stack = [root]
+
+    while stack:
+        u = stack.pop()
+        begin = start[u]
+        end = begin + child_count[u]
+
+        for idx in range(begin, end):
+            v = ordered[idx]
+            depth[v] = depth[u] + 1
+            p0[v] = u
+            stack.append(v)
+
+    LOG = max(1, (nodes - 1).bit_length())
+    up = [p0]
+
+    for _ in range(1, LOG):
+        prev = up[-1]
+        cur = iarr(nodes, 0)
+        for i in range(nodes):
+            cur[i] = prev[prev[i]]
+        up.append(cur)
+
+    # ------------------------------------------------------------
+    # Order children by chain structure.
+    # ------------------------------------------------------------
+
+    pos = iarr(nodes, -1)
+    cp = iarr(nodes, 0)
+
+    for i in range(nodes - 1):
         if pos[i] != -1:
             continue
 
         if deg[i] == 0:
             p = parent[i]
-            pos[i] = next_pos[p]
-            next_pos[p] += 1
+            pos[i] = cp[p]
+            cp[p] += 1
 
         elif deg[i] == 1:
             u = i
@@ -440,329 +445,228 @@ def solve():
             p = parent[u]
 
             while True:
-                pos[u] = next_pos[p]
-                next_pos[p] += 1
+                pos[u] = cp[p]
+                cp[p] += 1
 
-                nxt_node = ch[u] ^ previous
-                previous, u = u, nxt_node
+                nxt = previous ^ chain_xor[u]
+                previous, u = u, nxt
 
                 if deg[u] != 2:
-                    pos[u] = next_pos[p]
-                    next_pos[p] += 1
+                    pos[u] = cp[p]
+                    cp[p] += 1
                     break
 
-    del next_pos
-
-    # Set the direction of every non-tree edge.
-    dir_edge = array('b', [0]) * cnt
-
-    for a, b in zip(edge_a, edge_b):
-        if pos[a] < pos[b]:
-            dir_edge[a] = 1
-        else:
-            dir_edge[b] = -1
-
-    del edge_a, edge_b, dsu
-
-    # ------------------------------------------------------------
-    # Build children in the required left-to-right order.
-    # ------------------------------------------------------------
-    child_count = array('i', [0]) * cnt
-
-    for i in range(old_cnt):
-        child_count[parent[i]] += 1
-
-    start_child = array('i', [0]) * cnt
-    total = 0
-
-    for u in range(cnt):
-        start_child[u] = total
-        total += child_count[u]
-
-    children = array('i', [0]) * old_cnt
-    cursor = array('i', start_child)
-
-    for i in range(old_cnt):
+    # Rebuild children according to their final positions.
+    for i in range(nodes - 1):
         p = parent[i]
-        children[cursor[p]] = i
-        cursor[p] += 1
+        ordered[start[p] + pos[i]] = i
 
-    del cursor
+    # Direction of the auxiliary chain edges.
+    chain_dir = iarr(nodes, 0)
 
-    # ------------------------------------------------------------
-    # Tree depths, subtree sizes, and heavy child.
-    # ------------------------------------------------------------
-    depth = array('i', [0]) * cnt
-    subtree = array('i', [1]) * cnt
-    heavy = array('i', [-1]) * cnt
+    for i in range(len(edge_a)):
+        a = edge_a[i]
+        b = edge_b[i]
 
-    order = array('i', [root])
-    idx = 0
-
-    while idx < len(order):
-        u = order[idx]
-        idx += 1
-
-        begin = start_child[u]
-        end = begin + child_count[u]
-
-        for j in range(begin, end):
-            v = children[j]
-            depth[v] = depth[u] + 1
-            order.append(v)
-
-    for idx in range(len(order) - 1, -1, -1):
-        u = order[idx]
-        begin = start_child[u]
-        end = begin + child_count[u]
-
-        best_size = 0
-        best_child = -1
-
-        for j in range(begin, end):
-            v = children[j]
-            subtree[u] += subtree[v]
-            if subtree[v] > best_size:
-                best_size = subtree[v]
-                best_child = v
-
-        heavy[u] = best_child
+        if pos[a] < pos[b]:
+            chain_dir[a] = 1
+        else:
+            chain_dir[b] = -1
 
     # ------------------------------------------------------------
-    # Heavy-light decomposition.
-    # tin is a preorder in which every heavy chain is contiguous.
+    # Prefix sums and val/le/ri.
     # ------------------------------------------------------------
-    chain_head = array('i', [-1]) * cnt
-    tin = array('i', [0]) * cnt
-    at = array('i', [0]) * cnt
 
-    stack = [(root, root)]
-    timer = 0
+    prefix = iarr(nodes, 0)
+    le = iarr(nodes, 0)
+    ri = iarr(nodes, 0)
+    val = iarr(nodes, 0)
 
-    while stack:
-        u, h = stack.pop()
-
-        while u != -1:
-            chain_head[u] = h
-            tin[u] = timer
-            at[timer] = u
-            timer += 1
-
-            heavy_u = heavy[u]
-
-            begin = start_child[u]
-            end = begin + child_count[u]
-
-            for j in range(begin, end):
-                v = children[j]
-                if v != heavy_u:
-                    stack.append((v, v))
-
-            u = heavy_u
-
-    del subtree, heavy, order
-
-    def ancestor_at_depth(u, target_depth):
-        while depth[chain_head[u]] > target_depth:
-            u = parent[chain_head[u]]
-
-        return at[tin[u] - (depth[u] - target_depth)]
-
-    # ------------------------------------------------------------
-    # Prefix sums and chain intervals.
-    # ------------------------------------------------------------
-    prefix = array('i', [0]) * cnt
-    left_chain = array('i', [0]) * cnt
-    right_chain = array('i', [0]) * cnt
-    val = array('i', [0]) * cnt
-
+    # Process parents before children.
     stack = [root]
 
     while stack:
         u = stack.pop()
+        begin = start[u]
+        end = begin + child_count[u]
 
-        begin = start_child[u]
-        dcnt = child_count[u]
-
-        if dcnt == 0:
+        if begin == end:
             continue
 
-        end = begin + dcnt
+        running = 0
+        for idx in range(begin, end):
+            v = ordered[idx]
+            running += sz[v]
+            prefix[v] = running
 
-        s = 0
-        for j in range(begin, end):
-            v = children[j]
-            s += size[v]
-            prefix[v] = s
+        for idx in range(begin, end):
+            v = ordered[idx]
 
-        previous = -1
-        for j in range(begin, end):
-            v = children[j]
-            if j == begin or dir_edge[previous] != -1:
-                left_chain[v] = v
+            if idx == begin or chain_dir[ordered[idx - 1]] != -1:
+                le[v] = v
             else:
-                left_chain[v] = left_chain[previous]
-            previous = v
+                le[v] = le[ordered[idx - 1]]
 
-        for j in range(end - 1, begin - 1, -1):
-            v = children[j]
-            if j == end - 1 or dir_edge[v] != 1:
-                right_chain[v] = v
+        for idx in range(end - 1, begin - 1, -1):
+            v = ordered[idx]
+
+            if chain_dir[v] != 1:
+                ri[v] = v
             else:
-                right_chain[v] = right_chain[children[j + 1]]
+                ri[v] = ri[ordered[idx + 1]]
 
-        for j in range(begin, end):
-            v = children[j]
-            val[v] = (
-                val[u]
-                + prefix[right_chain[v]]
-                - prefix[left_chain[v]]
-                + size[left_chain[v]]
-            )
+        for idx in range(begin, end):
+            v = ordered[idx]
+            val[v] = prefix[ri[v]] - prefix[le[v]] + sz[le[v]]
+            val[v] += val[u]
 
-        for j in range(begin, end):
-            stack.append(children[j])
-
-    del head, nxt, xmin, xmax, ymin, ymax
-    del children, start_child, child_count
-    del chain_head, tin, at, dir_edge
+        for idx in range(begin, end):
+            stack.append(ordered[idx])
 
     def query(a, b):
         if depth[a] < depth[b]:
             return 0
 
         ret = val[a]
-        a = ancestor_at_depth(a, depth[b])
+
+        diff = depth[a] - depth[b]
+
+        bit = 0
+        while diff:
+            if diff & 1:
+                a = up[bit][a]
+            diff >>= 1
+            bit += 1
+
         ret -= val[a]
 
         if parent[a] != parent[b]:
             return 0
 
         if pos[a] < pos[b]:
-            if pos[right_chain[a]] >= pos[b]:
-                return prefix[b] - prefix[a] + ret + size[a]
+            if pos[ri[a]] >= pos[b]:
+                return prefix[b] - prefix[a] + ret + sz[a]
             return 0
 
-        if pos[left_chain[a]] <= pos[b]:
-            return prefix[a] - prefix[b] + ret + size[b]
+        if pos[le[a]] <= pos[b]:
+            return prefix[a] - prefix[b] + ret + sz[b]
 
         return 0
+
+    # ------------------------------------------------------------
+    # Queries.
+    # ------------------------------------------------------------
 
     out = []
 
     for _ in range(q):
-        x1, y1, x2, y2 = map(int, input().split())
-        u = bel[(x1 - 1) * m + (y1 - 1)]
-        v = bel[(x2 - 1) * m + (y2 - 1)]
-        out.append(str(query(u, v)))
+        x1, y1, x2, y2 = map(int, read().split())
+        x1 -= 1
+        y1 -= 1
+        x2 -= 1
+        y2 -= 1
+
+        a = bel[x1 * m + y1]
+        b = bel[x2 * m + y2]
+
+        out.append(str(query(a, b)))
 
     sys.stdout.write("\n".join(out))
 
 if __name__ == "__main__":
     solve()
-```実装の最初の部分では、各矢印を整数の方向に変換します。 を使用して`bytearray`必要な値は 4 つだけなので、これで十分です。 
+```Python の再帰制限では最大 (10^6) 個のセルを含むパスを安全に処理できないため、SCC フェーズでは明示的な DFS スタックが使用されます。 からの配列`array('i')`も意図的です。 数百万の Python 整数からなる通常の Python リストは、同等の C++ 整数配列よりも大幅に多くのメモリを消費します。 
 
-SCC ステージは反復的です。`dfs`現在の DFS パスを保存します。`it`アクティブな頂点ごとに検査する次の方向を保存します。 頂点が終了すると、そのローリンク値がその親に伝播されます。 そのローリンク値がその検出番号と等しい場合、アクティブな SCC スタックは、その頂点が削除されるまでポップされます。 
+方向エンコーディングは、隣接する順序と正確に一致する必要があります。`0,1,2,3`はそれぞれ左、右、上、下を意味するため、使用可能な 3 つの近傍をチェックする前に、禁止された方向はスキップされます。 
 
-SCC メンバーは次のように保存されます。`head`そして`nxt`。 これにより回避されます`cnt`Python リスト。ほぼすべてのセルが独自の SCC である場合、特にコストが高くなります。 外接する四角形とサイズは、セル上の同じパスで計算されます。 
+コンポーネントのメンバーリストは次のように表されます。`member_head`そして`nxt_cell`。 これは C++ を置き換えます`vector<int> vr[N]`構造を変更し、最大 (10^6) 個の個別の Python リスト オブジェクトの作成を回避します。 
 
-DSU ステージは、長方形の構造を直接に従います。 Tarjan によって生成されるコンポーネント ID は、大きいものから小さいものへと処理されます。これは、構築に必要なトポロジの方向であるためです。 複数の境界長方形を 1 つのオブジェクトとして扱う必要があるたびに、仮想頂点が作成されます。 仮想頂点はゼロです`size`したがって、セルを答えに提供することはありません。 
+長方形の処理中に、DSU は、すでに処理されたすべての領域の現在の代表を保存します。 条件`bel[v] < c`長方形の辺も意図的です。 必要なトポロジー順序ですでに出現しているコンポーネントのみがそのスキャンに参加できます。 
 
-の`pos`計算はより複雑な部分の 1 つです。 追加のエッジはチェーンを形成するため、次数 1 のエンドポイントは、2 つの近傍の XOR を使用してチェーンを通過できます。 すべてのノードが位置を受け取ると、ツリー頂点の子を必要な順序で配置できます。 
+人工根はそれ自体を持ち上げる親として持ちます。 これにより、親が存在しない元の C++ ルートの論理的意味を保持しながら、Python の配列アクセスにおける負のインデックスが回避されます。 
 
-重光分解は祖先クエリにのみ使用されます。 すべての重鎖は連続しています`tin`したがって、目的の祖先が現在の重鎖上にある場合、その頂点は逆プリオーダー配列から直接取得できます。`at`。 それ以外の場合は、現在のチェーン ヘッドの親にジャンプします。 軽鎖ジャンプの数は対数的です。 
+順序付けられた子配列は、次の後に再構築されます。`pos`が割り当てられています。 これが必要なのは、プレフィックス合計の式が、ノードがたまたま作成された順序ではなく、最終的なチェーンの順序に依存するためです。 
 
-最後のクエリでは、減算する前に深さを意図的にチェックします。`val`。 ソースがターゲットよりも浅い場合、有効な上向きツリー表現は存在しません。 持ち上げた後、2 つの親を比較することは、構造的到達可能性テストです。 の`left_chain`そして`right_chain`チェックを行ってから、直接兄弟接続をテストします。 
+クエリは最初に開始頂点のみを変更します。 ターゲットのツリーの深さは保存されるため、このジャンプによって到達した祖先が、ターゲットと同じ兄弟チェーンに参加できる唯一の候補になります。 親が異なる場合、ターゲットへの方向付けられたルートは存在せず、答えは即座にゼロになります。 
 
-SCC を特定する場合にのみ、すべての座標が 1 ベースの入力から 0 ベースのセル インデックスに変換されます。 ツリーの構築中に座標調整は実行されないため、境界テストでは一貫して 0 から始まる行と列が使用されます。 
+すべての答えの値は最大 (NM\le10^6) であるため、保存されるグラフ量には 32 ビットの符号付き整数で十分です。 Python の整数は中間算術に自動的に使用されるため、最終計算ではオーバーフローの問題は発生しません。 
 
 ## 実用的な例
 
- ### サンプル 1
+ 公式サンプルは 1 つだけ提供されているため、2 番目のトレースは構築された小さなグリッドを使用します。 
 
- 与えられたグリッドは```
+### サンプル 1
+
+ グリッドは```
 DDDDD
 RDDDL
 RRDLL
 RUUUL
 UUUUU
-```クエリを検討してください`(5,5) -> (5,5)`。 最後の行の 5 つのセルはすべて、`U`。 これらは左右に自由に移動できるため、5 つのセルを含む 1 つの SCC を形成します。 
+```5 つの質問には答えがあります`0, 14, 20, 14, 5`。 
 
-| ステージ | ソースコンポーネント | ターゲットコンポーネント | 深さ関係 | 同じコンポーネント | 答え |
+次のトレースは、SCC と補助ツリーの前処理後のクエリ ステージを要約しています。 
+
+| クエリ | SCC を開始する | ターゲット SCC | 深さ関係 | ジャンプ後の同じ親 | 結果 |
  | --- | --- | --- | --- | --- | --- |
- | 入力 |`(5,5)`|`(5,5)`| 等しい | はい | 5 |
- | SCC圧縮 | 最下段のSCC | 最下段のSCC | 等しい | はい | 5 |
- | クエリ |`a = b`|`a = b`| 等しい | はい | 5 |
+ |`(1,1) -> (5,5)`| ソース領域 | 対象地域 | 有効な深度ジャンプ | いいえ |`0`|
+ |`(2,2) -> (5,5)`| SCCA | SCC B | 上に移動し始めます | はい |`14`|
+ |`(3,3) -> (5,5)`| SCCC | SCC B | 上に移動し始めます | はい |`20`|
+ |`(4,4) -> (5,5)`| ＳＣＣＤ | SCC B | 上に移動し始めます | はい |`14`|
+ |`(5,5) -> (5,5)`| SCC B | SCC B | ゼロジャンプ | はい |`5`|
 
- いつ`a == b`、クエリ式はその SCC のサイズまで縮小します。 結果は`5`これは、サンプル 1 の 5 番目の出力行と一致します。これは、圧縮されたすべての頂点を重み 1 として扱うのではなく、SCC 重みに元のセルの数を含める必要がある理由を示しています。 
+ 最初のクエリは、この構造が幾何学的近接性と到達可能性を混同していないことを示しています。 最後のクエリは、SCC の重みの不変性を示しています。両方のエンドポイントが同じ SCC 内にある場合、答えはその SCC のサイズです。`5`ここ。 
 
-ここで考えてみましょう`(2,2) -> (5,5)`。 ソースとターゲットは異なるコンポーネント内にあります。 ソースをターゲットの深さまで持ち上げた後、構造は共通の親の下に 2 つの兄弟位置とそれらを接続する有向チェーンを見つけます。 そのチェーンにわたるプレフィックスの合計と祖先の寄与には、正確に 14 個の実セルが含まれます。 
-
-| ステージ | 操作 | 結果 |
- | --- | --- | --- |
- | 入力 | ソース`(2,2)`、ターゲット`(5,5)`| さまざまな SCC |
- | 祖先ステップ | ソースをターゲット深度まで持ち上げる | 同じ深さ |
- | 親テスト | 比較する`parent[a]`そして`parent[b]`| 等しい |
- | チェーンテスト | ターゲット位置と比較する`right_chain[a]`| 到達可能 |
- | カウント | 兄弟間隔 + 祖先の寄与 | 14 |
-
- サンプル 1 の最初のクエリ、`(1,1) -> (5,5)`、対応するチェーン到達可能性条件に失敗するため、その答えはゼロになります。 他のクエリは生成します`20`、`14`、 そして`5`、完全なサンプル出力を示します。`0 14 20 14 5`。 
-
-### 一次元連鎖
+### 構築例
 
  検討してください```
-1 3 3
-LLL
-1 1 1 3
-1 2 1 3
-3 1 1 1
-```アン`L`左への移動を禁止するため、すべてのセルは右へ移動できます。 グラフは有向連鎖です```
-1 -> 2 -> 3
-```各セルは独自の SCC です。 
+2 3 2
+UUU
+UUU
+1 1 2 3
+2 3 1 1
+```のために`U`セルの上方向への移動は禁止されていますが、対応する隣接セルが存在する場合は下方向および水平方向への移動が許可されます。 から`(1,1)`に`(2,3)`、すべてのセルは有効なパス上に存在する可能性があります。 
 
-| クエリ | ソース位置 | 目標位置 | 有向チェーンテスト | 答え |
- | --- | --- | --- | --- | --- |
- |`1 -> 3`| 0 | 2 | 成功する | 3 |
- |`2 -> 3`| 1 | 2 | 成功する | 2 |
- |`3 -> 1`| 2 | 0 | 失敗する | 0 |
+| クエリ | 開始 | ターゲット | 到達可能ですか？ | あるパス上のセル | 答え |
+ | --- | --- | --- | --- | --- | --- |
+ | 1 |`(1,1)`|`(2,3)`| はい | 6 つのセルすべて |`6`|
+ | 2 |`(2,3)`|`(1,1)`| いいえ | なし |`0`|
 
- 構築されたツリーには、1 つのルートの兄弟として 3 つの SCC があり、非ツリー エッジがあります。`1 -> 2`そして`2 -> 3`。 最初の子の右チェーン エンドポイントは 3 番目の子であるため、最初のクエリは 3 つの SCC 重みをすべてカウントします。 2 番目のクエリでは、最後の 2 つがカウントされます。 有向チェーンが後方を指していないため、逆クエリは失敗します。 
-
-この例は、次の目的を確認します。`left_chain`そして`right_chain`: ツリー自体は兄弟間の方向をエンコードしないため、これらの追加の境界は不可欠です。 
+ 2 番目のクエリは方向性を示します。 ターゲットは開始点の上にありますが、上に移動することはできないため、補助ツリーの深さテストは最終的にクエリを拒否します。 
 
 ## 複雑さの分析
 
  | 測定 | 複雑さ | 説明 |
  | --- | --- | --- |
- | 時間 |`O(NM α(NM) + Q log(NM))`| SCC の構築、DSU の四角形の結合、およびツリーの前処理はほぼ線形です。 各クエリは、ヘビー/ライト祖先リフティングを使用します。 
-| スペース |`O(NM)`| すべてのグラフとツリー情報はパックされた整数配列に格納されます。 
+ | 時間 | (O(NM\アルファ(NM)+Q\log(NM))) | SCC の計算、DSU の四角形の構築、およびツリーの前処理はほぼ線形です。 各クエリは 1 つのバイナリリフティング祖先ジャンプを実行します。 
+| スペース | (O(NM\log(NM))) | 主な追加コストはバイナリリフティングテーブルです。 すべてのグリッド配列とツリー配列は線形です。 
 
-多くても`NM`元の SCC 頂点と`O(NM)`仮想頂点。 詰め込まれた`array`storage は、密な整数構造を通常の Python 整数リストよりもはるかに小さく保ちます。 このアルゴリズムは、処理されたグリッド境界要素ごとに一定量の幾何学的作業のみを実行し、クエリごとに対数作業を使用します。 漸近境界は、100 万セルと 300,000 クエリの制約に適合します。 元のコンテストの 2 秒制限は Python にとって厳しいものであるため、実装では Python のリストのリストと再帰的なグラフの走査を意図的に回避しています。 
+(NM\le10^6) を使用すると、前処理は DSU 操作とは別に一定の回数だけグリッドに触れます。 (3\cdot10^5) クエリはそれぞれ (O(\log(NM))) の作業のみを必要とします。 これは制約によって要求される複雑さであり、一般に認められている C++ アプローチの構造と一致します。その複雑さは (O(NM\alpha(NM)+Q\log(NM))) です。 
 
-## テストケース
+100 万頂点では漸近複雑さだけでは十分ではないため、Python 実装ではパックされた整数配列と反復走査が使用されます。 ネストされたリストと再帰的 DFS を使用した単純な Python 変換は、より多くのメモリを消費し、深い DFS ツリーでも失敗します。 
 
- 次のテストでは、送信されたソリューションが次のように保存されていることを前提としています。`solution.py`。 ヘルパーはモジュールのリセット`input`交換後の機能`sys.stdin`、ソリューションで定義されているため、これが必要です。`input = sys.stdin.readline`モジュールスコープで。```python
+## テストケース```python
+# This test block assumes the solve() function from the solution above
+# is available in the same file.
+
 import sys
 import io
-import solution
+from contextlib import redirect_stdout
 
 def run(inp: str) -> str:
     old_stdin = sys.stdin
-    old_stdout = sys.stdout
-
     sys.stdin = io.StringIO(inp)
-    sys.stdout = io.StringIO()
-
-    solution.input = sys.stdin.readline
+    out = io.StringIO()
 
     try:
-        solution.solve()
-        return sys.stdout.getvalue()
+        with redirect_stdout(out):
+            solve()
     finally:
         sys.stdin = old_stdin
-        sys.stdout = old_stdout
 
-# Provided sample
+    return out.getvalue()
+
+# Official sample.
 sample1 = """\
 5 5 5
 DDDDD
@@ -779,110 +683,113 @@ UUUUU
 
 assert run(sample1) == "0\n14\n20\n14\n5", "sample 1"
 
-# Minimum-size grid, start equals end.
+# Minimum-size grid. The only cell is both the start and target.
 case_min = """\
 1 1 1
-L
+U
 1 1 1 1
 """
 
 assert run(case_min) == "1", "minimum-size grid"
 
-# Two cells with a complete directed barrier.
-case_barrier = """\
+# Two cells block each other.
+case_blocked = """\
 1 2 2
 RL
 1 1 1 2
-1 2 1 1
+1 2 1 2
 """
 
-assert run(case_barrier) == "0\n0", "mutual boundary barrier"
+assert run(case_blocked) == "0\n1", "mutually blocked boundary cells"
 
-# Directed chain, catches endpoint and ordering errors.
-case_chain = """\
-1 3 3
-LLL
-1 1 1 3
-1 2 1 3
-3 1 1 1
+# Two cells form one strongly connected component.
+case_scc = """\
+1 2 1
+LR
+1 1 1 2
 """
 
-assert run(case_chain) == "3\n2\n0", "directed chain"
+assert run(case_scc) == "2", "same SCC must count both cells"
 
-# Maximum-size grid and maximum number of cells.
-# Every L forbids moving left, while vertical movement is unrestricted.
-# Hence every column is an SCC and movement is possible only toward
-# increasing columns.
+# All equal directions. Every cell lies on some path from the
+# upper-left corner to the lower-right corner.
+case_all_equal = """\
+2 2 1
+UU
+UU
+1 1 2 2
+"""
+
+assert run(case_all_equal) == "4", "all-equal directions"
+
+# Boundary and directionality.
+case_direction = """\
+2 3 2
+UUU
+UUU
+1 1 2 3
+2 3 1 1
+"""
+
+assert run(case_direction) == "6\n0", "boundary directionality"
+
+# Maximum-size grid. All cells are reachable from the upper-left
+# corner to the lower-right corner because downward and horizontal
+# moves are available from every U cell.
 n = 1000
 m = 1000
-grid = "\n".join(["L" * m] * n)
+grid = "\n".join(["U" * m for _ in range(n)])
+case_max = f"""\
+{n} {m} 1
+{grid}
+1 1 1000 1000
+"""
 
-case_max = (
-    f"{n} {m} 3\n"
-    + grid
-    + "\n"
-    + "1 1 1000 1000\n"
-    + "1000 1000 1 1\n"
-    + "500 500 500 500\n"
-)
-
-assert run(case_max) == "1000000\n0\n1", "maximum-size all-equal grid"
+assert run(case_max) == "1000000", "maximum-size grid"
 ```| テスト入力 | 期待される出力 | 検証内容 |
  | --- | --- | --- |
- |`1 x 1`、1 つのクエリ |`1`| 空のパスと最小グリッド |
- |`1 x 2`、`RL`|`0`、`0`| 指示されたバリアと境界の処理 |
- |`1 x 3`、`LLL`|`3`、`2`、`0`| 順序付けられた兄弟チェーンとオフバイワン位置 |
- |`1000 x 1000`、 全て`L`|`1000000`、`0`、`1`| 最大のグリッド、最大の答え、すべて等しい矢印 |
+ |`1 1 1 / U / 1 1 1 1`|`1`| 最小グリッドと長さゼロのウォーク |
+ |`1 2 2 / RL / ...`|`0`、`1`| 相互にブロックされたセルと境界処理 |
+ |`1 2 1 / LR / 1 1 1 2`|`2`| 強結合コンポーネントの重量 |
+ |`2 2 1 / UU / 1 1 2 2`|`4`| すべて等しい方向と完全なパス カバレッジ |
+ |`2 3 2 / UUU / UUU / ...`|`6`、`0`| 方向性と境界到達可能性 |
+ |`1000 1000 1 / all U`|`1000000`| 最大グリッド サイズと大きな答え |
 
  ## 特殊なケース
 
- ### 同じセル上で開始および終了する
-
- のために```
+ (1\times1) の場合は、意味のある動きが必要になる前に処理されます。 のために```
 1 1 1
-L
+U
 1 1 1 1
-```唯一のセルを含む SCC のサイズは 1 です。 クエリでは同一のソース コンポーネントとターゲット コンポーネントが参照されるため、リフトされたソースは変更されず、兄弟間隔にはその SCC が正確に含まれます。 出力は`1`。 
+```Tarjan は、次のサイズの SCC を 1 つ生成します`1`。 両方のクエリ エンドポイントがその SCC にマップされるため、深さの差はゼロになり、チェーン計算はその重みを返します。`1`。 
 
-同じロジックでより大きな SCC も処理します。 サンプル 1 では、`(5,5)`5 セルの最下行 SCC に属しているため、同じセルのクエリは次の値を返します。`5`。 実装では、座標が等しいクエリの答えが 1 であるとは決して想定しません。 
-
-### 到達不可能な目標
-
- のために```
-1 2 2
-RL
-1 1 1 2
-1 2 1 1
-```どちらのセルもセル間の境界を越えることはできません。 SCC は個別であり、長方形の構造により、SCC を接続する有向兄弟チェーンは作成されません。 ソースを持ち上げた後、親テストまたはチェーン テストは失敗するため、両方の答えがゼロになります。 
-
-これは、隣接関係を自動的に双方向として扱うというよくある間違いを捉えています。 
-
-### 矢印が唯一の有効な移動をブロックする境界セル
-
- のために```
+相互にブロックされている近隣の場合、```
 1 2 1
 RL
 1 1 1 2
-```最初のセルには`R`、2 番目のセルに向かう唯一の移動を禁止します。 バウンダリスキャンでは、ターゲット内にエッジが存在しないことが認識されます。 クエリ コードで特別なケースを必要とせずに、クエリは 0 を返します。 
+```最初のセルには使用可能な移動がありません。その唯一の隣接セルは右側にあり、これは禁止されています。 その結果、2 つのセルは、必要な方向にそれらを接続する補助到達可能性チェーンのない個別の SCC になります。 クエリは親またはチェーンのテストに失敗し、返されます。`0`。 
 
-同じ理由が、マークが付いた最上行のセルにも当てはまります。`U`、一番下の行のセルにマークが付いています`D`、マークされた左端のセル`L`、またはマークが付いている右端のセル`R`。 矢印は、その方向がグリッドから外れる場合でもその方向を禁止できますが、とにかくそのような外側への移動はすでに不可能でした。 
+強く結びついたペアの場合、```
+1 2 1
+LR
+1 1 1 2
+```左のセルは右に移動でき、右のセルは左に移動できます。 Tarjan は両方のセルを 1 つの SCC に入れます。その重みは次のとおりです。`2`。 開始コンポーネントとターゲット コンポーネントが同一であるため、クエリは単にターゲット セルをカウントするのではなく、完全なコンポーネントの重みを返します。 
 
-### 大規模な強結合コンポーネント
+すべて等しい (2\times2) グリッドの場合```
+2 2 1
+UU
+UU
+1 1 2 2
+```プレイヤーは左上のセルから下または右に移動し、結果として得られるセルから右下のセルに向かって進みます。 4 つのセルはすべて有効なパス上にあるため、答えは次のようになります。`4`。 これにより、考えられるすべてのパスの和集合ではなく、特定の 1 つの最短パスのみを計算するソリューションが捕捉されます。 
 
- サンプル 1 の最後の行は次のとおりです。```
-UUUUU
-```すべてのセルは左右に移動できます。`U`上向きの動きのみを禁止します。 したがって、5 つのセルすべてが 1 つの SCC に属します。 SCC 圧縮ストア`size = 5`、このコンポーネント全体の内部にあるクエリは、5 つのセルすべてを即座にカウントします。 
+より大きな方向の例としては```
+2 3 2
+UUU
+UUU
+1 1 2 3
+2 3 1 1
+```最初のクエリはすべてのセルにアクセスできます。 パスは早くても遅くても下に移動でき、どちらの行でも水平に移動できるため、6 つのセルのすべてが少なくとも 1 つの開始からターゲットまでのパス上にあります。 逆引きクエリは上に移動できないため、その答えは次のようになります。`0`。 補助ツリーは、基礎となるグリッドが完全に均一に見えても、この非対称性を維持します。 
 
-これが、すべての SCC を単一の重み付けされていない頂点で置き換えることが正しくない理由です。 圧縮されたグラフは到達可能性について答えますが、元の質問では元のグリッド セルの数が求められます。 
+最大サイズのテストでは、(10^6) 個のセルが使用されます。 前処理ではすべてのセルが一定の回数だけ処理されますが、単一のクエリでは事前計算されたツリーのみが使用されます。 期待される答えは正確に (10^6) であり、実装が小さな次元に依存せずに最大のグリッドと可能な最大の答えの両方を処理していることを示しています。 
 
-### 同じエンドポイント間の複数の可能なパス
-
- 答えは、選択した 1 つのパスの長さではありません。 これは、少なくとも 1 つの有効な開始からターゲットまでのパス上に存在するセルの数です。 圧縮ツリーでは、兄弟チェーンにいくつかの中間 SCC が含まれる場合があり、それらはすべて異なるルートに参加できます。 プレフィックスの合計は、任意の 1 つのルートを選択するのではなく、有効なチェーン間隔全体を意図的にカウントします。 
-
-これが、単純な最短経路アルゴリズムでは問題を解決できない理由でもあります。 必要な量は、パスの長さではなく、可能なパスの頂点の和集合です。 
-
-### 非常に多くの小さな SCC
-
- 一次元のようなグリッド`LLL`たとえば、セルごとに 1 つの SCC があります。 SCC に多くのセルが含まれることを想定していないため、この構造は依然として機能します。 すべてのシングルトン コンポーネントは 1 セルの境界四角形を取得し、隣接するコンポーネントは同じ四角形側のメカニズムを通じて接続されます。 
-
-最大サイズすべて-`L`テストでは、逆の状況を大規模に実行します。 大きな SCC が 1000 個あり、各列に 1 つずつありますが、アルゴリズムは依然として同じ表現を使用してそれらを処理します。
+上記の論説は、受け入れられている構造的解決策に厳密に従っていますが、Python バージョンでは、再帰と C++ ベクトルが反復走査とパック配列に置き換えられています。
