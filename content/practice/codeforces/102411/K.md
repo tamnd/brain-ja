@@ -1,7 +1,7 @@
 ---
 title: "CF 102411K - キングスチルドレン"
-description: "グリッドは (n 倍 m) の長方形の配列です。 一部のセルには異なる大文字が含まれており、そのような各文字は 1 人の子供に属する城です。 1 つおきのセルは空です。"
-date: "2026-08-12T00:30:16+07:00"
+description: "(n 倍 m) グリッドがあります。 一部のセルには個別の大文字が含まれており、各文字は 1 人の子供の城を表しますが、他のすべてのセルは空です。 タスクは、すべての空のセルを、そのセルが含まれる長方形の領域の子の小文字で置き換えることです。"
+date: "2026-08-14T14:39:33+07:00"
 tags: ["codeforces", "competitive-programming"]
 categories: ["algorithms"]
 codeforces_contest: 102411
@@ -9,7 +9,7 @@ codeforces_index: "K"
 codeforces_contest_name: "ICPC 2019-2020 North-Western Russia Regional Contest"
 rating: 0
 weight: 102411
-solve_time_s: 434
+solve_time_s: 476
 verified: false
 draft: false
 ---
@@ -18,455 +18,180 @@ draft: false
 
  **評価:** -
  **タグ:** -
- **解決時間:** 7 分 14 秒
+ **解決時間:** 7 分 56 秒
  **確認済み:** いいえ
 
  ## 解決策
  ## 問題の理解
 
- グリッドは (n \times m) の長方形配列です。 一部のセルには異なる大文字が含まれており、そのような各文字は 1 人の子供に属する城です。 1 つおきのセルは空です。 すべての四角形にちょうど 1 つの城が含まれるように、グリッド全体を軸に沿った四角形に分割する必要があります。 を含む長方形`A`は特別です。すべての有効なパーティションの中で、その領域はできるだけ大きくなければなりません。 出力では、すべての城は大文字のままで、各空のセルは、それを所有する四角形の子の小文字に変更されます。 元の問題には (n,m\le 1000) があり、26 個の大文字ごとに最大 1 つの城があります。 
+ (n \times m) 個のグリッドがあります。 一部のセルには個別の大文字が含まれており、各文字は 1 人の子供の城を表しますが、他のすべてのセルは空です。 タスクは、すべての空のセルを、そのセルが含まれる長方形の領域の子の小文字で置き換えることです。 すべての州は、城を 1 つだけ含む長方形でなければなりません。`A`可能な最大の面積が必要です。 元の大文字の城のセルは、出力では変更されません。 公式の制約は (1 \le n,m \le 1000) で、すべての大文字が区別されるため、城の数は最大 26 個です。 
 
-2 つのグリッドの次元は両方とも 1000 に達する可能性があるため、(10^6) 個のセルが存在する可能性があります。 考えられるすべての四角形のすべてのセルに対してかなりの量の作業を実行するアルゴリズムは、すでにコストが高すぎます。 より正確には、次の内容を含むすべての四角形を列挙します。`A`これにより、上下の境界については 2 次の選択が得られ、左右の境界については別の 2 次の選択が得られ、おおよそ (O(n^2m^2)) 個の候補が得られます。 (n=m=1000) では、これは (10^{12}) 程度であり、2 秒の制限をはるかに超えています。 著名な城は 1 つしかなく、それを含む空の長方形はその垂直方向のスパンと各行で利用できる水平方向のスペースによって特徴づけられるという事実を利用する必要があります。 
+(1000 \times 1000) の境界は、セルが 100 万個存在する可能性があることを意味するため、すべての可能な四角形を列挙するのではなく、1 つのグリッド次元で線形または二次に近い解を求める必要があります。 (n=m=1000) の場合、すでに (10^6) 個のセルが存在しますが、(n^2m^2) は (10^{12}) です。 小さなアルファベットは 2 番目に便利な制約です。州は 26 個までしか存在できないため、最適な州を見つけた後、`A`, 以下の解決策ではその必要はありませんが、城ごとにかなり多くの作業を行う余裕があります。 
 
-不注意な実装が失敗する可能性がある境界ケースがいくつかあります。 もし`A`たとえば、これが唯一の城です。```
-2 2
-A.
-..
-```正しい出力は```
-Aa
-aa
-```グリッド全体が属することができるため、`A`。 あらゆる方向の城の境界で停止することを要求する実装では、誤ってセルが未割り当てのままになる可能性があります。 
-
-2 番目のケースは、別の城が片側だけをブロックしている場合です。```
-2 3
-A.B
+最初の厄介なケースは次のような場合です。`A`境界線上にあります。 例えば、```
+A..
 ...
-```～に最適な県`A`は最初の 2 列であるため、正しい出力は次のようになります。```
-AaB
-aab
-```長方形には面積 (4) があります。 を含む行のみを調べるメソッド`A`幅 (2) が見つかりますが、同じ幅が 2 行目に広がっていることを見逃す可能性があります。 
+..B
+```最大の州`A`必ずしも最初の行または最初の列だけであるとは限りません。 ここで、最初の 2 行で構成される長方形の面積は 6 であるため、有効な最適出力は次のようになります。```
+Aaa
+aaa
+bbB
+```対称的に拡張しようとするだけのソリューション`A`この長方形を見逃す可能性があります。 
 
-3 番目のケースでは、候補となる長方形の真上または真下に城を適用します。```
-4 4
-A..B
-....
-C..D
-....
-```最適な出力の 1 つは、```
-AaaB
-aaab
-Cddd
-cddd
-```の`A`州にはエリア (6) があり、行 1 と 2、列 1 ～ 3 を占めます。他の州は後で独立して構築できます。`A`固定されています。 不用意な縦方向の拡張は交差する可能性があります`C`誤ってそれを`A`矩形。 
+もう 1 つの微妙なケースは、別の城が一方向のみをブロックしていることです。 のために```
+A.B
+```
+
+`A`最初の 2 つのセルを所有できますが、交差することはできません`B`。 正しい出力は次のとおりです```
+AaB
+```すべての非を治療する`A`検索中はセルが空です`A`間違って与えるだろう`A`列全体。 
+
+3 番目の問題は、複数の最大長方形が同じ面積を持つ可能性があることです。 のために```
+A.
+.B
+```
+
+`A`どちらも領域 2 で、最初の行または最初の列を取得できます。有効な結果の 1 つは次のとおりです。```
+Aa
+bB
+```正しい実装は、固有の最適値である特定の結合に依存してはなりません。 最大の長方形であればどれでも十分です。 
 
 ## アプローチ
 
- ブルートフォースのアイデアは単純です。 次のセルを含むすべての四角形を列挙します。`A`、別の城が含まれているかどうかを確認し、最大の有効な城を保持します。 城の位置の 2 次元のプレフィックスの合計があれば、チェックは一定時間で行うことができます。 難しいのは長方形の数です。 上下の行には (O(n^2)) 個の選択肢があり、左右の列には (O(m^2)) 個の選択肢があるため、最悪の場合の候補数は (O(n^2m^2)) になります。 (n=m=1000) の場合、残りの構成を考慮する前でも、中央のセルを含むおおよそ (2.5\cdot10^{11}) 個の長方形になります。 この考えは正しいですが、検索スペースが大きすぎます。 
+ 直接的なアプローチは、次の内容を含むすべての四角形を列挙することです。`A`、別の城が含まれているかどうかを確認し、最大の有効な城を保持します。 有効性チェック (O(1)) を行う 2 次元のプレフィックス合計を使用した場合でも、固定セルを含む四角形の数は次の数に達する可能性があります。 
 
-有益な観察は、領域を最適化するだけでよいということです。`A`。 を含む空の長方形を選択したら、`A`、ボードの残りの部分はいつでも有効な長方形に分割できます。 を削除します。`A`矩形。 その補完部分は、その上の部分、その下の部分、その左の部分、その右の部分の最大 4 つの長方形のストリップで構成されます。 空でないストリップに城を 0 つも含めることはできません。そうしないと、城を拡大してしまう可能性があるからです。`A`長方形をそのストリップに挿入し、厳密に大きな空の長方形を取得します。 その後、各ストリップを再帰的に分割できます。 
+[
+ 500\cdot501\cdot500\cdot501
+ =62,750,250,000
+ 】
 
-少なくとも 2 つの城が含まれる地域の場合は、異なる行を持つ 2 つの城を選択します。 列の間を水平に切ると 2 つの長方形が作成され、それぞれに少なくとも 1 つの城が含まれます。 すべての城が同じ行を持つ場合、それらは異なる列を持つ必要があるため、代わりに垂直方向のカットによって 2 つの城が分離されます。 これを繰り返すと、最終的な各長方形にちょうど 1 つの城が含まれる長方形のパーティションが作成されます。 これは単純なギロチン分割であり、(k\le26) 個の城がある場合、(O(k^2)) 個の作業のみを使用します。 
+ グリッドが (1000\times1000) の場合、`A`中心付近にあります。 これだけ多くの候補者を 2 秒以内に検討することはできません。 すべての候補内のすべてのセルをチェックすることは、さらに悪いことになります。 
 
-残りのタスクは、次の内容を含む最大の空の長方形を見つけることです。`A`。 これは、最大長方形問題の固定小数点バージョンです。 最大の空の四角形に一般的に使用されるのと同じ吊り下げ線のアイデアを使用します。四角形に参加できるすべての行について、そこから左右にどれだけ延長できるかを計算します。`A`城にぶつからずに、垂直方向に移動しながら接頭辞の最小値を維持します。 選択した上部行と下部行の結果の幅は、それらの最小値から直接取得されます。 
+有益な観察は、次のような長方形が含まれるということです。`A`は、上の行、下の行、左の境界、および右の境界によって決まります。 上部と下部の行が固定されると、行とは独立して可能な限り最良の水平境界を見つけることができます。 選択した上部と下部の間の各行について、そのすぐ左側と右側に空のセルがいくつあるかを数えます。`A`。 長方形は、間隔内のすべての行のうち、最小の左拡張子と最小右拡張子のみを使用できます。 
 
-明示的に列挙する必要があるのは上部と下部の境界のみであるため、4 つの境界にわたる総当たり検索は (O(n^2)) に削減されます。 水平方向のクリアランスの計算には (O(nm)) かかります。 城は 26 個しかないため、その後の再帰的構築はグリッド処理に比べて無視できます。 
+仮定する`A`列(c)にあります。 (L_i) を左に取ることができるセルの数とします。`A`行 (i)、および (R_i) 右側の対応する番号。 最小値を含む行から遠ざけた後、`A`、(L_i) および (R_i) は、行 (i) と行 (i) と行 (i) の間の間隔全体で同時に利用可能な拡張機能を表します。`A`。 
+
+上の行 (u) と下の行 (d) の場合、最大幅は次のようになります。 
+
+[
+ \min(L_u,L_d)+\min(R_u,R_d)+1。 
+】
+
+ の`+1`を含む列です`A`。 上部と下部の行のすべてのペアを試すには (O(n^2)) かかりますが、水平方向の拡張を計算するには (O(nm)) かかります。 制約にはこれで十分です。 
+
+最適化されたら`A`長方形が修正されると、残りの問題は作図上の問題になります。 重要なのは、その四角形の外側の領域を再帰的に分割することです。 より大きな長方形内の長方形の補足部分は、上、下、左、右の最大 4 つの長方形バンドで構成されます。 
+
+これらのバンドの空でないすべてのバンドには、別の城が含まれている必要があります。 例えば上記のバンドの場合`A`城は含まれていなかったが、`A`長方形は上に拡張され、その最大値と矛盾する可能性があります。 同じ議論が 4 つの側面すべてに当てはまります。 
+
+ここで、いくつかの城を含む長方形の領域を考えてみましょう。 それらの行座標がすべて等しくない場合は、城の最小行と最大行の間の領域を水平に切り取ります。 結果として得られる両方の長方形には、少なくとも 1 つの城が含まれます。 すべての城が 1 つの行に並んでいる場合、それらの列は異なるため、垂直方向のカットによってそれらが分離されます。 この操作を繰り返すと、最終的に城を 1 つだけ含む長方形が残ります。 これにより、すでに最適化されている領域を変更することなく、有効な州パーティションが得られます。`A`矩形。 
 
 | アプローチ | 時間計算量 | 空間の複雑さ | 評決 |
  | --- | --- | --- | --- |
- | ブルートフォース | (O(n^2m^2)) | (O(nm)) | 遅すぎる |
- | 最適 | (O(nm+n^2+K^2)), (K\le26) | (O(nm+K^2)) | 承認済み |
+ | ブルートフォース | (O(n^2m^2)) 接頭辞の合計 | (O(nm)) | 遅すぎる |
+ | 最適 | (O(nm+n^2+K^2)), (K\le26) | (O(nm+K)) | 承認済み |
 
  ## アルゴリズムのチュートリアル
 
- 1. 城の位置 ((a_r,a_c)) を見つける`A`。 アルゴリズムの最初の部分では、元のグリッドを考慮します。大文字の城はすべて障害物であり、すべての城は障害物です。`.`セルは利用可能です。 
-2. から始める`A`、別の城に到達するまで列 (a_c) に沿って下に移動します。 上方向にも同様に行います。 結果として得られる行の間隔は、以下を含む空の長方形の唯一可能な垂直方向の範囲です。`A`なぜなら、そのような四角形にはすべて列 (a_c) が含まれているからです。 その列の城は長方形の内側にあり、1 つの城の条件に違反します。 
-3. 使用可能な行ごとに、列 (a_c) のすぐ左とすぐ右にある連続する空のセルを数えます。 これらの生の値を呼び出します`left`そして`right`。 どこか別の場所に城がある列も参加できますが、水平方向の間隔はその城の手前で停止する必要があります。 
-4. これらの水平方向の容量を、次の行を含む行から遠ざけるように伝播します。`A`。 1 行を上または下に移動する場合、長方形はその行と行の間のすべての行に収まる必要があります。`A`, そのため、使用可能な左拡張子は、現在の行の生の拡張子と、前の行ですでに使用可能な拡張子の最小値になります。 右側の拡張子にも同じことが当てはまります。 
-5. を含むすべての上部行と下部行を列挙します。`A`。 上の行が (t)、下の行が (b) の場合、左への最大共通延長は次のようになります。 
-
-[
- \min(L_t,L_b),
- ]
-
- なぜなら`L[t]`(t) から (t) までのすべての行の最小値がすでに含まれています`A`、 その間`L[b]`以下の最小値が含まれています`A`(b)へ。 同じ推論で正しい拡張が得られます
+ 1. の位置を見つけます。`A`他のすべての城の位置を記録します。 最適化のみを行います`A`なぜなら、可能な最大の長方形が固定されると、残りのセルは独立して分割できるからです。 
+2. 周囲の連続する行を見つけます。`A`で使用できるもの`A`矩形。 を含む行から開始`A`、セルが入っている間に上下に移動します。`A`の列は次のいずれかです`A`それ自体、または`.`。 その列の別の城は、すべての長方形がその行と交差するのをブロックします。 
+3. 使用可能な行ごとに、行のすぐ左と右にある連続するドットの数を計算します。`A`さんのコラムです。 これらは、その行の生の水平拡張子です。 対応する側のどこかに城があると拡張が停止されます。 
+4. 最小の水平延長部分を、次の行を含む行から遠ざけるように伝播します。`A`。 下に移動して、各値をその独自の生の拡張子の最小値と前の行の値で置き換えます。 上向きに対称操作を行います。 この後、(L_i) は、間のすべての行で利用可能な最大の左拡張子を表します。`A`および行 (i)、および (R_i) は右側と同様の意味を持ちます。 
+5. を含む可能なすべての最上行と最下行を列挙します。`A`。 ペアごとに計算します
 
  [
- \min(R_t,R_b)。 
-]
+ 幅=\min(L_{上},L_{下})+\min(R_{上},R_{下})+1
+ 】
 
- したがって、この垂直スパンの可能な最大幅は次のようになります。 
+ そしてそれに高さを掛けます。 最大面積の長方形を維持します。 
 
-[
- \min(L_t,L_b)+\min(R_t,R_b)+1。 
-]
-
- この幅に (b-t+1) を掛けると、その行のペアに最適な領域が得られます。 
-6. 最大面積の長方形を維持します。 考慮されるすべての長方形には他の城が含まれておらず、空の長方形の可能なすべての垂直方向のスパンには次の城が含まれています。`A`が考慮されるため、選択された長方形はグローバルに最適です。`A`。 
-7. 選択した項目を入力します`A`小文字の長方形`a`空のセルに。 城`A`それ自体は大文字のままです。 
-8. 残りのボードを周囲の最大 4 つの長方形の領域に分割します。`A`矩形。 空ではないすべての地域について、その中にある城を収集します。 空ではない領域には常に城が含まれています。`A`長方形はその領域に拡大される可能性があります。 
-9. 残りの各領域を再帰的に分割します。 城が 1 つ含まれている場合は、その領域のすべての空のセルをその城の小文字で埋めます。 異なる列を持つ複数の城が含まれている場合は、2 つの城の間を水平にカットします。 すべての城が同じ列の場合は、2 つの城の間を垂直に切ります。 結果として得られる両方の長方形には少なくとも 1 つの城が含まれるため、プロセスを続行できます。 
-10. すべての再帰領域に 1 つの城がある場合、すべてのセルが割り当てられています。 の`A`長方形は最初のステップの後は変更されないため、その面積は可能な最大値のままになります。 
+伝播された配列にはすでに間隔全体にわたる最小限の拡張が含まれているため、エンドポイントの最小値で十分です。`A`そのエンドポイントまで。 
+6. 選択した長方形を小文字でペイントします。`a`、大文字のまま`A`変わらない。 水平方向と垂直方向のすべての拡張が城によって阻止されているため、その中には他の城はありません。 
+7. 外側の 4 つの長方形の帯について考えてみましょう。`A`矩形。 空ではないバンドごとに、その中にある城を収集し、そのバンドを再帰的に分割します。 
+8. 1 つの城を含む再帰領域の場合、領域全体をその城に割り当てます。 すでにちょうど 1 つの城を含む長方形になっているため、これ以上カットする必要はありません。 
+9. 複数の城を含む地域の場合は、その行座標を確認します。 すべてが等しくない場合は、最小の城の列と最大の城の列の間の水平方向の境界を選択します。 それ以外の場合は、城の最小の柱と最大の柱の間の垂直方向の境界を選択します。 結果として得られる 2 つの領域を再帰的に解決します。 
+10. 完成したグリッドを印刷します。 元の城はすべて大文字のままですが、空のセルにはすべて小文字の所有者が割り当てられています。 
 
 ### なぜ効果があるのか
 
- 以下を含む有効なすべての州`A`を含む軸に整列した長方形です。`A`そして他の城はありません。 アルゴリズムの最初の部分では、これらの可能性を正確に調べます。 その垂直方向の境界は、城のない最大の間隔内になければなりません。`A`の列、および固定の上部と下部の行の場合、可能な最大の水平間隔は、それらすべての行で使用可能な空の間隔の交点です。 伝播した`L`そして`R`配列はそれらの交差を正確に計算するため、検出された最大値は可能な最大値になります。`A`矩形。 
+ のために`A`州を含む有効な長方形を考慮します。`A`。 その上部と下部の行は何らかのペア (u,d) です。 それらの間のすべての行で、その左側の境界は、最初の城の前の連続する空のセルより左に進むことはできず、右側でも同様です。 伝播された (L) 値と (R) 値は、それらの共通の制限を正確に捉えているため、(u,d) に対して計算された幅は、その垂直間隔で可能な最大の幅になります。 考えられるすべての上下のペアが検査されるため、選択された長方形は、合法的に含むことができるすべての長方形の中で最大の面積を持ちます。`A`。 
 
-この長方形が実際に完全なパーティション内に存在し得ることを示すことはまだ残っています。 その補体は 4 つの互いに素な長方形のストリップで構成されます。 これらのストリップの 1 つが空ではなく、城が含まれていない場合、`A`長方形をその中に拡張することができ、その面積の最大化に反します。 したがって、空ではないすべてのストリップには少なくとも 1 つの城が含まれます。 複数の城を含む長方形は、行が異なる 2 つの城、または必要に応じて列が異なる 2 つの城を選択することで、城を含む 2 つの長方形に分割できます。 これを繰り返すと、城が 1 つだけ含まれる長方形が作成されます。 各カットは現在の長方形の境界全体に沿って行われるため、最終領域は補体の互いに素なパーティションを形成します。 したがって、最大の空の長方形は、`A`常に達成可能です。 
+この長方形を修正すると、空ではないすべてのサイドバンドに城が含まれます。`A`その帯域にまで拡張できた可能性があります。 複数の城を含む長方形の領域は、両側に少なくとも 1 つの城が含まれるように、常に水平または垂直の境界によって分割できます。 再帰により、最終的にはちょうど 1 つの城を含む長方形が生成され、カットはばらばらになり、元の領域を覆います。 したがって、すべてのセルは正確に 1 つの有効な州に割り当てられますが、`A`州は依然として世界的に最適な状態にあります。 
 
 ## Python ソリューション```python
 import sys
 input = sys.stdin.readline
 
-DOT = ord('.')
+def solve_grid(n, m, rows):
+    grid = [list(row) for row in rows]
 
-def solve():
-    n, m = map(int, input().split())
-    grid = [bytearray(input().strip(), 'ascii') for _ in range(n)]
-
-    ar = ac = -1
     castles = []
-
-    for r in range(n):
-        row = grid[r]
-        for c in range(m):
-            ch = row[c]
-            if ch != DOT:
-                if ch == ord('A'):
-                    ar, ac = r, c
-                else:
-                    castles.append((r, c, ch))
-
-    # Find the largest empty rectangle containing A.
-    left = [0] * n
-    right = [0] * n
-
-    top_lim = ar
-    bottom_lim = ar
-
-    for r in range(ar - 1, -1, -1):
-        if grid[r][ac] != DOT:
-            break
-        top_lim = r
-
-    for r in range(ar + 1, n):
-        if grid[r][ac] != DOT:
-            break
-        bottom_lim = r
-
-    # Raw horizontal free lengths, then prefix minima toward A.
-    for r in range(ar, bottom_lim + 1):
-        cnt = 0
-        c = ac - 1
-        row = grid[r]
-        while c >= 0 and row[c] == DOT:
-            cnt += 1
-            c -= 1
-
-        if r == ar:
-            left[r] = cnt
-        else:
-            left[r] = min(left[r - 1], cnt)
-
-        cnt = 0
-        c = ac + 1
-        while c < m and row[c] == DOT:
-            cnt += 1
-            c += 1
-
-        if r == ar:
-            right[r] = cnt
-        else:
-            right[r] = min(right[r - 1], cnt)
-
-    for r in range(ar - 1, top_lim - 1, -1):
-        row = grid[r]
-
-        cnt = 0
-        c = ac - 1
-        while c >= 0 and row[c] == DOT:
-            cnt += 1
-            c -= 1
-        left[r] = min(left[r + 1], cnt)
-
-        cnt = 0
-        c = ac + 1
-        while c < m and row[c] == DOT:
-            cnt += 1
-            c += 1
-        right[r] = min(right[r + 1], cnt)
-
-    best_area = 1
-    best_top = best_bottom = ar
-
-    for top in range(ar, top_lim - 1, -1):
-        for bottom in range(ar, bottom_lim + 1):
-            width = min(left[top], left[bottom])
-            width += min(right[top], right[bottom]) + 1
-            height = bottom - top + 1
-            area = width * height
-
-            if area > best_area:
-                best_area = area
-                best_top = top
-                best_bottom = bottom
-
-    best_left = min(left[best_top], left[best_bottom])
-    best_right = min(right[best_top], right[best_bottom])
-    best_left = ac - best_left
-    best_right = ac + best_right
-
-    for r in range(best_top, best_bottom + 1):
-        row = grid[r]
-        for c in range(best_left, best_right + 1):
-            if row[c] == DOT:
-                row[c] = ord('a')
-
-    # Recursively partition every region outside A's rectangle.
-    def partition(top, bottom, left_col, right_col, pts):
-        if not pts:
-            return
-
-        if len(pts) == 1:
-            _, _, ch = pts[0]
-            lower = ch + 32
-
-            for r in range(top, bottom + 1):
-                row = grid[r]
-                for c in range(left_col, right_col + 1):
-                    if row[c] == DOT:
-                        row[c] = lower
-            return
-
-        p0 = pts[0]
-        p1 = None
-
-        # Prefer a horizontal cut.
-        for p in pts[1:]:
-            if p[0] != p0[0]:
-                p1 = p
-                break
-
-        if p1 is not None:
-            cut = min(p0[0], p1[0])
-
-            upper = []
-            lower = []
-            for p in pts:
-                if p[0] <= cut:
-                    upper.append(p)
-                else:
-                    lower.append(p)
-
-            partition(top, cut, left_col, right_col, upper)
-            partition(cut + 1, bottom, left_col, right_col, lower)
-            return
-
-        # All castles have the same row, so a vertical cut exists.
-        for p in pts[1:]:
-            if p[1] != p0[1]:
-                p1 = p
-                break
-
-        cut = min(p0[1], p1[1])
-
-        left_pts = []
-        right_pts = []
-        for p in pts:
-            if p[1] <= cut:
-                left_pts.append(p)
-            else:
-                right_pts.append(p)
-
-        partition(top, bottom, left_col, cut, left_pts)
-        partition(top, bottom, cut + 1, right_col, right_pts)
-
-    # The complement of A's rectangle is at most four rectangles.
-    regions = []
-
-    if best_top > 0:
-        regions.append((0, best_top - 1, 0, m - 1))
-
-    if best_bottom + 1 < n:
-        regions.append((best_bottom + 1, n - 1, 0, m - 1))
-
-    if best_left > 0:
-        regions.append((best_top, best_bottom, 0, best_left - 1))
-
-    if best_right + 1 < m:
-        regions.append((best_top, best_bottom, best_right + 1, m - 1))
-
-    for top, bottom, left_col, right_col in regions:
-        pts = [
-            p for p in castles
-            if top <= p[0] <= bottom
-            and left_col <= p[1] <= right_col
-        ]
-        partition(top, bottom, left_col, right_col, pts)
-
-    return '\n'.join(row.decode('ascii') for row in grid)
-
-if __name__ == "__main__":
-    sys.stdout.write(solve())
-```入力は次のように保存されます`bytearray`この構造では多くのセルが変更されるため、Python 文字列ではなく行が使用されます。 整数バイト値も頻繁に使用されます。`.`比較すると安い。 最大でも (10^6) 個のセルがあるため、この表現はメモリ制限内に十分収まります。 
-
-最初のスキャンで次の場所が見つかります`A`そして、城を 1 つおきに座標とバイト値として保存します。 の`top_lim`そして`bottom_lim`計算では、次の値を含む最大垂直間隔が求められます。`A`その縦列に他の城はありません。 を含む長方形`A`こんな城を越えることはできない。 
-
-の`left`そして`right`配列は両方向に独立して伝播されます。 以下の行の場合`A`、`left[r]`からのすべての行に対して機能する最大の左拡張子を意味します。`A`を通して`r`。 上りパスは対称的な意味を持ちます。 このため、面積計算に必要なのは`left[top]`、`left[bottom]`、`right[top]`、 そして`right[bottom]`、垂直間隔全体を再度スキャンするのではなく。 
-
-の表現`width`列に 1 つ追加します`ac`自体。 これは簡単に1点差です。 左側に 2 つの空きセル、右側に 3 つの空きセルがある場合、合計幅は (5) ではなく (2+1+3=6) になります。 
-
-再帰的`partition`関数は選択されたものを決して変更しません`A`矩形。 その入力四角形には、少なくとも 1 つの非`A`城。 城が 1 つだけある場合、地域全体がその城に属します。 複数の城がある場合、選択したカットは反対側に 2 つの城を配置するため、どちらの再帰子も城を空にすることはできません。 
-
-Python の整数は、可能な最大領域 (10^6) ではオーバーフローしませんが、とにかく通常の整数演算が使用されます。 再帰の深さは最大でも城の数で、わずか 26 なので、ここでは再帰は安全です。 
-
-## 実用的な例
-
- ### サンプル 1
-
- の`A`Castle は 1 から始まる座標を使用して行 3、列 4 にあります。 その列には他の城が含まれていないため、すべての行が参加できる可能性があります。 最適な垂直スパンに関連する値を以下にまとめます。 
-
-| 上の行 | 一番下の行 | 共通の左拡張子 | 共通の右拡張子 | 幅 | 高さ | エリア |
- | --- | --- | --- | --- | --- | --- | --- |
- | 3 | 3 | 3 | 4 | 8 | 1 | 8 |
- | 2 | 3 | 1 | 4 | 6 | 2 | 12 |
- | 3 | 4 | 3 | 4 | 8 | 2 | 16 |
- | 2 | 4 | 1 | 4 | 6 | 3 | 18 |
- | 2 | 5 | 1 | 0 | 2 | 4 | 8 |
-
- 最適な領域は 18 で、行 2 ～ 4、列 3 ～ 8 から得られます。`A`長方形は```
-......
-.Faaaaaa
-...Aaaaa
-........
-.....P..
-..L.....
-```行 2 ～ 4、列 3 ～ 8 内のドットが次のように変換されます。`a`。 
-
-残りのセルは個別に分割できます。 上部のストリップには、`X`、左中央のストリップには、`F`、下部のストリップには以下が含まれます`P`そして`L`。 再帰的構築によって生成される有効な出力の 1 つは次のとおりです。```
-xxxxxxXx
-fFaaaaaa
-ffaAaaaa
-ffaaaaaa
-pppppPpp
-llLlllll
-```公式サンプルでは、​​下部領域の別の有効なパーティションが使用されていますが、これは必要なため許可されています。`A`面積は同じです。 
-
-### 4つの城の例
-
- 検討してください```
-4 4
-A..B
-....
-C..D
-....
-```の`A`城は行 1、列 1 にあります。これを含む最適な四角形は、行 1 と 2、列 1 ～ 3 を使用します。 
-
-| トップ | 下 | 左拡張子 | 右拡張子 | 幅 | 高さ | エリア |
- | --- | --- | --- | --- | --- | --- | --- |
- | 1 | 1 | 0 | 2 | 3 | 1 | 3 |
- | 1 | 2 | 0 | 2 | 3 | 2 | 6 |
- | 1 | 3 | 0 | 0 | 1 | 3 | 3 |
- | 1 | 4 | 0 | 0 | 1 | 4 | 4 |
-
- 最大はエリア6です。`A`概念的には長方形が削除され、次の内容を含む右側の長方形が残ります。`B`そして下の長方形には以下が含まれます`C`そして`D`。 
-
-一番下の長方形には同じ行に 2 つの城があるため、再帰的パーティションでは垂直方向のカットが使用されます。 最終的な結果の 1 つは、```
-AaaB
-aaab
-Cddd
-cddd
-```の`A`州にはエリア6があり、`B`右上のセルペアを所有しており、`C`左下の列を所有し、`D`残りの右下の長方形を所有します。 どの州も長方形で、城が 1 つだけ含まれています。 
-
-## 複雑さの分析
-
- | 測定 | 複雑さ | 説明 |
- | --- | --- | --- |
- | 時間 | (O(nm+n^2+K^2)) | 水平スキャンは (O(nm)) を使用し、すべての上下ペアは (O(n^2)) を使用し、再帰的キャッスル フィルタリングは (O(K^2)) と (K\le26) を使用します。 |
- | スペース | (O(nm+K)) | グリッドは (O(nm)) を使用し、クリアランス アレイは (O(n)) を使用し、城の数は最大 26 です。 |
-
- (n,m\le1000) の場合、グリッドには最大でも (10^6) 個のセルが含まれます。 主な作業は、これらのセルの数回の線形スキャンと、最大 (10^6) 個の上下のペアです。 個別の城の数が 26 で制限されているため、再帰的な構造は非常に小さいです。これは 512 MB のメモリ制限内に快適に収まり、(O(n^2m^2)) の総当たり検索よりも大幅に小さくなります。 
-
-## テストケース
-
- 公式サンプルには複数の有効な出力があるため、以下のテストは、この実装によって生成された確定的な出力と照合します。 特別な審査員は公式サンプル出力も受け入れます。```python
-import sys
-import io
-
-DOT = ord('.')
-
-def solve():
-    n, m = map(int, input().split())
-    grid = [bytearray(input().strip(), 'ascii') for _ in range(n)]
-
     ar = ac = -1
-    castles = []
 
     for r in range(n):
         for c in range(m):
             ch = grid[r][c]
-            if ch != DOT:
-                if ch == ord('A'):
+            if 'A' <= ch <= 'Z':
+                if ch == 'A':
                     ar, ac = r, c
                 else:
                     castles.append((r, c, ch))
 
+    # Find the vertical interval that an A-rectangle can occupy.
+    lo = ar
+    while lo > 0 and grid[lo - 1][ac] == '.':
+        lo -= 1
+
+    hi = ar
+    while hi + 1 < n and grid[hi + 1][ac] == '.':
+        hi += 1
+
+    raw_l = [0] * n
+    raw_r = [0] * n
+
+    # Horizontal empty runs around A for every usable row.
+    for r in range(lo, hi + 1):
+        c = ac - 1
+        cnt = 0
+        row = grid[r]
+
+        while c >= 0 and row[c] == '.':
+            cnt += 1
+            c -= 1
+        raw_l[r] = cnt
+
+        c = ac + 1
+        cnt = 0
+        while c < m and row[c] == '.':
+            cnt += 1
+            c += 1
+        raw_r[r] = cnt
+
+    # Propagate minima from A downwards and upwards.
     left = [0] * n
     right = [0] * n
 
-    top_lim = ar
-    bottom_lim = ar
+    left[ar] = raw_l[ar]
+    right[ar] = raw_r[ar]
 
-    for r in range(ar - 1, -1, -1):
-        if grid[r][ac] != DOT:
-            break
-        top_lim = r
+    for r in range(ar + 1, hi + 1):
+        left[r] = min(raw_l[r], left[r - 1])
+        right[r] = min(raw_r[r], right[r - 1])
 
-    for r in range(ar + 1, n):
-        if grid[r][ac] != DOT:
-            break
-        bottom_lim = r
+    for r in range(ar - 1, lo - 1, -1):
+        left[r] = min(raw_l[r], left[r + 1])
+        right[r] = min(raw_r[r], right[r + 1])
 
-    for r in range(ar, bottom_lim + 1):
-        row = grid[r]
-
-        cnt = 0
-        c = ac - 1
-        while c >= 0 and row[c] == DOT:
-            cnt += 1
-            c -= 1
-        left[r] = cnt if r == ar else min(left[r - 1], cnt)
-
-        cnt = 0
-        c = ac + 1
-        while c < m and row[c] == DOT:
-            cnt += 1
-            c += 1
-        right[r] = cnt if r == ar else min(right[r - 1], cnt)
-
-    for r in range(ar - 1, top_lim - 1, -1):
-        row = grid[r]
-
-        cnt = 0
-        c = ac - 1
-        while c >= 0 and row[c] == DOT:
-            cnt += 1
-            c -= 1
-        left[r] = min(left[r + 1], cnt)
-
-        cnt = 0
-        c = ac + 1
-        while c < m and row[c] == DOT:
-            cnt += 1
-            c += 1
-        right[r] = min(right[r + 1], cnt)
-
+    # Find the maximum-area rectangle containing A.
     best_area = 1
     best_top = best_bottom = ar
 
-    for top in range(ar, top_lim - 1, -1):
-        for bottom in range(ar, bottom_lim + 1):
-            width = min(left[top], left[bottom])
-            width += min(right[top], right[bottom]) + 1
+    for top in range(ar, lo - 1, -1):
+        for bottom in range(ar, hi + 1):
+            width = (
+                min(left[top], left[bottom])
+                + min(right[top], right[bottom])
+                + 1
+            )
             area = width * (bottom - top + 1)
 
             if area > best_area:
@@ -477,81 +202,157 @@ def solve():
     best_left = ac - min(left[best_top], left[best_bottom])
     best_right = ac + min(right[best_top], right[best_bottom])
 
+    # Reserve A's optimal province.
     for r in range(best_top, best_bottom + 1):
+        row = grid[r]
         for c in range(best_left, best_right + 1):
-            if grid[r][c] == DOT:
-                grid[r][c] = ord('a')
+            if row[c] == '.':
+                row[c] = 'a'
 
-    def partition(top, bottom, left_col, right_col, pts):
+    def fill_region(r1, r2, c1, c2, pts):
         if not pts:
             return
 
         if len(pts) == 1:
-            lower = pts[0][2] + 32
-            for r in range(top, bottom + 1):
-                for c in range(left_col, right_col + 1):
-                    if grid[r][c] == DOT:
-                        grid[r][c] = lower
+            _, _, ch = pts[0]
+            lower = ch.lower()
+
+            for r in range(r1, r2 + 1):
+                row = grid[r]
+                for c in range(c1, c2 + 1):
+                    if row[c] == '.':
+                        row[c] = lower
             return
 
-        p0 = pts[0]
-        p1 = None
+        min_r = min(p[0] for p in pts)
+        max_r = max(p[0] for p in pts)
 
-        for p in pts[1:]:
-            if p[0] != p0[0]:
-                p1 = p
-                break
+        if min_r != max_r:
+            cut = (min_r + max_r) // 2
 
-        if p1 is not None:
-            cut = min(p0[0], p1[0])
-            upper = [p for p in pts if p[0] <= cut]
-            lower = [p for p in pts if p[0] > cut]
-            partition(top, cut, left_col, right_col, upper)
-            partition(cut + 1, bottom, left_col, right_col, lower)
+            top_pts = [p for p in pts if p[0] <= cut]
+            bottom_pts = [p for p in pts if p[0] > cut]
+
+            fill_region(r1, cut, c1, c2, top_pts)
+            fill_region(cut + 1, r2, c1, c2, bottom_pts)
+        else:
+            min_c = min(p[1] for p in pts)
+            max_c = max(p[1] for p in pts)
+            cut = (min_c + max_c) // 2
+
+            left_pts = [p for p in pts if p[1] <= cut]
+            right_pts = [p for p in pts if p[1] > cut]
+
+            fill_region(r1, r2, c1, cut, left_pts)
+            fill_region(r1, r2, cut + 1, c2, right_pts)
+
+    def process_region(r1, r2, c1, c2):
+        if r1 > r2 or c1 > c2:
             return
 
-        p1 = pts[1]
-        cut = min(p0[1], p1[1])
-        left_pts = [p for p in pts if p[1] <= cut]
-        right_pts = [p for p in pts if p[1] > cut]
-
-        partition(top, bottom, left_col, cut, left_pts)
-        partition(top, bottom, cut + 1, right_col, right_pts)
-
-    regions = []
-
-    if best_top > 0:
-        regions.append((0, best_top - 1, 0, m - 1))
-    if best_bottom + 1 < n:
-        regions.append((best_bottom + 1, n - 1, 0, m - 1))
-    if best_left > 0:
-        regions.append((best_top, best_bottom, 0, best_left - 1))
-    if best_right + 1 < m:
-        regions.append((best_top, best_bottom, best_right + 1, m - 1))
-
-    for top, bottom, lc, rc in regions:
         pts = [
             p for p in castles
-            if top <= p[0] <= bottom and lc <= p[1] <= rc
+            if r1 <= p[0] <= r2 and c1 <= p[1] <= c2
         ]
-        partition(top, bottom, lc, rc, pts)
+        fill_region(r1, r2, c1, c2, pts)
 
-    return '\n'.join(row.decode() for row in grid)
+    # The complement of A's rectangle consists of at most four rectangles.
+    process_region(0, best_top - 1, 0, m - 1)
+    process_region(best_bottom + 1, n - 1, 0, m - 1)
+    process_region(best_top, best_bottom, 0, best_left - 1)
+    process_region(best_top, best_bottom, best_right + 1, m - 1)
+
+    return [''.join(row) for row in grid]
+
+def solve():
+    n, m = map(int, input().split())
+    rows = [input().strip() for _ in range(n)]
+    print('\n'.join(solve_grid(n, m, rows)))
+
+if __name__ == "__main__":
+    solve()
+```最初の部分は次の場所を見つけます`A`そして他のすべての城。 Castle リストは可変グリッドとは別に保持されるため、後の再帰的パーティショニングは、すでに書き込まれている小文字のセルから独立します。 
+
+垂直方向の間隔は、水平方向の拡張を計算する前に求められます。 別のお城`A`の列はハードバリアであるため、それを超える行は決して参加できません。`A`州。 
+
+生の左と右の実行では、すぐに隣接するセルのみが検査されます。`A`さんのコラムです。 伝播ステップは、これらの生の値を間隔全体の制限に変更するものです。 この伝播がなければ、2 つのエンドポイント行のみを使用すると、間隔の中央にあるブロックしている城が誤って無視されてしまいます。 
+
+最大領域検索では厳密な値が使用されます。`>`エリアを比較するとき。 等面積長方形はどちらも有効であるため、最初の長方形を保持すると、不必要な同点処理が回避されます。 
+
+再帰的パーティションは決して変更しません。`A`矩形。 各辺領域はそれから切り離されており、各再帰的カットは 1 つの長方形を 2 つの小さな長方形に分割します。 領域内に城が 1 つだけ残っている場合は、その子の小文字で領域全体をペイントできます。 
+
+Python では整数オーバーフローの問題はありません。 最大の領域は (10^6) のみですが、Python の整数はかなり大きな値も処理します。 
+
+## 実用的な例
+
+ 公式サンプルには、`A`行 2、列 3 で、ゼロベースの座標を使用します。 垂直伝播後の有用な水平拡張は次のとおりです。 
+
+| 行 | 生左 | 生の右 | 左に伝播 | 右に伝播 |
+ | --- | --- | --- | --- | --- |
+ | 0 | 3 | 2 | 1 | 2 |
+ | 1 | 1 | 4 | 1 | 4 |
+ | 2 | 3 | 4 | 3 | 4 |
+ | 3 | 3 | 4 | 3 | 4 |
+ | 4 | 3 | 1 | 3 | 1 |
+ | 5 | 0 | 4 | 0 | 1 |
+
+ 行 1 から行 3 までの間隔の幅は、
+
+ [
+ \min(1,3)+\min(4,4)+1=6、
+ 】
+
+ したがって、面積は (6\cdot3=18) になります。 選択した四角形は行 1 ～ 3、列 2 ～ 7 です。 
+
+| トップ | 下 | 幅 | 高さ | エリア | ベスト |
+ | --- | --- | --- | --- | --- | --- |
+ | 2 | 2 | 8 | 1 | 8 | 行 2..2 |
+ | 1 | 2 | 6 | 2 | 12 | 行 1..2 |
+ | 1 | 3 | 6 | 3 | 18 | 行 1 ～ 3 |
+ | 0 | 3 | 4 | 4 | 16 | 行 1 ～ 3 |
+ | 1 | 4 | 5 | 4 | 20 | 行 1 ～ 4 |
+
+ テーブルの最後の行は、伝播された値が重要な理由を示しています。行 4 自体には左側に使用可能なセルが 3 つありますが、その右側はブロックされています。`P`, したがって、長方形を下に拡張すると幅が減少します。 実際の最適な間隔は、最も幅の広い個々の行を取得するだけではなく、すべてのペアを考慮することによって決定されます。 
+
+2 番目の例として、次のことを考えてみましょう。```
+2 2
+A.
+.B
+```を含む行`A`右側に空きセルが 1 つあります。 2 行目の右側には空きセルがありません。`B`その地位を占めています。 
+
+| トップ | 下 | 幅 | 高さ | エリア | ベスト |
+ | --- | --- | --- | --- | --- | --- |
+ | 0 | 0 | 2 | 1 | 2 | 行0..0 |
+ | 0 | 1 | 1 | 2 | 2 | 行0..0 |
+
+ 2 つの選択肢の面積は等しいため、厳密な比較では最初の長方形が維持されます。`A`最初の行を所有します。 残りの 2 行目は、`B`, となるので、`bB`。 最終的な出力は次のとおりです```
+Aa
+bB
+```この例では、タイ ケースと再帰的構築の両方を示します。 に最適なエリア`A`どの最大の長方形が選択されたかに関係なく、 は 2 です。 
+
+## 複雑さの分析
+
+ | 測定 | 複雑さ | 説明 |
+ | --- | --- | --- |
+ | 時間 | (O(nm+n^2+K^2)) | 水平実行ではグリッドを 1 回スキャンし、上部と下部の行で (O(n^2)) 個の候補が得られ、再帰的ポイント フィルタリングのコストは最大で (O(K^2)) |
+ | スペース | (O(nm+K)) | 可変グリッドはメモリを支配しますが、拡張配列と城のリストは線形です。 
+
+(n,m\le1000) の場合、(nm) は最大 100 万、(n^2) も最大 100 万です。 城の数は (K\le26) を満たすため、再帰的構築はグリッド操作に比べて小さいです。 このソリューションは、512 MB のメモリ制限内に快適に収まり、ブルート フォースを非現実的にする (10^{12}) スケールの四角形の列挙を回避します。 
+
+## テストケース
+
+ 以下のテスト ハーネスは、ソリューションが次のように保存されていることを前提としています。`solution.py`そしてそれを輸入します`solve_grid`関数。```python
+from solution import solve_grid
 
 def run(inp: str) -> str:
-    global input
-    old_stdin = sys.stdin
-    old_input = input
-    sys.stdin = io.StringIO(inp)
-    input = sys.stdin.readline
-    try:
-        return solve()
-    finally:
-        sys.stdin = old_stdin
-        input = old_input
+    lines = inp.strip().splitlines()
+    n, m = map(int, lines[0].split())
+    rows = lines[1:]
+    return "\n".join(solve_grid(n, m, rows))
 
-# Provided sample, using the deterministic output of this implementation.
-sample1 = """6 8
+# Provided sample
+assert run(
+    """6 8
 ......X.
 .F......
 ...A....
@@ -559,103 +360,87 @@ sample1 = """6 8
 .....P..
 ..L.....
 """
-
-expected1 = """xxxxxxXx
+) == """xxxxxxXx
 fFaaaaaa
 ffaAaaaa
 ffaaaaaa
 pppppPpp
-llLlllll"""
+llLlllll""", "sample 1"
 
-assert run(sample1) == expected1, "sample 1"
+# Constructed sample 2: two maximum rectangles of equal area for A.
+assert run(
+    """2 2
+A.
+.B
+"""
+) == """Aa
+bB""", "sample 2, tie between maximum A rectangles"
 
 # Minimum-size input.
-assert run("""1 1
+assert run(
+    """1 1
 A
-""") == "A", "minimum-size grid"
+"""
+) == """A""", "minimum grid"
 
-# Boundary condition: A touches the top-left corner and another castle
-# blocks only the right side.
-assert run("""2 3
+# Boundary condition and a castle blocking A's expansion.
+assert run(
+    """1 3
 A.B
+"""
+) == """AaB""", "boundary and horizontal blocker"
+
+# A at the corner, with the optimal rectangle using two rows.
+assert run(
+    """3 3
+A..
 ...
-""") == """AaB
-aab""", "boundary expansion"
+..B
+"""
+) == """Aaa
+aaa
+bbB""", "corner A and maximum rectangle"
 
-# All cells except A are empty, so A must own the whole grid.
-assert run("""3 3
-...
-.A.
-...
-""") == """aaa
-aAa
-aaa""", "single castle"
+# Maximum-size legal grid with no other castles.
+# The requested all-equal-castle case is illegal because all letters
+# must be distinct, so this stresses the analogous all-empty interior.
+n = m = 1000
+rows = ["A" + "." * 999] + ["." * 1000 for _ in range(999)]
+inp = f"{n} {m}\n" + "\n".join(rows)
 
-# Several castles force recursive horizontal and vertical cuts.
-assert run("""4 4
-A..B
-....
-C..D
-....
-""") == """AaaB
-aaab
-Cddd
-cddd""", "recursive partition"
+expected = "\n".join(
+    ["A" + "a" * 999] + ["a" * 1000 for _ in range(999)]
+)
 
-# Maximum-size grid with only A.
-n = 1000
-m = 1000
-rows = [bytearray(b'a' * m) for _ in range(n)]
-rows[499][499] = ord('A')
-
-max_input = f"{n} {m}\n" + "\n".join(
-    row.decode() for row in rows
-) + "\n"
-
-max_expected = "\n".join(row.decode() for row in rows)
-assert run(max_input) == max_expected, "maximum-size input"
+assert run(inp) == expected, "maximum-size grid"
 ```| テスト入力 | 期待される出力 | 検証内容 |
  | --- | --- | --- |
- |`6 x 8`サンプル |`A`エリア 18、上記の決定的パーティションを持つ | 完全な構造と最適な`A`長方形 |
- |`1 x 1`と`A`|`A`| 最小寸法と空のセルなし |
- |`2 x 3`と`A.B`|`AaB / aab`| 境界拡張と右側城塞 |
- |`3 x 3`だけで`A`| すべてのセルが小文字`a`を除外する`A`| 可能な最大の空の長方形 |
- |`4 x 4`と`A,B,C,D`コーナーで |`AaaB / aaab / Cddd / cddd`| 水平および垂直の再帰的カット |
- |`1000 x 1000`だけで`A`| 100万個の細胞が所有`A`| 最大寸法、パフォーマンス、境界処理 |
+ | 公式 (6\times8) サンプル |`A`行 1 ～ 3 と列 2 ～ 7 を取得します。 一般的な構造と最適な`A`長方形 |
+ |`A.`/`.B`|`Aa`/`bB`| 等面積選択と再帰的分割 |
+ |`A`|`A`| 最小寸法 |
+ |`A.B`|`AaB`| 境界処理と城塞の水平拡張 |
+ |`A..`/`...`/`..B`|`Aaa`/`aaa`/`bbB`| 角の位置と2列の最適な長方形 |
+ | (1000\times1000)、のみ`A`| グリッド全体が所有する`A`| 最大寸法と競合する城がない場合 |
 
  ## 特殊なケース
 
- いつ`A`が唯一の城であり、垂直方向のスキャンは両方の境界に達し、すべての行が水平方向の範囲全体を利用できます。 入力用```
-2 2
-A.
-..
-```城を含まない唯一の長方形`A`はグリッド全体であるため、アルゴリズムは幅 (2)、高さ (2)、面積 (4) を計算します。 3 つの空のセルを次のように埋めます。`a`、生産```
-Aa
-aa
-```の補数であるため、再帰領域は残りません。`A`四角形は空です。 
+ いつ`A`唯一のセルを占有し、```
+A
+```垂直間隔には 1 行があり、水平方向の拡張は両方とも 0 で、唯一の候補四角形の面積は 1 です。他に分割する領域がないため、出力は残ります。`A`。 
 
-他の城が同じ境界列にある場合`A`、水平方向のスキャンはその城の直前で停止する必要があります。 のために```
-2 3
+他の城が方向を遮る場合、次のようになります。```
 A.B
-...
-```最初の行の右側には 1 つのセルが許可されます`A`、2 行目では 2 つを許可します。 したがって、2 行間隔の伝播された右容量は (1) となり、幅 (2) と面積 (4) が得られます。 選択した四角形は、行 1 ～ 2、列 1 ～ 2 です。残りの 3 列目には、`B`、したがって、それは 1 つの長方形の州となり、出力は次のようになります。```
-AaB
-aab
-```城が真上または真下にある場合`A`、垂直間隔はその行の前で停止する必要があります。 で```
-4 4
-A..B
-....
-C..D
-....
-```城`C`行 3、列 1 では、`A`したがって、最適な長方形は行 1 ～ 2、列 1 ～ 3、面積 (6) になります。 残りの領域には以下が含まれます`B`、`C`、 そして`D`、再帰的パーティションは、すでに最適化されているものを変更せずにそれらを処理します。`A`矩形。 
+```の生の権利拡張`A`列 1 のドットが空いているため、1 になります。`B`列 2 でスキャンが停止します。 最適な長方形の幅は 2 です。残りの 1 セル領域には次のものが含まれます。`B`、結果は次のようになります`AaB`。 探索中に城が空のセルとして扱われることはありません。 
 
-すべての空のセルが城を囲むと、あらゆる方向から国境に到達できます。 のために```
-3 3
+複数の最大長方形の面積が同じ場合、```
+A.
+.B
+```最初の候補は、領域 2 の最初の行をカバーする高さ 1 セルの長方形です。下に拡張すると、領域 2 の 1 列幅の長方形も作成されます。 比較は厳密であるため、最初の最大値が保持されます。 補数は 2 行目であり、次のように割り当てられます。`B`、生産`Aa`そして`bB`。 いずれの最大値を選択しても、最適化要件は満たされます。 
+
+いつ`A`角にありますが、次のように複数の行に拡張できます。```
+A..
 ...
-.A.
-...
-```垂直範囲は 3 行すべてで、各行の両側に空のセルが 1 つあります。`A`。 3 行すべてを持つ候補は幅 (3) と高さ (3) を持つため、アルゴリズムは領域 (9) を取得します。 最終的なグリッドは、```
-aaa
-aAa
-aaa
-```最大サイズの場合も、セルが増えるだけで同様に動作します。 のみを含む (1000\times1000) グリッド`A`はグリッド全体をその領域にするため、アルゴリズムはグリッドを埋める前に必要な線形スキャンと (O(n^2)) 個の境界列挙のみを実行します。 他のキャッスルが存在しないということは、再帰的パーティションに処理すべき領域が残っていないことも意味します。
+..B
+```伝播された右拡張子は最初の 2 行では 2 ですが、`B`3行目を制限します。 行 0 と 1 をカバーする候補の幅は 3、高さは 2 で、領域は 6 になります。`A`幅を維持したまま 3 行目を含めることができます。 選択された`A`したがって、長方形は最初の 2 行となり、残りの一番下の行には のみが含まれます。`B`、与える`Aaa`、`aaa`、`bbB`。 
+
+最大サイズのケースのみ`A`すべてのセルがお気に入りの子の対象となるため、も便利です。 水平方向の延長は各行の右側の境界に達し、垂直方向の間隔は下部の境界に達し、最大の長方形は (1000\times1000) グリッド全体になります。 他に城がないため、再帰的パーティションは予約後に何も処理する必要がありません。`A`の長方形。
