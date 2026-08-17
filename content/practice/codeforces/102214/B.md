@@ -24,7 +24,7 @@ draft: false
  ## 解決策
  ## 問題の理解
 
- We have a sequence of positive integers`a1, a2, ..., an`。 位置の順序付きペアを数えなければなりません`(i, j)`、許可します`i = j`、二項係数
+ 一連の正の整数があります`a1, a2, ..., an`。 位置の順序付きペアを数えなければなりません`(i, j)`、許可します`i = j`、二項係数
 
  [
  \binom{a_i}{a_j}
@@ -107,7 +107,7 @@ draft: false
  dp[マスク] \mathrel{+}= dp[マスク \oplus 2^b]。 
 】
 
- 最初の数ビットを処理した後、`dp[mask]`すでに処理されたビットがサブマスクを形成するすべての値をカウントします。`mask`。 After all bits have been processed,`dp[x]`等しい
+ 最初の数ビットを処理した後、`dp[mask]`すでに処理されたビットがサブマスクを形成するすべての値をカウントします。`mask`。 すべてのビットが処理された後、`dp[x]`等しい
 
  [
  \sum_{y\subseteq x}freq[y]。 
