@@ -1,7 +1,7 @@
 ---
 title: "CF 102272B - \u0110\u1ebfm Th\u1ecf"
-description: "Ta có một hàng gồm (N) con thỏ, con thứ (i) có giống được biểu diễn bởi số (typi)。 Với mỗi đoạn liên tiếp ([l,r])、điểm của đoạn là số lượng giống khác nhau xuất hiện trong các con thỏ từ vị トリ (l) ドン (r)。 何も言わないでください。"
-date: "2026-08-17T11:13:15+07:00"
+description: "配列 typ[1..N] があり、各位置が 1 匹のウサギを表し、その位置の値がその種類を識別します。 連続した区間 [l, r] の場合、スコアはその区間内に出現する異なる種の数です。"
+date: "2026-08-19T05:27:46+07:00"
 tags: ["codeforces", "competitive-programming"]
 categories: ["algorithms"]
 codeforces_contest: 102272
@@ -9,7 +9,7 @@ codeforces_index: "B"
 codeforces_contest_name: "HCW 19 Individual Day 1"
 rating: 0
 weight: 102272
-solve_time_s: 143
+solve_time_s: 969
 verified: false
 draft: false
 ---
@@ -18,96 +18,82 @@ draft: false
 
  **評価:** -
  **タグ:** -
- **解決時間:** 2 分 23 秒
+ **解決時間:** 16 分 9 秒
  **確認済み:** いいえ
 
  ## 解決策
  ## 問題の理解
 
- Ta có một hàng gồm (N) con thỏ, con thứ (i) có giống được biểu diễn bởi số (typ_i)。 Với mỗi đoạn liên tiếp ([l,r])、điểm của đoạn là số lượng giống khác nhau xuất hiện trong các con thỏ từ vị トリ (l) ドン (r)。 
+ 配列があります`typ[1..N]`, ここで、各位置は 1 匹のウサギを表し、その位置の値によってその種類が識別されます。 任意の連続した間隔に対して`[l, r]`、スコアは、その間隔内に出現するさまざまな種の数です。 空ではない可能なすべての連続間隔にわたるこのスコアの合計が必要です。 
 
-何も言わないでください。 あなたの行動は次のとおりです:
+入力には最大 10 個のテスト ケースが含まれており、すべてのテスト ケースにわたる配列要素の合計数は最大で`2 * 10^6`。 1 つのテスト ケースには以下を含めることができます。`10^6`要素なので、`O(N^2)`この方法は利用可能な時間を大幅に超えています。 1 つのテスト ケースでも、約`N^2 / 2`おおよその間隔`5 * 10^11`いつ`N = 10^6`。 アルゴリズムは本質的に線形、またはせいぜい線形に近いものでなければなりません。`N`。 種識別子は次のように大きくできます。`10^9`したがって、識別子によって直接インデックス付けされた配列を使用することは、一般に適切ではありません。 各種の最新の位置を覚えておくだけでよいため、ハッシュ マップで十分です。 
 
- [
- \sum_{1\le l\le r\le N} f(l,r)。 
-】
+答えは 32 ビット整数よりもはるかに大きくなる場合もあります。 すべてのウサギの種類が異なる場合、答えはすべての部分配列の長さの合計になります。`N(N+1)(N+2)/6`。 のために`N = 10^6`、これは`166667166667000000`したがって、実装では、この大きさの値を保持できる整数型を使用する必要があります。 Python の整数はこれを自動的に処理します。 
 
- Vì vậy、với mỗi đoạn、ta chỉ cần biết bao nhiêu giống khác nhau xuất hiện trong đoạn đó、rồi cộng tất cả các giá trị lại。 
+誤って処理されやすい境界ケースがいくつかあります。 最小の入力を考慮する```
+1
+1
+7
+```間隔は1回だけですが、`[1,1]`、それには 1 つの種が含まれているため、答えは次のようになります。`1`。 前回の発生を初期化するソリューション`1`の代わりに`0`、または現在位置を含めるのを忘れた場合、誤ってゼロが生成される可能性があります。 
 
-Giới hạn (N) lên tới (10^6)、và tổng (N) của toàn bộ test không vượt quá (2\cdot10^6)。 Số đoạn liên tiếp đã là
+反復種も慎重な処理が必要です。 のために```
+1
+3
+1 1 1
+```6 つの区間のそれぞれに 1 つの種が正確に含まれるため、答えは次のようになります。`6`。 3回目のとき`1`処理され、その前の出現は位置です`2`、位置ではありません`1`。 最新の出現の代わりに最初の出現を使用すると、カウントされる間隔が多すぎます。 
 
- [
- \frac{N(N+1)}2,
- 】
+2 番目の境界ケースは、すべての値が異なる場合です。```
+1
+3
+1 2 3
+```すべてのインターバルによって寄与される 10 ポイントは次のとおりです。`1 + 2 + 2 + 3 = 10`。 発生するたびに、考えられる左端点の全範囲にその種が導入されるため、各位置を 1 回だけ寄与するものとして扱うと、多くの間隔が失われます。 
 
- tức khoảng (5\cdot10^{11}) khi (N=10^6)。 これは、非常に重要な問題です。 Một thuật toán (O(N^2)) cũng quá chậm、còn (O(N^3)) hoàn toàn không khả thi。 Ta cần đưa thời gian xuống (O(N)) cho mỗi テスト、hoặc ít nhất là gần tuyến tính。 
-
-Giá trị (typ_i) có thể lên tới (10^9)、nên không thể dùng một mảng có kích thước bằng giá trị giống。 Ta cần một cấu trúc ánh xạ giống thỏ San thông tin liên quan, chẳng hạn như 辞書。 
-
-Kết quả cũng có thể rất lớn です。 Với (N=10^6) và tất cả các con thỏ có giống khác nhau, mọi đoạn có điểm bằng độ dài của noó. キー ドン ラ
-
- [
- 1+2+\cdots+N
- 】
-
- theo từng điểm bắt đầu, tương đương
-
- [
- \frac{N(N+1)(N+2)}6
- =166667166667000000。 
-】
-
- 32 ビットを使用できます。 Python は、そのような問題を解決します。 
-
-Một trường hợp biên khác là (N=1)。 Với input gồm một con thỏ như`5`、chỉ có đoạn ([1,1])、nên đáp án là (1)。 あなたの質問を見つけてください (0) あなたの質問を聞いてください。 
-
-あなたのことを考えてください。 ヴォイ`7 7 7`、có sáu đoạn nhưng mỗi đoạn chỉ chứa một giống、nên đáp án là (6)、không phải số lượng phần tử đã được duyệt。 あなたのことを思い出してください。 
-
-あなたのことを思い出してください。 ヴォイ`1 2 1`、キ xử lý con thỏ thứ ba、giống`1`đã xuất hiện tại vị trí (1)。 Ta phải thay vị trí cuối của`1`từ (1) thành (3)、chứ không cộng thêm một giống mới。 Đáp án đúng là (9)。 
+最後に、繰り返される種は永久に貢献をやめません。 のために```
+1
+4
+1 2 1 2
+```正しい答えは`15`。 全世界的に新種のみをカウントする不用意な方法では種をカウントすることになる`1`そして`2`それぞれ 1 回ずつ実行され、前回の発生後に始まる間隔へのそれらの種の寄与が失われます。 
 
 ## アプローチ
 
- Cách trực tiếp nhất là xét từng đoạn ([l,r])、duyệt các phần tử trong đoạn và đưa giống của chúng vào một. 論理を理解する必要はありません。 
+ 直接的なアプローチは、すべての間隔を列挙することです。`[l, r]`、拡張しながら一連の種を維持する`r`、設定したサイズを答えに追加します。 このセットには現在の間隔内の個別の種が正確に含まれているため、これは正しいです。 ただし、`N(N+1)/2`間隔があり、各拡張が効率的になったとしても、まだ`Theta(N^2)`操作。 で`N = 10^6`、つまり約`5 * 10^11`間隔は完全に不可能です。 
 
-トゥイ・ニエン、あなたはあなたのことを知っていますか？ 
+問題を考えるためのより有効な方法は、質問を逆にすることです。 各区間内の種の数を尋ねる代わりに、その種の代表的な出現として特定の出現が含まれる区間がいくつあるかを尋ねます。 
 
-\frac{N(N+1)(N+2)}6.
- 】
+位置を仮定します`i`種が含まれています`x`。 させて`prev[i]`を含む前の位置になります`x`、 または`0`これが初めての場合。 させて`next[i]`を含む次の位置になります`x`、 または`N+1`これが最後の発生である場合。 
 
- Với (N=10^6)、con số nay khoảng (1.67\cdot10^{17})。 Ngay cả nếu mỗi thao tác set chỉ mất (O(1))、lượng công việc này vẫn quá lớn. Một biến thể tốt hơn là cố định (l)、rồi tăng (r) và duy trì set、nhưng vẫn có (O(N^2)) đoạn phải xét、khoảng (5\cdot10^{11}) đoạn trong trường hợp lớn nhất。 
+位置`i`種を表す`x`まさにその間隔で`[l,r]`満足のいく`prev[i] < l <= i <= r < next[i]`。 
 
-Ta cần thay đổi cách đếm. Thay vì xét từng đoạn và hỏi đoạn đó có bao nhiêu giống, hãy cố định điểm phải (r) và tính tổng điểm của tất cả các đoạn kết thúc tại (r) 。 
+左側のエンドポイントには、`i - prev[i]`選択肢があり、適切なエンドポイントは`next[i] - i`選択肢。 したがって、この出来事は貢献します`(i - prev[i]) * (next[i] - i)`最終的な答えへ。 
 
-Xét một giống cụ thể。 Gọi (p) là vị trí xuất hiện cuối cùng của giống đó trong đoạn tiền tố (1,\ldots,r)。 Một đoạn ([l,r]) chứa giống nay khi và chỉ khi (l\le p)。 Có đúng (p) lựa chọn cho (l)、từ (1) đến (p)。 Vì vậy、giống này đóng góp chính xác (p) vào tổng điểm của tất cả các đoạn kết thúc tại (r)。 
+次の出現配列を必要としない、さらに単純な実装もあります。 配列を左から右に処理します。 位置決め時`i`種とともに`x`に達したら、`p`以前に発生したことである`x`。 
 
-Đây là mấu chốt của bài toán. Với mỗi (r)、nếu biết vị trí xuất hiện cuối cùng của mọi giống đã gặp, tổng điểm của tất cả các đoạn kết thúc tại (r) đơn giản là tổng các vị trí cuối đó.
+で終了するすべての間隔について`i`での新たな出来事`i`左のエンドポイントが より大きい場合に、個別カウントを正確に増加させます。`p`。 がある`i-p`左側の端点など。 したがって、次で終了するすべての間隔の合計個別カウントの合計は、`i`増加します`i-p`。 
 
- Khi chuyển từ (r-1) sing (r)、chỉ có giống của con thỏ tại vị trí (r) thay đổi vị trí xuất hiện cuối cùng。 何も言わないでください。 Nếu nó từng xuất hiện cuối cùng ở vị trí (p)、ta thay (p) bằng (r)、tức tổng tăng thêm (r-p)。 Như vậy mỗi phần tử chỉ được xử lý một lần.
+維持できます`cur`、現在の位置で終了するすべての間隔にわたる個別の種の合計数。 それから`cur += i - p`そして追加します`cur`グローバルな答えへ。 重要な点は、左端が最大でも次の間隔である間隔です。`p`すでに含まれている種`x`位置の前`i`、その後に始まるインターバルの間`p`しませんでした。 
 
- | アプローチ | 時間計算量 | 空間の複雑さ | 評決 |
+2 つの視点は同等です。 1 つ目は、すべての種の出現に有効な左右の端点の長方形を割り当てます。 2 つ目は、右のエンドポイントをスイープし、そこで終了するすべての間隔の合計寄与度を維持します。 スイープ バージョンでは、各種の最新の出現のみが必要であり、特にコンパクトです。 
+
+| アプローチ | 時間計算量 | 空間の複雑さ | 評決 |
  | --- | --- | --- | --- |
- | ブルートフォース | (O(N^3)) nếu duyệt lại từng đoạn | (O(N)) | 遅すぎる |
- | Duy trì set cho từng điểm bắt đầu | (O(N^2)) | (O(N)) | 遅すぎる |
- | 最適 | (O(N)) チュンビン | (O(N)) | 承認済み |
+ | ブルートフォース |`O(N^2)`|`O(N)`| 遅すぎる |
+ | 最適 |`O(N)`|`O(N)`| 承認済み |
 
  ## アルゴリズムのチュートリアル
 
- 1. Duyệt các con thỏ từ trai sing phải. ズン辞書`last`để lưu vị trí xuất hiện cuối cùng của mỗi giống.
- 2. デュイ・トリ・ビエン`current`、là tổng vị trí xuất hiện cuối cùng của tất cả các giống đã xuất hiện trong đoạn tiền tố hiện tại。 
-
-Nếu đang ở vị trí (r)、`current`chính là tổng điểm của mọi đoạn có dạng ([l,r])。 Lý do là mỗi giống có vị trí cuối cùng (p)、và nó xuất hiện trong đúng (p) đoạn kết thúc tại (r)、tương ứng với (l=1,\ldots,p)。 
-3. キガプジン`x`ở vị trí (r)、キム トラ`last[x]`。 
-
-ヌー`x`chưa xuất hiện、giống nay chưa có đóng góp trong`current`、nên ta cộng (r)。 
-
-ヌー`x`đã xuất hiện cuối cùng ở vị trí (p)、đóng góp cũ của nó là (p)、còn đóng góp mới là (r)。 Vì vậy ta chỉ cần cộng (r-p) vào`current`。 
-4. カップニャット`last[x] = r`。 Sau thao tác nay、辞書 phản ánh chính xác vị trí cuối cùng của từng giống trong 接頭辞 (1,\ldots,r)。 
-5. クン`current`ヴァオ・ジャップ・アン。`current`là tổng điểm của tất cả các đoạn kết thúc tại (r), nên cộng nó qua mọi (r) sẽ thu được tổng điểm của toàn bộ các đoạn.
- 6. Lặp lại cho đến vị trí (N)、rồi in đáp án。 
+ 1. 空のマップを初期化する`last`各種が出現した最新の位置を保存します。 使用`0`これまでに登場したことのない種の前の位置として。 これにより、特別な場合を除いて、すべての最初の出現に正しい境界が与えられます。 
+2.初期化`cur = 0`そして`answer = 0`。 ここ`cur`は、右端が現在の位置であるすべての間隔にわたる個別の種の数の合計を表します。`answer`この値をすべての右端点にわたって累積します。 
+3. アレイを左から右にスキャンします。 位置で`i`、前の出現を読み取ります`p = last.get(typ[i], 0)`。 
+4.増加`cur`による`i - p`。 すべての間隔が次で終わるものとみなします。`i`。 左側のエンドポイントの範囲は次のとおりです。`1`を通して`i`。 左の端点が最大でも`p`、到達する前の間隔内に同じ種がすでに出現しています。`i`, したがって、この出来事によって新しい種が追加されることはありません。 左側のエンドポイントが`p+1`を通して`i`、これは間隔内での種の最初の出現であるため、異なる種が 1 つだけ追加されます。 がある`i-p`左側の端点など。 
+5.追加`cur`に`answer`。 すべての間隔には正しい端点が 1 つだけあるため、位置を処理した後は`i`、すべての間隔は次で終了します`i`これでちょうど 1 回貢献しました。 
+6.セット`last[typ[i]] = i`。 現在の位置は、同じ種を含む将来のすべての位置の前の位置になる必要があります。 ここで古いオカレンスを使用すると、影響を受ける左側のエンドポイントの範囲が大きくなりすぎます。 
+7. スキャンが完了したら、印刷します。`answer`。 空でないすべての間隔は 1 回だけ考慮され、適切なエンドポイントに従ってグループ化されます。 
 
 ### なぜ効果があるのか
 
- Sau khi xử lý vị trí (r)、với mỗi giống xuất hiện trong 接頭語 (1,\ldots,r)、辞書 lưu vị trí xuất hiện cuối cùng (p)。 Một đoạn ([l,r]) chứa giống đó chính xác khi (l\le p), nên giống đó xuất hiện trong đúng (p) đoạn kết thúc tại (r)。 ド・ジョ`current`bằng tổng số lần xuất hiện của tất cả các giống trên toàn bộ các đoạn kết thúc tại (r), cũng chính là tổng số giống khác nhau của những đoạn đó。 キチン`current`vào đáp án ở mọi (r), mỗi cặp ((l,r)) được tính đúng một lần và mỗi giống trong đoạn được tính đúng だめだ。 
+ 位置処理後の不変式`i`それは？`cur`で終了するすべての間隔にわたる個別の種の数の合計に等しい`i`。 
+
+いつ種`x = typ[i]`の位置で発生します`i`、その前の出現を次のようにします`p`。 しばらくの間`[l,i]`での発生`i`まさにそのときに新種が導入される`l > p`。 まさにあります`i-p`可能な値`l`、追加します`i-p`前の合計に加算すると、次で終了するすべての間隔の正しい合計が得られます。`i`。 更新中`last[x]`に`i`次回の出現のために同じプロパティを保存します。 グローバルな答えは、考えられるすべての適切なエンドポイントの正しい合計を加算するため、すべての間隔が個別の種の数に一度だけ正確に寄与します。 
 
 ## Python ソリューション```python
 import sys
@@ -115,136 +101,132 @@ input = sys.stdin.readline
 
 def solve():
     t = int(input())
-    answers = []
+    out = []
 
     for _ in range(t):
         n = int(input())
         a = list(map(int, input().split()))
 
         last = {}
-        current = 0
+        cur = 0
         answer = 0
 
-        for r, x in enumerate(a, 1):
-            old = last.get(x)
+        for i, x in enumerate(a, 1):
+            p = last.get(x, 0)
 
-            if old is None:
-                current += r
-            else:
-                current += r - old
+            cur += i - p
+            answer += cur
 
-            last[x] = r
-            answer += current
+            last[x] = i
 
-        answers.append(str(answer))
+        out.append(str(answer))
 
-    sys.stdout.write("\n".join(answers))
+    sys.stdout.write("\n".join(out))
 
 if __name__ == "__main__":
     solve()
-```
+```地図`last`ウォークスルーで使用された以前の値に直接対応します。 ある種が初めて出現した場合、`last.get(x, 0)`ゼロを返すので位置`i`貢献する`i`そこで終了する間隔の間での新種の発生。 
 
-`last`1 つ目は 3 つ目です。 辞書 được dùng vì giá trị giống có thể lên tới (10^9), nên không thể dùng trực tiếp một mảng chỉ số theo`typ`。 
+変数`cur`は、ある特定の間隔における異なる種の数ではありません。 これは、現在位置で終了するすべての間隔にわたる個別の種の数の合計です。 この区別は不可欠です。 のために`1 2 2`、2番目を処理するとき`2`、`cur`になる`3`、そこで終了する間隔があるため、`[2,2]`、1 つの種を含む、および`[1,2]`、2種が含まれています。 
 
-ビエン`current`được cập nhật trước khi cộng vào`answer`。 Ở vị trí (r)、nó phải mô tả các đoạn kết thúc đúng tại (r)、không phải các đoạn kết thúc tại (r-1)。 
+操作の順序も重要です。 古い位置を次から読み取ります`last`更新する前に。 マップが最初に更新された場合、繰り返される出現はすべて、それ自体が以前の出現と誤って認識され、その寄与がゼロになります。 
 
-ビエウトク`current += r - old`là phần dễ Sai nhất。 Nếu một giống trước đó xuất hiện tại`old`、 các đoạn có (l\le old) đã chứa giống này trước khi thêm phần tử thứ (r)。 Các lựa chọn mới là (l=old+1,\ldots,r)、có đúng (r-old) lựa chọn、nên đóng góp tăng đúng lượng đó。 
+Python の任意精度の整数は、おおよその答えが得られるため、ここでは役に立ちます。`1.67 * 10^17`のために`N = 10^6`。 C++ では、64 ビット整数が必要です。 
 
-Với lần xuất hiện đầu tiên、`old`không tồn tại và giống mới đóng góp (r)、vì mọi đoạn ([l,r]) với (l\le r) đều chứa nó。 
-
-チョース`r`bắt đầu từ (1) nhờ`enumerate(a, 1)`。 Điều nay làm cho vị trí cuối cùng có thể dùng trực tiếp làm số lượng lựa chọn của (l), tránh phải cộng hoặc trừ (1) ở nhiều nơi。 
-
-Python không bị giới hạn số nguyên 64 ビット、nên`answer`これは、私が知っていることです。 
-
-Một chi tiết về input là đề cho tổng (N) trên tất cả test không quá (2\cdot10^6). テストを行ってください。 辞書 cũng được tạo mới cho từng test để không giữ dữ liệu của test trước。 
+入力サイズはすべてのテスト ケースで 200 万の整数に達する可能性があるため、実装ではテスト ケースごとに 1 つの配列と 1 つの辞書が保存されます。`sys.stdin.readline`単一のバッファー出力書き込みにより、Python I/O オーバーヘッドが小さく保たれます。 
 
 ## 実用的な例
 
- ### サンプルケース 1
+ ### サンプル 1、最初のテスト ケース
 
- ヴォイ・マン`1 2 3`、mỗi con thỏ có một giống riêng。 Ta có các trạng thái sau:
+ アレイの場合`1 2 3`、どの種も遭遇したときは新しいものです。 値`i-p`結果として`1`、`2`、 そして`3`。 
 
- | (r) |`x`|`last`sau cập nhật |`current`|`answer`|
- | --- | --- | --- | --- | --- |
- | 1 | 1 |`{1: 1}`| 1 | 1 |
- | 2 | 2 |`{1: 1, 2: 2}`| 3 | 4 |
- | 3 | 3 |`{1: 1, 2: 2, 3: 3}`| 6 | 10 |
+| 位置`i`| 種 | 前の`p`|`i-p`|`cur`|`answer`|
+ | --- | --- | --- | --- | --- | --- |
+ | 1 | 1 | 0 | 1 | 1 | 1 |
+ | 2 | 2 | 0 | 2 | 3 | 4 |
+ | 3 | 3 | 0 | 3 | 6 | 10 |
 
- Ở vị trí 1 có một đoạn kết thúc tại 1 và nó chứa một giống, nên`current = 1`。 Sang vị trí 2、có hai giống với vị trí cuối lần lượt là 1 và 2、nên tổng là (3)。 Sang vị trí 3, tổng là (1+2+3=6)。 Cộng lại được (1+3+6=10)、đúng サンプル。 
+ ポジション後`1`、唯一の間隔は`[1,1]`、1種で。 ポジション後`2`、そこで終了する 2 つの間隔にはスコアがあります。`1`そして`2`、与える`cur = 3`。 ポジション後`3`、そこで終了する 3 つのインターバルにはスコアがあります。`1`、`2`、 そして`3`、与える`cur = 6`。 最終的な答えは、`1 + 3 + 6 = 10`。 
 
-### サンプルケース 2
+### サンプル 1、2 番目のテスト ケース
 
- ヴォイ・マン`1 2 2 3`、 trạng thái chi tiết là:
+ のために`1 2 2 3`、3 番目の位置は種を繰り返します。`2`。 前回の出現は位置です`2`、つまり間隔だけです`[3,3]`位置での出現から新しい種を獲得します`3`。 
 
- | (r) |`x`|`old`|`current`sau cập nhật |`answer`|
- | --- | --- | --- | --- | --- |
- | 1 | 1 | chưa có | 1 | 1 |
- | 2 | 2 | chưa có | 3 | 4 |
- | 3 | 2 | 2 | 4 | 8 |
- | 4 | 3 | chưa có | 7 | 15 |
+| 位置`i`| 種 | 前の`p`|`i-p`|`cur`|`answer`|
+ | --- | --- | --- | --- | --- | --- |
+ | 1 | 1 | 0 | 1 | 1 | 1 |
+ | 2 | 2 | 0 | 2 | 3 | 4 |
+ | 3 | 2 | 2 | 1 | 4 | 8 |
+ | 4 | 3 | 0 | 4 | 8 | 16 |
 
- Ở (r=3)、ジン`2`Xuất hiện lại。 Trước đó vị trí cuối của nó là 2, nên đóng góp của giống`2`đổi từ 2 thành 3. Vì vậy`current`tăng đúng (3-2=1)、từ 3 thành 4。 
+ 位置で`3`、そこで終了する間隔は`[3,3]`、`[2,3]`、 そして`[1,3]`のスコアは`1`、`1`、 そして`2`。 それらの合計は`4`、一致する`cur`。 位置で`4`、 種`3`は世界的に新しいため、そこで終了する 4 つの区間すべてに 1 つの異なる種が追加され、増加します。`cur`から`4`に`8`。 最終結果は`16`。 
 
-Ở (r=4)、ジン`3`xuất hiện lần đầu và đóng góp thêm 4.`current`trở thành (1+3+4=8)。 Tổng cuối cùng là (1+3+4+8=16)、đúng kết quả mẫu。 
+### 繰り返し種の例
+
+ 検討してください`1 2 1 2`。 
+
+| 位置`i`| 種 | 前の`p`|`i-p`|`cur`|`answer`|
+ | --- | --- | --- | --- | --- | --- |
+ | 1 | 1 | 0 | 1 | 1 | 1 |
+ | 2 | 2 | 0 | 2 | 3 | 4 |
+ | 3 | 1 | 1 | 2 | 5 | 9 |
+ | 4 | 2 | 2 | 2 | 7 | 16 |
+
+ 位置で`3`、 種`1`最後に出現した位置`1`。 左側のエンドポイントは次のとおりです。`2`または`3`、つまり、で終わる間隔が 2 つあります。`3`この出来事が種を導入する場所`1`。 これにより増分が得られます`3-1=2`。 最終的な答えは、`16`。 
 
 ## 複雑さの分析
 
  | 測定 | 複雑さ | 説明 |
  | --- | --- | --- |
- | 時間 | (O(N)) チュンビン | Mỗi con thỏ thực hiện một lần tra cứu và cập nhật 辞書 |
- | スペース | (O(N)) | 辞書 có nhiều nhất một phần tử cho mỗi giống khác nhau |
+ | 時間 |`O(N)`| 各配列要素は 1 回処理され、各ハッシュマップ操作が期待されます。`O(1)`。 |
+ | スペース |`O(N)`| 配列とマップにはそれぞれ最大で次のものを含めることができます。`N`要素。 |
 
- Vì tổng (N) của tất cả test không vượt quá (2\cdot10^6)、tổng số thao tác là tuyến tính theo kích thước 入力。 Đây là sự khác biệt quyết định so với (O(N^2)), vốn có thể phải xử lý hàng tram tỷ đoạn khi (N=10^6)。 Bộ nhớ (O(N)) cũng nằm trong giới hạn 512 MB với cách lưu một vị trí cuối cho mỗi giống.
+ すべてのテスト ケースの合計は、`N`せいぜい`2 * 10^6`したがって、予想される合計実行時間は、完全な入力サイズに対して線形になります。 メモリ使用量も最大の個別テスト ケースでは線形であり、512 MB の制限内に留まります。 
 
- ## テストケース```python
+## テストケース```python
+# The solution is copied into solve() so the tests can replace stdin.
+
 import sys
 import io
 
 def solve():
     input = sys.stdin.readline
-
     t = int(input())
-    answers = []
+    out = []
 
     for _ in range(t):
         n = int(input())
         a = list(map(int, input().split()))
 
         last = {}
-        current = 0
+        cur = 0
         answer = 0
 
-        for r, x in enumerate(a, 1):
-            old = last.get(x)
+        for i, x in enumerate(a, 1):
+            p = last.get(x, 0)
+            cur += i - p
+            answer += cur
+            last[x] = i
 
-            if old is None:
-                current += r
-            else:
-                current += r - old
+        out.append(str(answer))
 
-            last[x] = r
-            answer += current
-
-        answers.append(str(answer))
-
-    sys.stdout.write("\n".join(answers))
+    sys.stdout.write("\n".join(out))
 
 def run(inp: str) -> str:
     old_stdin = sys.stdin
     old_stdout = sys.stdout
 
-    sys.stdin = io.StringIO(inp)
-    output = io.StringIO()
-    sys.stdout = output
-
     try:
+        sys.stdin = io.StringIO(inp)
+        sys.stdout = io.StringIO()
         solve()
-        return output.getvalue()
+        return sys.stdout.getvalue()
     finally:
         sys.stdin = old_stdin
         sys.stdout = old_stdout
 
-# Provided samples
+# Provided sample
 assert run(
     """2
 3
@@ -252,84 +234,88 @@ assert run(
 4
 1 2 2 3
 """
-) == "10\n16\n", "provided samples"
+) == "10\n16", "provided sample"
 
 # Minimum size
 assert run(
     """1
 1
-5
+7
 """
-) == "1\n", "single rabbit"
+) == "1", "single rabbit"
 
-# All rabbits have the same type
+# All values equal
 assert run(
     """1
-3
-7 7 7
+4
+5 5 5 5
 """
-) == "6\n", "all equal"
+) == "10", "all intervals contain exactly one species"
 
-# Repeated type with a gap
+# Alternating repeated values
 assert run(
     """1
-3
-1 2 1
+4
+1 2 1 2
 """
-) == "9\n", "repeated type"
+) == "16", "repeated species with gaps"
 
-# Large answer and all distinct types
+# Every value is different
 assert run(
     """1
-5
-1 2 3 4 5
+4
+1 2 3 4
 """
-) == "35\n", "all distinct"
+) == "20", "all species are different"
 
-# Maximum-size test, all equal
+# Maximum-size test, all values equal.
+# The answer is the number of nonempty subarrays.
 n = 1_000_000
+inp = "1\n{}\n{}\n".format(n, "1 " * (n - 1) + "1")
 expected = n * (n + 1) // 2
-inp = "1\n" + str(n) + "\n" + ("7 " * (n - 1)) + "7\n"
-assert run(inp) == str(expected) + "\n", "maximum N"
+assert run(inp) == str(expected), "maximum N with all equal values"
 ```| テスト入力 | 期待される出力 | 検証内容 |
  | --- | --- | --- |
- |`1 / 1 / 5`|`1`| Kích thước nhỏ nhất và xử lý biên của vị trí đầu tiên |
- |`1 / 3 / 7 7 7`|`6`| Cùng một giống xuất hiện liên tục, kiểm tra việc thay thế vị trí cuối |
- |`1 / 3 / 1 2 1`|`9`| Giống xuất hiện lại sau một khoảng cách, kiểm tra`r - old`|
- |`1 / 5 / 1 2 3 4 5`|`35`| Tất cả giống khác nhau、kiểm tra tổng đóng góp tăng dần |
- | (N=10^6)、tất cả bằng`7`|`500000500000`| Giới hạn lớn nhất, thời gian tuyến tính và khả năng xử lý đáp án lớn |
+ |`1 / 1 / 7`|`1`| 最小サイズと最初に出現する境界 |
+ |`1 / 4 / 5 5 5 5`|`10`| 繰り返される値と最新の値の処理 |
+ |`1 / 4 / 1 2 1 2`|`16`| 他の種によって区切られた繰り返し |
+ |`1 / 4 / 1 2 3 4`|`20`| すべての出来事は世界的に新しいものです。 
+|`N = 10^6`、すべての値`1`|`500000500000`| 最大入力サイズと大きな答え |
 
  ## 特殊なケース
 
- Với (N=1)、入力```
+ 1 羽のウサギの場合、入力は次のようになります。```
 1
 1
-5
-```辞書禁止 đầu rỗng。 タイ (r=1)、ギン`5`chưa xuất hiện nên`current`tăng từ 0 lên 1. Sau đó`answer`cũng trở thành 1. Chỉ có một đoạn ([1,1])、và nó chứa đúng một giống、nên kết quả là`1`。 
+7
+```位置で`1`、以前の出来事はないので、`p = 0`。 増分は`1 - 0 = 1`、与える`cur = 1`そして`answer = 1`。 可能な間隔は 1 つだけなので、結果は正しいです。 
 
-あなたのことを考えてください、あなたはそうしていますか？```
-1
-3
-7 7 7
-```タイ (r=1)、`current=1`。 Tại (r=2)、vị trí cũ của`7`ラ 1 ネン`current`tăng (2-1=1)、trở thành 2. Tại (r=3)、nó tăng (3-2=1)、trở thành 3. Tổng là (1+2+3=6)。 Mỗi đoạn chỉ có một giống, và có tổng cộng sáu đoạn, nên kết quả khớp.
-
- Với giống xuất hiện lại sau một khoảng cách, xét```
+すべての平等な種にとって、```
 1
 3
-1 2 1
-```sau vị trí 1、`current=1`。 Sau vị trí 2、hai giống có vị trí cuối là 1 và 2、nên`current=3`。 Tại vị trí 3、giống`1`có vị trí cuối cũ là 1 và vị trí mới là 3. Đóng góp của nó tăng từ 1 lên 3, nên`current`tăng thêm 2、thành 5. Tổng đáp án là (1+3+5=9)。 Điều nay cũng tương ứng trực tiếp với các điểm của sáu đoạn, lần lượt là (1,2,2,1,2,1)
+1 1 1
+```処刑は
 
- Với tất cả giống khác nhau và (N=5)、```
+ | ポジション | 前回の発生 | インクリメント |`cur`|`answer`|
+ | --- | --- | --- | --- | --- |
+ | 1 | 0 | 1 | 1 | 1 |
+ | 2 | 1 | 1 | 2 | 3 |
+ | 3 | 2 | 1 | 3 | 6 |
+
+ すべての間隔には 1 つの種が含まれており、間隔は 6 つあります。 重要な境界は、繰り返される各出現箇所が直前の位置を次の位置として使用することです。`p`, したがって、その出現から始まる間隔の合計にちょうど 1 が加算されます。 
+
+すべての種が異なる配列の場合、```
 1
-5
-1 2 3 4 5
-```
+3
+1 2 3
+```以前の位置はすべてゼロです。 増分は`1`、`2`、 そして`3`、生産`cur`価値観`1`、`3`、 そして`6`。 世界的な答えは、`10`。 これは、アルゴリズムが、発生を 1 つの間隔のみに寄与するものとして扱うのではなく、考えられるすべての左端点にわたる寄与をカウントしていることを検証します。 
 
-`current`lần lượt là (1,3,6,10,15)、vì ở mỗi 接頭語 mọi vị trí cuối đều khác nhau。 Đáp án là (35)、đúng với tổng độ dài của tất cả các đoạn. Trường hợp nay kiểm tra rằng thuật toán không vô tình xem các giống mới là chỉ đóng gop 1, trong khi một giống xuất hiện lần đầu tại vị trí (r) thực tế đóng góp (r) đoạn kết thúc tại (r).
+他の値で区切られた繰り返し種の場合、```
+1
+4
+1 2 1 2
+```3 番目の位置には以前の出現箇所があります`1`、したがって、その増分は`3-1=2`。 4 番目の位置には以前の出現があります`2`、したがって、その増分は`4-2=2`。 結果として得られる`cur`値は`1`、`3`、`5`、 そして`7`、そして答えは`16`。 これにより、最新のものではなく最初に発生したものを保存するというよくある間違いが見つかります。 
 
- Với (N=10^6) và tất cả giống đều bằng`7`、辞書 chỉ chứa một phần tử trong suốt quá trình chạy。 Mỗi vị trí chỉ thực hiện một lần tra cứu và một lần cập nhật, nên vẫn là (O(N))。`current`lần lượt tăng 1 ở mỗi bước và đáp án cuối cùng là
+高額なケースも重要です。 のために`N = 10^6`すべての値が異なる場合、答えは次のようになります。`N(N+1)(N+2)/6 = 166667166667000000`。 
 
- 500000500000。 
-】
-
- Trường hợp nay vừa kiểm tra giới hạn kích thước input, vừa kiểm tra việc không dùng (O(N^2)) bộ nhớ hay thời gian khi số lượng giống khác nhau rất nhỏ。
+32 ビット整数はひどいオーバーフローを起こしますが、Python の整数表現は正確な結果を保存します。 この場合、アルゴリズム自体は特別な処理を必要としません。`i-p`式は次のように適用されます`p = 0`あらゆる位置で。
