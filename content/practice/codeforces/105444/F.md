@@ -58,15 +58,15 @@ draft: false
  ## アルゴリズムのチュートリアル
 
  1. m を出力しなければならない批評家の目標数を計算します。 すべての貢献する批評家は正確に m を加算するため、合計 k は k % m = 0 を満たす必要があり、x = k / m と定義します。 これが整数でない場合、または x < 1 または x > n の場合、構築は不可能です。 
-2. We know the first critic in the process always contributes m, so we treat this as a fixed forced choice and reduce the remaining requirement to x − 1 additional “m contributors”.
- 3. 未使用の批評家のプールとその AI 値を維持します。 現在のプレフィックスの合計 S とすでに配置されている批評家の数 t を追跡しながら、段階的に順序を構築します。 
+2. プロセスの最初の批評家が常に m 人を貢献することがわかっているので、これを固定の強制選択として扱い、残りの要件を x − 1 人の追加の「m 人の貢献者」に減らします。 
+3. 未使用の批評家のプールとその AI 値を維持します。 現在のプレフィックスの合計 S とすでに配置されている批評家の数 t を追跡しながら、段階的に順序を構築します。 
 4. 順列内の各位置 t で、現在の平均を S / (t − 1) として計算します。 この値は、候補が次に配置された場合に m または 0 を出力するかどうかを決定します。 
-5. さらに多くの m 貢献批評家が必要かどうかを決定します。 If the number of remaining slots equals exactly the number of remaining required m-contributors, then every remaining critic must be forced into the m group.
- 6. それ以外の場合は、可能であれば 0 を出力する批評家を配置しようとします。 閾値が ai < 現在の平均を満たす場合、批評家は強制的に 0 にされる可能性があります。 そのようなすべての候補の中から、将来の実現可能性を維持できるものを選択します。 
+5. さらに多くの m 貢献批評家が必要かどうかを決定します。 残りのスロットの数が、残りの必要な m 貢献者の数と正確に等しい場合、残りのすべての批評家を強制的に m グループに入れる必要があります。 
+6. それ以外の場合は、可能であれば 0 を出力する批評家を配置しようとします。 閾値が ai < 現在の平均を満たす場合、批評家は強制的に 0 にされる可能性があります。 そのようなすべての候補の中から、将来の実現可能性を維持できるものを選択します。 
 7. 有効な「0 候補」を安全に選択できない場合、m を出力する批評家を選択する必要があります。 それらの中から、S ≤ ai · (t − 1) を満たすものを選択し、やはり実現可能性を確保します。 
-8. Update S accordingly after placing the chosen critic, increment t, remove the critic from the pool, and continue until all positions are filled.
+8. 選択したクリティカルを配置した後、それに応じて S を更新し、t を増分し、プールからクリティカルを削除し、すべての位置が埋まるまで続行します。 
 
- The correctness rests on maintaining a feasibility invariant: after every step, the remaining unplaced critics can still be split into the required number of future m and 0 outputs. The greedy choice only selects a critic for the current position when it does not eliminate all valid completions, and the fallback ensures that if skipping a good assignment is unsafe, we commit to it immediately. これにより、必要な m コントリビューターの正確な数を確実に消費しながら、行き詰まりを防ぎます。 
+正確さは実現可能性の不変条件を維持することにかかっています。つまり、各ステップの後でも、残りの配置されていないクリティカルは、必要な数の将来の m および 0 出力に分割できます。 貪欲な選択では、有効な完了をすべて削除しない場合にのみ、現在の位置に対する批評家が選択されます。また、フォールバックにより、適切な割り当てをスキップすることが安全でない場合は、すぐにそれにコミットすることが保証されます。 これにより、必要な m コントリビューターの正確な数を確実に消費しながら、行き詰まりを防ぎます。 
 
 ## Python ソリューション```python
 import sys
