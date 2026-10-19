@@ -1,6 +1,6 @@
 ---
 title: "CF 105691B - リカバリー"
-description: "105691B - RecoveriT については、まだ責任を持って Codeforces スタイルの正しい論説を書くことができません。実際の問題ステートメントが、あなたが提供したコンテキストで利用できず、取得したソースからアクセスできないためです。"
+description: "105691B - RecoveriT については、まだ責任を持って Codeforces スタイルの正しい社説を書くことができません。実際の問題ステートメントが、あなたが提供したコンテキストで利用できず、取得したソースからアクセスできないためです。"
 date: "2026-06-26T08:48:02+07:00"
 tags: ["codeforces", "competitive-programming"]
 categories: ["algorithms"]
