@@ -14,7 +14,7 @@ verified: false
 draft: false
 ---
 
-[CF 105811B - カード カウンティング](https://codeforces.com/problemset/problem/105811/B)
+[CF 105811B - Card Counting](https://codeforces.com/problemset/problem/105811/B)
 
  **評価:** -
  **タグ:** -
@@ -22,7 +22,7 @@ draft: false
  **確認済み:** いいえ
 
  ## 解決策
- コンテキスト内で利用できる **Codeforces 105811B - Card Counting** のステートメントはありません。また、この問題 ID は、メモリから確実に再構築できる、一般的にインデックス付けされている Codeforces アーカイブの問題に対応していません。 
+ コンテキスト内で利用可能な **Codeforces 105811B - Card Counting** のステートメントがありません。また、この問題 ID は、メモリから確実に再構築できる、一般的にインデックス付けされている Codeforces アーカイブの問題に対応していません。 
 
 書式設定の要件が厳しい (正しいアルゴリズム、ウォークスルー、テストを含む完全な編集) ため、推測すると完全に間違った解決策や誤解を招く説明が生成される危険があります。 
 
