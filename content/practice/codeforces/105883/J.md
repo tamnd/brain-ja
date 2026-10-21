@@ -1,6 +1,6 @@
 ---
 title: "CF 105883J - HDZ 爆発"
-description: "1 から n までの数字の順列が与えられます。 各位置には一意の「高さ」があり、最大値 n を含む位置は 1 つだけ存在します。 That position is the target we want to reach. ロボットは任意のインデックス i から開始します。 移動範囲ｄを有する。"
+description: "1 から n までの数字の順列が与えられます。 各位置には一意の「高さ」があり、最大値 n を含む位置は 1 つだけ存在します。 その地位こそが私たちが達成したい目標です。 ロボットは任意のインデックス i から開始します。 移動範囲ｄを有する。"
 date: "2026-06-22T02:45:58+07:00"
 tags: ["codeforces", "competitive-programming"]
 categories: ["algorithms"]
@@ -52,24 +52,24 @@ d の単調性と高速な実現可能性チェックを組み合わせること
 
 | アプローチ | 時間計算量 | 空間の複雑さ | 評決 |
  | --- | --- | --- | --- |
- | Brute Force Simulation | 1 日あたり O(n²)、合計で最悪の O(n³) | O(n) | 遅すぎる |
+ | ブルートフォースシミュレーション | 1 日あたり O(n²)、合計で最悪の O(n³) | O(n) | 遅すぎる |
  | 二分探索 + RMQ 遷移 | O(n log n log n) | O(n log n) | 承認済み |
 
  ## アルゴリズムのチュートリアル
 
-We reframe the problem as a monotone decision problem over d.
+この問題を d に関する単調な決定問題として再構成します。 
 
- 1. d の候補値を決定します。 We need to determine whether every starting position eventually reaches the index posMax where p[posMax] = n.
- 2. For each index i, compute nxt[i], the index of the maximum value in the range [i − d, i + d]. This defines a functional graph where each node has one outgoing edge. We use a range maximum query structure over indices to retrieve nxt[i] efficiently.
- 3. Starting from posMax, we propagate reverse reachability. We build reverse edges implicitly: if nxt[i] = j, then j can be reached from i. We run a BFS or DFS from posMax over this reverse graph.
- 4. If after this traversal all nodes are visited, then every starting position eventually flows into posMax under repeated transitions. Otherwise, some node belongs to a separate cycle that never reaches the maximum, so this d is insufficient.
- 5. Binary search the smallest d in the range [0, n − 1] that satisfies the reachability condition.
+1. d の候補値を決定します。 すべての開始位置が最終的にインデックス pos​​Max (p[posMax] = n) に到達するかどうかを判断する必要があります。 
+2. 各インデックス i について、[i − d, i + d] の範囲内の最大値のインデックスである nxt[i] を計算します。 これにより、各ノードが 1 つの出力エッジを持つ関数グラフが定義されます。 nxt[i] を効率的に取得するために、インデックスに対して範囲最大クエリ構造を使用します。 
+3. posMax から開始して、逆到達可能性を伝播します。 逆エッジを暗黙的に構築します。nxt[i] = j の場合、i から j に到達できます。 この逆グラフに対して posMax から BFS または DFS を実行します。 
+4. この走査の後、すべてのノードが訪問された場合、すべての開始位置は、繰り返し遷移の下で最終的に posMax に流れ込みます。 それ以外の場合、一部のノードは最大値に到達しない別のサイクルに属しているため、この d は不十分です。 
+5. 到達可能性条件を満たす [0, n − 1] の範囲で最小の d を二分探索します。 
 
- 二分探索が適用される理由は、d を増加してもウィンドウを拡大することしかできないため、nxt[i] は少なくとも以前と同じ大きさの値までしか移動できず、既存の到達可能性を壊すことはないためです。 
+二分探索が適用される理由は、d を増加してもウィンドウを拡大することしかできないため、nxt[i] は少なくとも以前と同じ大きさの値までしか移動できず、既存の到達可能性を壊すことはないためです。 
 
 ### なぜ効果があるのか
 
- For a fixed d, the process defines a deterministic functional graph. すべてのノードは、その近傍で到達可能な最大値に厳密に従います。そのため、ローカル ピークに到達するまで、各ステップでエッジに沿って値が増加または保持されます。 大域的最大値は値 n を持つ唯一のノードであるため、これを含まないサイクルは、半径 d の到達可能な領域内で局所的に最大となるノードで構成されなければなりません。 If such a cycle exists, those nodes are permanently trapped because no update can introduce a higher reachable value inside their window. 逆に、すべてのノードが逆グラフの posMax に到達できる場合、そのようなトラップ サイクルは存在せず、すべてのパスはグローバル最大値で終了する必要があります。 
+ 固定の d の場合、プロセスは決定論的な関数グラフを定義します。 すべてのノードは、その近傍で到達可能な最大値に厳密に従います。そのため、ローカル ピークに到達するまで、各ステップでエッジに沿って値が増加または保持されます。 大域的最大値は値 n を持つ唯一のノードであるため、これを含まないサイクルは、半径 d の到達可能な領域内で局所的に最大となるノードで構成されなければなりません。 このようなサイクルが存在する場合、更新によってウィンドウ内に到達可能なより高い値を導入できないため、これらのノードは永続的にトラップされます。 逆に、すべてのノードが逆グラフの posMax に到達できる場合、そのようなトラップ サイクルは存在せず、すべてのパスはグローバル最大値で終了する必要があります。 
 
 ## Python ソリューション```python
 import sys

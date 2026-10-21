@@ -24,35 +24,35 @@ draft: false
  ## 解決策
  ## 問題の理解
 
- 私たちは隠れた 64 ビットの非負の整数を扱っており、それについて知る唯一の方法は、慎重に選択したマスクを使用して調べることです。 Each query gives us a number x, and the judge responds with the Hamming weight of n XOR x, meaning the number of 1 bits in the binary representation of that XOR result.
+ 私たちは隠れた 64 ビットの非負の整数を扱っており、それについて知る唯一の方法は、慎重に選択したマスクを使用して調べることです。 各クエリは数値 x を与え、裁判官は n XOR x のハミング重みで応答します。これは、XOR 結果のバイナリ表現における 1 ビットの数を意味します。 
 
- タスクは、最大 63 個のそのようなクエリを使用しながら、n を正確に再構築することです。 The interaction is non-adaptive from the judge’s side, meaning n is fixed beforehand and does not change based on our queries, so every response is consistent with a single hidden value.
+タスクは、最大 63 個のそのようなクエリを使用しながら、n を正確に再構築することです。 インタラクションは審査員側から見ると非適応的です。つまり、n は事前に固定されており、クエリに基づいて変更されないため、すべての応答は 1 つの隠れた値と一致します。 
 
- 重要な問題は、n を直接観察しないことや、n の線形変換や算術変換をまったく観察しないことです。 XOR 結果の非線形グローバル統計のみを観察します。 This makes the problem feel information-theoretic: each query returns a single integer between 0 and 64, so each query carries at most about 6 bits of information. With 63 queries, we are comfortably within a budget to recover 64 unknown bits, but only if each query is designed to extract structured information.
+重要な問題は、n を直接観察しないことや、n の線形変換や算術変換をまったく観察しないことです。 XOR 結果の非線形グローバル統計のみを観察します。 これにより、この問題は情報理論的なものになります。各クエリは 0 ～ 64 の単一の整数を返すため、各クエリは最大で約 6 ビットの情報を保持します。 63 個のクエリがあれば、64 個の未知ビットを回復する予算内に十分収まりますが、これは各クエリが構造化情報を抽出するように設計されている場合に限ります。 
 
- A naive approach would try to probe each bit independently, but XOR and popcount do not separate cleanly per bit unless we carefully encode interactions. 不注意な戦略は、x = 0、1、2、4、8、... をクエリすると n の個々のビットが明らかになると想定することです。 That fails because popcount(n XOR x) mixes all bits: flipping one bit of x affects the global count in a way that depends on all bits of n, not just that position.
+単純なアプローチでは、各ビットを個別に調査しようとしますが、相互作用を慎重にエンコードしない限り、XOR とポップカウントはビットごとにきれいに分離されません。 不注意な戦略は、x = 0、1、2、4、8、... をクエリすると n の個々のビットが明らかになると想定することです。 これは、popcount(n XOR x) がすべてのビットを混合するため失敗します。x の 1 ビットを反転すると、その位置だけでなく n のすべてのビットに依存する形でグローバル カウントに影響します。 
 
- For example, if n = 7 (111₂), querying x = 0 gives 3, but querying x = 1 gives popcount(110₂) = 2, and querying x = 2 gives popcount(101₂) = 2. These values do not isolate individual bits in a direct way, so bit-by-bit recovery is not straightforward.
+たとえば、n = 7 (111₂) の場合、x = 0 をクエリすると 3 が得られますが、x = 1 をクエリすると Popcount(110₂) = 2 が得られ、x = 2 をクエリすると Popcount(101₂) = 2 が得られます。これらの値は個々のビットを直接的に分離するものではないため、ビットごとの回復は簡単ではありません。 
 
- 中心的な課題は、これらのグローバルなハミング距離観測をビットごとの情報に変換することです。 
+中心的な課題は、これらのグローバルなハミング距離観測をビットごとの情報に変換することです。 
 
 ## アプローチ
 
  強引なアイデアは、n の可能な 64 ビット値をすべて試して、クエリをシミュレートすることです。 各候補 n について、予測された応答を実際の応答と比較します。 空間は 2^64 であるため、これはまったく実行不可能です。 
 
-A more structured brute-force would try to recover bits one by one by querying different masks and solving a system of equations, but without a carefully chosen basis, the system remains entangled.
+より構造化されたブルート フォースでは、さまざまなマスクをクエリし、方程式系を解くことでビットを 1 つずつ回復しようとしますが、慎重に選択された基礎がなければ、システムはもつれたままになります。 
 
- 重要な観察は、XOR はビット上で線形に相互作用しますが、popcount は非線形であるということです。 ただし、慎重に選択した 2 つのクエリを比較することで、ポップカウントを線形化できます。 単一ビットを反転して x と x の両方をクエリすると、そのビットが n と x の間の合計ハミング距離にどのように寄与するかを分離できます。 これは標準的なトリックにつながります。つまり、x の各ビットを、n と x の比較において制御されたビットのサブセットを反転するプローブとして扱うというものです。 
+重要な観察は、XOR はビット上で線形に相互作用しますが、popcount は非線形であるということです。 ただし、慎重に選択した 2 つのクエリを比較することで、ポップカウントを線形化できます。 単一ビットを反転して x と x の両方をクエリすると、そのビットが n と x の間の合計ハミング距離にどのように寄与するかを分離できます。 これは標準的なトリックにつながります。つまり、x の各ビットを、n と x の比較において制御されたビットのサブセットを反転するプローブとして扱うというものです。 
 
-The standard construction is to choose 64 queries where each query encodes a different linear combination of bits of n in such a way that responses form a solvable system over integers. 効果的なアプローチの 1 つは、64 ビット空間の基礎を形成する値をクエリし、その ID を利用することです。 
+標準的な構築では、応答が整数に対して解決可能なシステムを形成するように、各クエリが n のビットの異なる線形結合をエンコードする 64 個のクエリを選択します。 効果的なアプローチの 1 つは、64 ビット空間の基礎を形成する値をクエリし、その ID を利用することです。 
 
 ポップカウント(n XOR x) = ポップカウント(n) + ポップカウント(x) − 2 * ポップカウント(n AND x)
 
  これにより、各クエリが Popcount(n AND x) に関する線形方程式に変換されます。 x を 2 の累乗として選択すると、これらの方程式内の n の各ビットを分離して復元できます。 
 
-Once we recover popcount(n AND 2^i), each value directly tells whether the i-th bit of n is 1, since it contributes either 0 or 1 to the AND sum. With careful construction, 64 equations are enough, but we can reduce to 63 by using one baseline query (typically x = 0) to obtain popcount(n), which acts as a reference.
+Popcount(n AND 2^i) を回復すると、各値は AND 合計に 0 または 1 のいずれかを与えるため、n の i 番目のビットが 1 であるかどうかを直接示します。 慎重に構築すれば、64 個の方程式で十分ですが、1 つのベースライン クエリ (通常は x = 0) を使用して、参照として機能する Popcount(n) を取得することで、63 個まで減らすことができます。 
 
- The system becomes solvable because each bit contributes independently to a set of linear equations, and XOR ensures no carry or interaction between bits beyond the popcount aggregation.
+各ビットが一連の線形方程式に独立して寄与し、XOR によってポップカウントの集計を超えたビット間のキャリーや相互作用が保証されないため、システムは解決可能になります。
 
 | アプローチ | 時間計算量 | 空間の複雑さ | 評決 |
  | --- | --- | --- | --- |
