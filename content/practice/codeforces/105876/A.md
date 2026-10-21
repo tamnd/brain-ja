@@ -1,5 +1,5 @@
 ---
-title: "CF 105876A - 背の高い人々の間で"
+title: "CF 105876A - 背の高い人たちの間"
 description: "私は Codeforces 105876A - Among the Tall に関する実際の問題ステートメントを持っていません。それがなければ、タスクを推測する必要があり、編集が役立つというよりもむしろ誤解を招くものになってしまいます。"
 date: "2026-06-25T14:22:33+07:00"
 tags: ["codeforces", "competitive-programming"]
