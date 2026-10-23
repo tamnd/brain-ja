@@ -26,31 +26,31 @@ draft: false
 
  都市が方向のない道路で接続されており、各道路が 2 つの異なる都市を接続しているグラフが与えられています。 タスクは、このグラフ内の最短の単純なサイクルの長さを決定することです。 ここでのサイクルとは、ある都市から出発し、異なる道路をたどって、最終的にはエッジを繰り返さずに同じ都市に戻ることを意味し、サイクルの長さは使用されるエッジの数として測定されます。 
 
-The output is a single integer: the minimum number of edges among all cycles in the graph. If the graph contains no cycle at all, the correct output is -1.
+出力は単一の整数、つまりグラフ内のすべてのサイクルのエッジの最小数です。 グラフにサイクルがまったく含まれていない場合、正しい出力は -1 です。 
 
- この種の問題に典型的な制約から、グラフが十分に大きいため、ノードのすべてのトリプレットに対する 2 次または 3 次アルゴリズムは実行不可能であると想定する必要があります。 Any solution that tries to enumerate all cycles explicitly will fail because the number of possible paths grows exponentially with depth. This immediately rules out brute force cycle enumeration or Floyd-Warshall style all-pairs reasoning.
+この種の問題に典型的な制約から、グラフが十分に大きいため、ノードのすべてのトリプレットに対する 2 次または 3 次アルゴリズムは実行不可能であると想定する必要があります。 すべてのサイクルを明示的に列挙しようとするソリューションは失敗します。これは、可能なパスの数が深さに応じて指数関数的に増加するためです。 これにより、ブルート フォース サイクル列挙やフロイド ウォーシャル スタイルの全ペア推論が即座に排除されます。 
 
- A subtle issue arises with graphs that have multiple edges between the same pair of nodes or self-loops. 自己ループはすでに長さ 1 のサイクルを形成しており、2 つのノード間の平行エッジは長さ 2 のサイクルを形成しています。これらのケースを無視したり、多重性を追跡せずにエッジをセットにまとめたりする不注意な BFS 実装は、真の最短サイクルを見逃す可能性があります。 
+同じノードのペアまたは自己ループの間に複数のエッジがあるグラフでは、微妙な問題が発生します。 自己ループはすでに長さ 1 のサイクルを形成しており、2 つのノード間の平行エッジは長さ 2 のサイクルを形成しています。これらのケースを無視したり、多重性を追跡せずにエッジをセットにまとめたりする不注意な BFS 実装は、真の最短サイクルを見逃す可能性があります。 
 
-For example, consider a graph with a single node and a self-loop. The correct answer is 1. A naive BFS that assumes no self-loops would incorrectly return -1.
+たとえば、単一ノードと自己ループを含むグラフを考えてみましょう。 正解は 1 です。自己ループがないと仮定する単純な BFS は、誤って -1 を返します。 
 
- Another example is two nodes connected by two distinct edges. 最も短いサイクルは長さ 2 ですが、エッジを重複排除する標準的な単純なグラフ表現ではこの構造が失われ、サイクルがないと誤って報告されます。 
+別の例は、2 つの異なるエッジによって接続された 2 つのノードです。 最も短いサイクルは長さ 2 ですが、エッジを重複排除する標準的な単純なグラフ表現ではこの構造が失われ、サイクルがないと誤って報告されます。 
 
-These cases matter because the shortest cycle is often created by “non-tree edges” that are very local, not large structural loops.
+最も短いサイクルは、大きな構造ループではなく、非常に局所的な「非ツリー エッジ」によって作成されることが多いため、これらのケースは重要です。 
 
- ## アプローチ
+## アプローチ
 
- 直接的な総当たりのアイデアは、接続エッジを一時的に削除しながら、隣接するノードのすべてのペア間の最短パスを見つけようとすることです。 代替パスがある場合は、削除されたエッジを再度追加してサイクルを形成します。 Repeating this for every edge would eventually find the shortest cycle. すべてのサイクルには少なくとも 1 つのエッジが含まれている必要があり、そのエッジを削除すると残りのサイクルがそのエンドポイント間のパスとして表示されるため、このアプローチは正しいです。 
+ 直接的な総当たりのアイデアは、接続エッジを一時的に削除しながら、隣接するノードのすべてのペア間の最短パスを見つけようとすることです。 代替パスがある場合は、削除されたエッジを再度追加してサイクルを形成します。 これをすべてのエッジに対して繰り返すと、最終的に最短のサイクルが見つかります。 すべてのサイクルには少なくとも 1 つのエッジが含まれている必要があり、そのエッジを削除すると残りのサイクルがそのエンドポイント間のパスとして表示されるため、このアプローチは正しいです。 
 
-However, computing a shortest path for each edge is too slow. Running BFS for every edge leads to roughly O(m(n + m)) operations in the worst case, which becomes infeasible when both n and m are large.
+ただし、各エッジの最短パスを計算するのは遅すぎます。 すべてのエッジに対して BFS を実行すると、最悪の場合、およそ O(m(n + m)) 操作が発生します。n と m の両方が大きい場合、これは実行不可能になります。 
 
- The key observation is that we do not need to remove edges explicitly. 代わりに、BFS 自体中にサイクルを検出できます。 開始ノードから BFS を実行するときに、BFS ツリー内の直接の親ではない、すでに訪問したノードに到達すると、サイクルが検出されたことになります。 The cycle length can be computed using the distances from the BFS root.
+重要な点は、エッジを明示的に削除する必要がないということです。 代わりに、BFS 自体中にサイクルを検出できます。 開始ノードから BFS を実行するときに、BFS ツリー内の直接の親ではない、すでに訪問したノードに到達すると、サイクルが検出されたことになります。 サイクル長は、BFS ルートからの距離を使用して計算できます。 
 
- 開始点としてすべてのノードから BFS を繰り返すことで、最終的にすべてのサイクルが少なくとも 1 回の走査で公開され、検出されたすべてのサイクルの中で最も短いサイクルが答えとなることが保証されます。 
+開始点としてすべてのノードから BFS を繰り返すことで、最終的にすべてのサイクルが少なくとも 1 回の走査で公開され、検出されたすべてのサイクルの中で最も短いサイクルが答えとなることが保証されます。 
 
-This transforms cycle detection into repeated shortest-path explorations with local cycle checks, avoiding explicit cycle enumeration.
+これにより、サイクル検出がローカル サイクル チェックによる最短パス探索の繰り返しに変換され、明示的なサイクル列挙が回避されます。 
 
- | アプローチ | 時間計算量 | 空間の複雑さ | 評決 |
+| アプローチ | 時間計算量 | 空間の複雑さ | 評決 |
  | --- | --- | --- | --- |
  | ブルート フォース (エッジの削除 + エッジごとの BFS) | O(m(n + m)) | O(n + m) | 遅すぎる |
  | サイクル検出を使用した各ノードからの BFS | O(n(n + m)) | O(n + m) | 承認済み |

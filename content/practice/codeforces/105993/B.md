@@ -28,7 +28,7 @@ draft: false
 
 入力には、2 つの推奨時間を表す 2 つの正の整数が含まれています。 出力は 2 つの値のうち小さい方となります。これを大きくすると水泳の効果が得られずに水泳旅行が遅れるだけになるためです。 
 
-The constraints keep both values at most 1000. This is small enough that even a direct simulation would work, but simulation is unnecessary because the answer depends only on the ordering of the two numbers. 利用可能な操作は事実上一定であるため、正確な入力サイズに関係なく、ソリューションは即座に実行されます。 
+制約により、両方の値が最大 1000 に保たれます。これは直接シミュレーションでも機能するほど十分小さいですが、答えは 2 つの数値の順序のみに依存するため、シミュレーションは不要です。 利用可能な操作は事実上一定であるため、正確な入力サイズに関係なく、ソリューションは即座に実行されます。 
 
 主なエッジ ケースは、等しい値から、またはどちらかの位置に現れる小さい値から得られます。 常に最初の数値を出力する不用意な解決策は、2 番目の提案が早い場合に失敗します。 
 
