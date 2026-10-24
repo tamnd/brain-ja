@@ -1,6 +1,6 @@
 ---
 title: "CF 106030F - ピコパーク"
-description: "プロンプトに問題の記述がない (タイトルのみが表示され、入力、出力、ルールの説明がない) ため、106030F - Pico Park に関する正しい Codeforces スタイルの社説を確実に書くことができません。"
+description: "プロンプトに問題の記述がない (タイトルのみが表示され、入力、出力、またはルールの説明がない) ため、106030F - Pico Park に関する正しい Codeforces スタイルの社説を確実に書くことができません。"
 date: "2026-06-21T16:33:29+07:00"
 tags: ["codeforces", "competitive-programming"]
 categories: ["algorithms"]
