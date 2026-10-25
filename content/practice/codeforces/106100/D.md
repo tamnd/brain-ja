@@ -1,6 +1,6 @@
 ---
 title: "CF 106100D - 同じ講義"
-description: "もちろん、Codeforces の問題ステートメント (または問題のリンク/問題 ID) を提供してください。Codeforces で一般的に見られるスタイルで完全な競技プログラミングの論説を書きます。次の内容が含まれます。 - 問題の観察と直観 - 主要な補題/証明 - の導出…"
+description: "承知しました - Codeforces の問題ステートメント (または問題リンク/問題 ID) を提供してください。Codeforces で一般的に見られるスタイルで完全な競技プログラミングの論説を書きます。次の内容が含まれます。 - 問題の観察と直観 - 主要な補題/証明 - の導出…"
 date: "2026-06-25T11:51:42+07:00"
 tags: ["codeforces", "competitive-programming"]
 categories: ["algorithms"]

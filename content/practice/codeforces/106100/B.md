@@ -30,19 +30,19 @@ draft: false
 
 主な困難は、離散的なステップを追跡することではなく、連続的な軌跡を推論することです。 3 つの不平等がすべて満たされる時代が存在するかどうかを判断する必要があります。$0 \le X(t) \le A$、$0 \le Y(t) \le B$、 そして$0 \le Z(t) \le C$同時に保持します。 
 
-入力に対する制約の規模は小さい (約$10^3$)、しかし、解決策は時間の経過に伴う強引なシミュレーションに関するものではありません。 動きは連続的で滑らかであるため、時間を単純に離散化すると、有効な開始瞬間を逃すか、粒度が細かい場合は遅すぎるかのいずれかになります。 
+入力に対する制約の規模は小さい (約$10^3$), but the solution is not about brute force simulation over time. The motion is continuous and smooth, so any naive discretization of time would either miss valid entry moments or be too slow if fine-grained.
 
-垂直方向の動きから微妙なエッジケースが発生します。 水平方向の動きがボックス領域を通過する場合でも、ボールは、関連するすべての時点で、許容される Z 範囲の上または下にある可能性があります。 たとえば、ボールがボックスの x-y 投影内で開始し、ほぼ垂直に上向きに発射された場合、水平オーバーラップ期間中にボールは決して Z 範囲に下降しない可能性があります。
+ A subtle edge case arises from the vertical motion. Even if horizontal motion passes through the box region, the ball might be above or below the allowed z-range at all relevant times. たとえば、ボールがボックスの x-y 投影内で開始し、ほぼ垂直に上向きに発射された場合、水平オーバーラップ期間中にボールは決して Z 範囲に下降しない可能性があります。 
 
- もう 1 つの失敗ケースは、水平方向の動きがボックスの投影にまったく入らないにもかかわらず、不注意なソルバーが個別に座標をチェックし、実現可能性を誤って判断する場合に発生します。 たとえば、x(t) と y(t) は、異なる時間に個別に範囲に入る可能性がありますが、同時には入りません。 
+もう 1 つの失敗ケースは、水平方向の動きがボックスの投影にまったく入らないにもかかわらず、不注意なソルバーが個別に座標をチェックし、実現可能性を誤って判断する場合に発生します。 For instance, x(t) and y(t) might individually enter their ranges at different times, but not simultaneously.
 
-正しい推論では、問題を同じ時間間隔における 3 つの連続した制約の同期として扱う必要があります。 
+ The correct reasoning must treat the problem as a synchronization of three continuous constraints over the same time interval.
 
-## アプローチ
+ ## アプローチ
 
- ブルートフォースアプローチでは、時間を少しずつシミュレートし、各ステップでボールがボックス内にあるかどうかをチェックします。 位置関数は評価が簡単なので、各ステップのコストが低くなります。 ただし、時間変数は連続的であるため、ボールはサンプリングされたポイント間のボックスを通過できます。 入口イベントを見逃さないようにするには、ステップ サイズを非常に小さくして、解を効果的に無制限のシミュレーションに変える必要があります。 終了時間を固定したとしても、評価の数は簡単に数百万件に達する可能性があり、正確性は依然として保証されません。 
+ A brute-force approach would simulate time in small increments and check whether the ball is inside the box at each step. The position functions are simple to evaluate, so each step is cheap. However, the time variable is continuous, and the ball can pass through the box between sampled points. 入口イベントを見逃さないようにするには、ステップ サイズを非常に小さくして、解を効果的に無制限のシミュレーションに変える必要があります。 Even with a fixed cutoff time, the number of evaluations could easily reach millions, and correctness would still not be guaranteed.
 
-重要な観察は、各座標が時間の連続関数として独立して動作するということです。 x 座標と y 座標は線形関数であるため、xy 平面上のボックスの投影内にボールが位置する時間間隔を定義します。 Z 座標は凹二次関数であるため、高さが範囲内にある場合の間隔 (おそらく空) を定義します。$[0, C]$。 問題は、これらの有効な時間間隔が交差するかどうかを確認することになります。 
+ The key observation is that each coordinate behaves independently as a continuous function of time. x 座標と y 座標は線形関数であるため、xy 平面上のボックスの投影内にボールが位置する時間間隔を定義します。 The z coordinate is a concave quadratic, so it defines an interval (possibly empty) when the height is within$[0, C]$。 問題は、これらの有効な時間間隔が交差するかどうかを確認することになります。 
 
 このように問題を再構成すると、連続運動を直接気にする必要がなくなります。 代わりに、各座標制約の時間間隔を計算し、共通の重複が存在するかどうかを確認します。 
 
@@ -55,14 +55,14 @@ draft: false
 
  1. 角度を変換する$\theta$そして$\phi$三角関数はラジアンで動作するため、度からラジアンまで変換できます。 これにより、速度をコンポーネントに正しく分解できます。 
 2. x、y、z 方向の速度成分を計算します。 水平面の速度は$v \cos(\phi)$に分かれます。$v_x = v \cos(\phi)\cos(\theta)$そして$v_y = v \cos(\phi)\sin(\theta)$。 垂直方向の初速度は、$v_z = v \sin(\phi)$。 
-3. x(t) と y(t) について、ボールが境界内に留まる時間間隔を決定します。$[0, A]$そして$[0, B]$。 どちらも線形関数であるため、各制約は 2 つの不等式を解くことになり、空のセットまたは単一の区間が得られます。 
+3. x(t) と y(t) について、ボールが境界内に留まる時間間隔を決定します。$[0, A]$そして$[0, B]$。 どちらも線形関数であるため、各制約は 2 つの不等式を解くことになり、空の集合または単一の区間が得られます。 
 4. z(t) について、二次不等式を解きます。$0 \le z(t) \le C$。 これは 2 つの条件に分かれます。$z(t) \ge 0$そして$z(t) \le C$。 それぞれが一連の時間間隔を生成し、それらの交差により有効な垂直方向の動きウィンドウが得られます。 
 5. x、y、z 制約から取得した 3 つの時間間隔を交差させます。 これらの間隔に重複がある場合は、$t \ge 0$、あるタイミングでボールがゴールに入ります。 
 6. 交差点が空でない場合は、YES を出力します。 それ以外の場合は NO を出力します。 
 
 ### なぜ効果があるのか
 
- 各座標制約は、ボールが 1 次元の制約を満たす一連の時間を定義します。 3 つの独立した制約がすべて同時に満たされたとき、ボールは正確にゴール内にあります。 運動関数は連続的であり、各制約は単調または最大 2 つの根を持つ二次であるため、有効な時間セットは間隔を形成します。 解決策の存在は、これらの間隔が交差するかどうかをチェックすることに帰着します。 これらの計算された間隔の外では有効なエントリーは発生できません。すべての有効な間隔は、ボールが境界内に留まる連続領域に対応します。 
+ 各座標制約は、ボールが 1 次元の制約を満たす一連の時間を定義します。 3 つの独立した制約がすべて同時に満たされると、ボールは正確にゴール内に収まります。 運動関数は連続的であり、各制約は単調または最大 2 つの根を持つ二次であるため、有効な時間セットは間隔を形成します。 解決策の存在は、これらの間隔が交差するかどうかをチェックすることに帰着します。 これらの計算された間隔の外では有効なエントリーは発生できません。すべての有効な間隔は、ボールが境界内に留まる連続領域に対応します。 
 
 ## Python ソリューション```python
 import sys
@@ -200,7 +200,7 @@ if __name__ == "__main__":
  | --- | --- | --- | --- | --- |
  | 間隔を計算する | [0, 10] | [0, inf] | [0, inf] | [0, 10] |
 
- ボールは、関連するすべての投影内で直ちに開始され、X 範囲を出るまでしばらく範囲内に留まります。 これにより、有効なエントリが存在することが確認されます。 
+ ボールは直ちに関連するすべての投影内で開始され、X 範囲を出るまでしばらく範囲内に留まります。 これにより、有効なエントリが存在することが確認されます。 
 
 ### 例 2
 
