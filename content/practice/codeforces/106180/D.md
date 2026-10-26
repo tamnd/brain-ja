@@ -50,7 +50,7 @@ draft: false
 
 | アプローチ | 時間計算量 | 空間の複雑さ | 評決 |
  | --- | --- | --- | --- |
- | ブルート フォース (スワップのシミュレート / 状態の調査) | 指数関数 | 指数関数 | 遅すぎる |
+ | ブルート フォース (スワップのシミュレート / 状態の探索) | 指数関数 | 指数関数 | 遅すぎる |
  | コンポーネント + 並べ替え | O(n log n) | O(n) | 承認済み |
 
  ## アルゴリズムのチュートリアル
@@ -118,7 +118,7 @@ def solve():
 
 if __name__ == "__main__":
     solve()
-```グラフの構築では、スワップ権限を直接エンコードします。 DFS はインデックスをコンポーネントにグループ化し、各コンポーネントは個別に処理されます。 インデックスを並べ替えると、辞書編集上の優先順位が確実に尊重され、値を降順に並べ替えると、各位置が貪欲に最大化されます。 
+```グラフの構築では、スワップ権限を直接エンコードします。 DFS はインデックスをコンポーネントにグループ化し、各コンポーネントは個別に処理されます。 インデックスを並べ替えることにより、辞書編集上の優先順位が確実に尊重され、値を降順に並べ替えることで各位置を貪欲に最大化することが保証されます。 
 
 微妙な点は、スワップを明示的にシミュレートしようとしていないことです。 正確さは、接続性が完全な置換の自由を意味し、実際の一連の操作を構築する必要がなくなるという事実に完全に依存します。 
 
@@ -159,18 +159,18 @@ if __name__ == "__main__":
 
  最終出力:```
 4 3 2 1
-```This confirms that full connectivity yields full sorting in descending order.
+```これにより、完全な接続により降順で完全な並べ替えが行われることが確認されます。 
 
- ## 複雑さの分析
+## 複雑さの分析
 
  | 測定 | 複雑さ | 説明 |
  | --- | --- | --- |
- | 時間 | O(n log n + m) | DFS over graph plus sorting inside components dominates |
+ | 時間 | O(n log n + m) | グラフに対する DFS とコンポーネント内のソートが支配的 |
  | スペース | O(n + m) | 隣接リストと訪問配列 |
 
- The constraints typical for this problem size fit comfortably within these bounds, since sorting dominates and remains efficient even for large n. The graph traversal is linear in edges and vertices, which is optimal.
+ 並べ替えが優先され、n が大きい場合でも効率が維持されるため、この問題のサイズに一般的な制約はこれらの範囲内に快適に収まります。 グラフの走査はエッジと頂点において線形であり、これが最適です。 
 
- ## テストケース```python
+## テストケース```python
 import sys, io
 
 def run(inp: str) -> str:
@@ -214,12 +214,12 @@ assert run("""3 1
  | チェーングラフ | 5 4 1 3 2 | 部分的な接続 |
  | 完全なグラフ | 4 3 2 1 | 完全な順列自由 |
  | エッジなし | 同じ配列 | 分離されたコンポーネント |
- | 片刃 | ローカル再配置のみ | コンポーネント処理の正確性 |
+ | 片刃 | ローカル再配置のみ | コンポーネントの処理の正確さ |
 
  ## 特殊なケース
 
- A critical edge case is when there are no swaps at all. Each index forms its own component, so the algorithm should leave the array unchanged. The DFS still runs, but each component has size 1, so sorting and assignment are no-ops, preserving the original sequence.
+ 重大なエッジケースは、スワップがまったくない場合です。 各インデックスは独自のコンポーネントを形成するため、アルゴリズムは配列を変更しないままにする必要があります。 DFS は引き続き実行されますが、各コンポーネントのサイズは 1 であるため、並べ替えと割り当ては何も行われず、元のシーケンスが維持されます。 
 
- Another case is when the graph is fully connected. The algorithm collapses everything into one component, and the entire array is sorted in descending order. Any mistake in component detection would incorrectly split this into smaller pieces and break optimality.
+もう 1 つのケースは、グラフが完全に接続されている場合です。 このアルゴリズムはすべてを 1 つのコンポーネントにまとめ、配列全体が降順に並べ替えられます。 コンポーネントの検出に誤りがあると、これが誤って小さな部分に分割され、最適性が損なわれてしまいます。 
 
- 長鎖成分も重要です。 In a path graph, reachability still implies full permutation freedom, even though swaps are local. The DFS correctly merges the entire chain into one component, ensuring that values are globally rearranged rather than only locally swapped.
+長鎖成分も重要です。 パス グラフでは、スワップがローカルであっても、到達可能性は完全な置換の自由を意味します。 DFS はチェーン全体を 1 つのコンポーネントに正しくマージし、値がローカルでのみ交換されるのではなく、グローバルに再配置されるようにします。
