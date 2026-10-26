@@ -3,7 +3,7 @@
   "lang": "ja",
   "source_repo": "/tmp/brain",
   "target_repo": "/tmp/bs/ja/repo",
-  "last_run": "2026-10-26T19:01:03.137282Z",
+  "last_run": "2026-10-26T19:42:21.057767Z",
   "batch": 0,
   "translator": {
     "provider": "google",
@@ -137140,7 +137140,7 @@
     },
     "content/en/practice/codeforces/106175/F.md": {
       "source_hash": "sha256:02f22b63b0a4d156f4644241e44db51a8e65890e2fffee0223e48d3b8f4be839",
-      "translated_at": "2026-10-26T18:57:32.536760Z",
+      "translated_at": "2026-10-26T18:12:48.957904Z",
       "dest_path": "content/practice/codeforces/106175/F.md",
       "status": "done",
       "tokens_used": 0,
@@ -137148,7 +137148,7 @@
     },
     "content/en/practice/codeforces/106175/G.md": {
       "source_hash": "sha256:c6f6b0b56110e814fd840c22310aab2171cdc49b1696a6599f8778be056bece9",
-      "translated_at": "2026-10-26T18:57:33.272228Z",
+      "translated_at": "2026-10-26T18:12:59.672591Z",
       "dest_path": "content/practice/codeforces/106175/G.md",
       "status": "done",
       "tokens_used": 0,
@@ -137156,7 +137156,7 @@
     },
     "content/en/practice/codeforces/106175/H.md": {
       "source_hash": "sha256:59d7ac434ad55a051224f88bea5a077310647753472f8a274fb0c146b460aad3",
-      "translated_at": "2026-10-26T18:58:12.030308Z",
+      "translated_at": "2026-10-26T18:15:06.648099Z",
       "dest_path": "content/practice/codeforces/106175/H.md",
       "status": "done",
       "tokens_used": 0,
@@ -137164,7 +137164,7 @@
     },
     "content/en/practice/codeforces/106175/I.md": {
       "source_hash": "sha256:6ed1670dcc0aee8ce9ec9ecd2aafba97f47ea5e382255993edcd57bb36b48c94",
-      "translated_at": "2026-10-26T18:58:35.564119Z",
+      "translated_at": "2026-10-26T18:16:43.608865Z",
       "dest_path": "content/practice/codeforces/106175/I.md",
       "status": "done",
       "tokens_used": 0,
@@ -137172,7 +137172,7 @@
     },
     "content/en/practice/codeforces/106177/A.md": {
       "source_hash": "sha256:51c906f1db414715b9392d32019d48a443e75019539ba2d0ffdce24767d202b5",
-      "translated_at": "2026-10-26T18:58:36.242955Z",
+      "translated_at": "2026-10-26T18:16:48.924364Z",
       "dest_path": "content/practice/codeforces/106177/A.md",
       "status": "done",
       "tokens_used": 0,
@@ -137180,7 +137180,7 @@
     },
     "content/en/practice/codeforces/106177/B.md": {
       "source_hash": "sha256:ccb47bef8a1f633dd02bfd77752e45be18dea675062714c2fe7d21efca7a767c",
-      "translated_at": "2026-10-26T18:59:28.881367Z",
+      "translated_at": "2026-10-26T18:19:44.170808Z",
       "dest_path": "content/practice/codeforces/106177/B.md",
       "status": "done",
       "tokens_used": 0,
@@ -137188,7 +137188,7 @@
     },
     "content/en/practice/codeforces/106177/C.md": {
       "source_hash": "sha256:b4f40339b91d4fb33a7f84aeb7d652248977e340c7f6173fa47da5670309f5ac",
-      "translated_at": "2026-10-26T19:00:15.057479Z",
+      "translated_at": "2026-10-26T18:23:05.177813Z",
       "dest_path": "content/practice/codeforces/106177/C.md",
       "status": "done",
       "tokens_used": 0,
@@ -137196,7 +137196,7 @@
     },
     "content/en/practice/codeforces/106177/D.md": {
       "source_hash": "sha256:188b4c8aab9bbcd4a98ea467e89d323bbb2e01f54f8b19ed3fef23903ab9f3c2",
-      "translated_at": "2026-10-26T19:00:24.490105Z",
+      "translated_at": "2026-10-26T18:24:01.284444Z",
       "dest_path": "content/practice/codeforces/106177/D.md",
       "status": "done",
       "tokens_used": 0,
@@ -137204,7 +137204,7 @@
     },
     "content/en/practice/codeforces/106177/E.md": {
       "source_hash": "sha256:b58c6bd773ceecbf6c4af81924e4b6f603ac7cc44bc77d46cbd0828efd5d46e5",
-      "translated_at": "2026-10-26T19:01:02.120387Z",
+      "translated_at": "2026-10-26T18:25:49.270952Z",
       "dest_path": "content/practice/codeforces/106177/E.md",
       "status": "done",
       "tokens_used": 0,
@@ -137212,8 +137212,88 @@
     },
     "content/en/practice/codeforces/106177/F.md": {
       "source_hash": "sha256:5b55536f991b18d20332b533f0d5ca7b3edce0e547c2c0efbf02e479dc6e3d92",
-      "translated_at": "2026-10-26T19:01:03.137255Z",
+      "translated_at": "2026-10-26T18:25:53.676434Z",
       "dest_path": "content/practice/codeforces/106177/F.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106177/G.md": {
+      "source_hash": "sha256:4fa7680e3bc3ade025a4ffafb6d19b97a967567ab5c9c7e196d2cac5fb73530a",
+      "translated_at": "2026-10-26T19:34:58.712041Z",
+      "dest_path": "content/practice/codeforces/106177/G.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106177/H.md": {
+      "source_hash": "sha256:2d60392958ac67c79cd4f48929a14736b69ee0ec9bae8e8b8335410de7150e6f",
+      "translated_at": "2026-10-26T19:35:02.494950Z",
+      "dest_path": "content/practice/codeforces/106177/H.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106178/A.md": {
+      "source_hash": "sha256:8deceedffb9da5e4110b937dee6310ca8fab86bea7d2c970034acfd1b8f36959",
+      "translated_at": "2026-10-26T19:35:21.299677Z",
+      "dest_path": "content/practice/codeforces/106178/A.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106178/B.md": {
+      "source_hash": "sha256:e93e6b037277eeb7eb9b6e88f38c527f96a4a03da689f26eae536dd5aa07370b",
+      "translated_at": "2026-10-26T19:38:20.807336Z",
+      "dest_path": "content/practice/codeforces/106178/B.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106178/C.md": {
+      "source_hash": "sha256:40250048c5e16bb40a9e871c42098f02c98a7a683e021b9b06f22312743f0b0f",
+      "translated_at": "2026-10-26T19:39:55.471840Z",
+      "dest_path": "content/practice/codeforces/106178/C.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106178/D.md": {
+      "source_hash": "sha256:4709cfaa4a60f8d4ca1bbf07cc42d510c163dfeea45ee0525ecf841b51e87606",
+      "translated_at": "2026-10-26T19:40:00.003931Z",
+      "dest_path": "content/practice/codeforces/106178/D.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106178/E.md": {
+      "source_hash": "sha256:75268c73a040acef46ce0f4df6e5f166d6e1e8e58f76468d48f12fe84b45ab11",
+      "translated_at": "2026-10-26T19:40:56.227648Z",
+      "dest_path": "content/practice/codeforces/106178/E.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106178/F.md": {
+      "source_hash": "sha256:89a32e442a428ab974f97cd2d2b432cdce98caa5e3852297d6016590d05f5b9e",
+      "translated_at": "2026-10-26T19:42:11.651626Z",
+      "dest_path": "content/practice/codeforces/106178/F.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106178/G.md": {
+      "source_hash": "sha256:a7c0ba9f8b9a2d5b93c20158db84259b645b38661151724c41d157de94fa3bc4",
+      "translated_at": "2026-10-26T19:42:16.098097Z",
+      "dest_path": "content/practice/codeforces/106178/G.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106178/H.md": {
+      "source_hash": "sha256:5e90242e2b32ca13085848f666f04573dda57a133fa67f1ef0f3ea480f0101c3",
+      "translated_at": "2026-10-26T19:42:21.057744Z",
+      "dest_path": "content/practice/codeforces/106178/H.md",
       "status": "done",
       "tokens_used": 0,
       "provider": "google"
