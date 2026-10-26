@@ -1,6 +1,6 @@
 ---
 title: "CF 106178H - よりハードな地平線"
-description: "106178H - Harder Horizo​​ns の実際の Codeforce ステートメントはありません。また、この ID で取得可能な唯一のアーティファクトは、一貫した完全に定義された問題と一致しません。"
+description: "106178H - Harder Horizo​​ns の実際の Codeforce ステートメントはありません。また、この ID で唯一取得可能なアーティファクトは、一貫した完全に定義された問題と一致しません。"
 date: "2026-06-25T10:58:10+07:00"
 tags: ["codeforces", "competitive-programming"]
 categories: ["algorithms"]
