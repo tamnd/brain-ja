@@ -1,6 +1,6 @@
 ---
 title: "CF 106196F - \u041f\u0440\u044b\u0433\u0430\u044e\u0449\u0430\u044f \u041f\u0430\u0439\u043f\u0435\u0440"
-description: "実際の問題点が記載されていないため、これについて正しい社説をまだ書くことができません。 現時点ではタイトル (「Прыгающая Пайпер」) だけがあり、ルール、入力形式、または何を計算する必要があるかについての説明はありません。"
+description: "実際の問題点が記載されていないため、これについて正しい社説をまだ書くことができません。 Right now I only have the title (“Прыгающая Пайпер”), but no description of the rules, input format, or what needs to be computed."
 date: "2026-06-26T05:16:58+07:00"
 tags: ["codeforces", "competitive-programming"]
 categories: ["algorithms"]
