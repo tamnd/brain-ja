@@ -3,7 +3,7 @@
   "lang": "ja",
   "source_repo": "/tmp/brain",
   "target_repo": "/tmp/bs/ja/repo",
-  "last_run": "2026-10-29T21:44:41.063491Z",
+  "last_run": "2026-10-29T22:15:53.735746Z",
   "batch": 0,
   "translator": {
     "provider": "google",
@@ -144254,6 +144254,86 @@
       "source_hash": "sha256:3d68fed95ab60d8516b538e0ec4ed84fd56b9b6d19857f253a39e2a7b0cf8f37",
       "translated_at": "2026-10-29T21:44:41.063459Z",
       "dest_path": "content/practice/codeforces/106398/G.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106398/H.md": {
+      "source_hash": "sha256:d7f3e81cac51f2b4b91d8779d45867331fa065f724d51d24b5f756786da7531a",
+      "translated_at": "2026-10-29T22:09:18.957145Z",
+      "dest_path": "content/practice/codeforces/106398/H.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106398/I.md": {
+      "source_hash": "sha256:b46085064f981fcab45973b3c77c4698133bcaa8214e780d68e2d656ec0d043e",
+      "translated_at": "2026-10-29T22:09:23.102360Z",
+      "dest_path": "content/practice/codeforces/106398/I.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106398/J.md": {
+      "source_hash": "sha256:fb871dec7f635f21f86b2ea0b0669287ca8a23197c9209e0fdcedbdebcb92bdd",
+      "translated_at": "2026-10-29T22:09:47.192716Z",
+      "dest_path": "content/practice/codeforces/106398/J.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/1064/A.md": {
+      "source_hash": "sha256:a40eb1afb0f4f3b73a6138428f582fa27021771ab59e6d311fc08c49acb89b8f",
+      "translated_at": "2026-10-29T22:10:50.113233Z",
+      "dest_path": "content/practice/codeforces/1064/A.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/1064/B.md": {
+      "source_hash": "sha256:d9612b7d8e378bb85cd22b4d025f51d94fce9aa09ba358f3b4811a2ca5942c1b",
+      "translated_at": "2026-10-29T22:12:26.413456Z",
+      "dest_path": "content/practice/codeforces/1064/B.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106403/A.md": {
+      "source_hash": "sha256:5c8ffbbaf5e5f12efec364aa7e04c5eb4c239e24d5cf83d6e86cd3015805cd52",
+      "translated_at": "2026-10-29T22:12:36.665246Z",
+      "dest_path": "content/practice/codeforces/106403/A.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106403/B.md": {
+      "source_hash": "sha256:1fab4c9d667590ca68f52ab1eda556420aea1ecef8458e82e389eb13952b14fa",
+      "translated_at": "2026-10-29T22:14:09.608992Z",
+      "dest_path": "content/practice/codeforces/106403/B.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106403/C.md": {
+      "source_hash": "sha256:2398e34d7a08f5ae482b237d14b4a8e964ac3ee67eb2c767cc8ee8c243e5d56a",
+      "translated_at": "2026-10-29T22:14:14.330548Z",
+      "dest_path": "content/practice/codeforces/106403/C.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106403/D.md": {
+      "source_hash": "sha256:eab01591ba9ab62c86162a574f8684da8f6f3d3acee2849e1145c1c46ed94580",
+      "translated_at": "2026-10-29T22:15:51.121378Z",
+      "dest_path": "content/practice/codeforces/106403/D.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/codeforces/106403/E.md": {
+      "source_hash": "sha256:4411c36d5d179dddaf8e84a8906254bb13083b75b6b551e2ae0f6f69e0c5abc0",
+      "translated_at": "2026-10-29T22:15:53.735717Z",
+      "dest_path": "content/practice/codeforces/106403/E.md",
       "status": "done",
       "tokens_used": 0,
       "provider": "google"
