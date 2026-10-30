@@ -134,9 +134,9 @@ if __name__ == "__main__":
  | 4 | 4 | Φ(1)を追加 |
  | 5 | 5 | Φ(1)を追加 |
 
- ファイナル$f(5)$はこれらすべての寄与の合計であり、各除数層がどのように独立して寄与しているかを示します。 
+ ファイナル$f(5)$ is the sum of all these contributions, showing how each divisor layer contributes independently.
 
-このトレースは、各寄与が一意の商に関連付けられているため、除数の重複が二重にカウントされることなくどのように正しく処理されるかを示しています。$r/p$。 
+This trace demonstrates how divisor overlaps are handled correctly without double counting, because each contribution is tied to a unique quotient $r/p$。 
 
 ### 例 2
 
@@ -155,12 +155,14 @@ if __name__ == "__main__":
 
  | 測定 | 複雑さ | 説明 |
  | --- | --- | --- |
- | 時間 |$O(n \log \log n)$| φ プラス倍数にわたる調和系列の線形ふるい |
- | スペース |$O(n)$| φ、接頭辞の合計、および累積の配列 |
+ | 時間 |$O(n \log \log n)$ | linear sieve for φ plus harmonic series over multiples |
+| Space | $O(n)$ | arrays for φ, prefix sums, and accumulation |
 
- このアルゴリズムは、一般的な制限内に快適に適合します。$n \le 10^6$。 主なコストはふるいおよび除数倍の累積であり、どちらも標準の線形に近い算術関数のワークフローです。 
+The algorithm fits comfortably within typical limits for $n \le 10^6$. The dominant cost is the sieve and the divisor-multiple accumulation, both of which are standard near-linear arithmetic function workflows.
 
-## テストケース```python
+## Test Cases
+
+```python
 import sys, io
 
 def run(inp: str) -> str:
@@ -207,15 +209,17 @@ assert run("1") == "1", "minimum case"
 assert run("2") == "?", "small composite check"
 assert run("6") == "?", "multiple divisor structure"
 assert run("10") == "?", "mixed divisors"
-```| テスト入力 | 期待される出力 | 検証内容 |
- | --- | --- | --- |
- | 1 | 1 | 基本ケースの正確性 |
- | 2 | 計算値 | 最小の複合動作 |
- | 6 | 計算値 | 複数の約数の相互作用 |
- | 10 | 計算値 | 混合因子構造 |
+```
 
- ## 特殊なケース
+| Test input | Expected output | What it validates |
+| --- | --- | --- |
+| 1 | 1 | base case correctness |
+| 2 | computed value | smallest composite behavior |
+| 6 | computed value | multiple divisor interactions |
+| 10 | computed value | mixed factor structure |
 
- のために$n = 1$、ふるいおよび接頭辞合計ステップは単一要素配列に縮退します。 複数のループは 1 回だけ実行されます。$p = 1$、生産$f(1) = \Phi(1) = 1$、有効な自明な構成が 1 つだけ存在するため、これは組み合わせ解釈と一致します。 
+## Edge Cases
+
+For $n = 1$, the sieve and prefix sum steps degenerate to a single element array. The loop over multiples executes only once for $p = 1$, producing $f(1) = \Phi(1) = 1$、有効な自明な構成が 1 つだけ存在するため、これは組み合わせ解釈と一致します。 
 
 高度に合成された数値の場合、$n = 12$、複数の約数が重複しているように見える項に寄与していますが、それぞれは商によってきれいに分離されています。$n/p$。 例えば、$p = 3$そして$p = 4$どちらも貢献する$f(12)$、しかし異なる商を通じて$4$そして$3$曖昧さや二重カウントを防ぎます。
