@@ -1,5 +1,5 @@
 ---
-title: "CF 1256F - 2 つの弦のイコライジング"
+title: "CF 1256F - 2 本の弦のイコライジング"
 description: "同じ長さの 2 つの文字列が与えられ、同期操作を繰り返し実行できます。長さ len を選択し、最初の文字列でその長さの部分文字列を選択し、それを反転し、2 番目の文字列で同じ長さの部分文字列を個別に選択します。"
 date: "2026-06-18T17:45:52+07:00"
 tags: ["codeforces", "competitive-programming", "constructive-algorithms", "sortings", "strings"]
@@ -24,11 +24,11 @@ draft: false
  ## 解決策
  ## 問題の理解
 
- 同じ長さの 2 つの文字列が与えられ、同期操作を繰り返し実行できます。長さを選択します。`len`, choose any substring of that length in the first string, reverse it, and independently choose any substring of the same length in the second string and reverse it as well. 選択した位置は一致している必要はありません。 
+ 同じ長さの 2 つの文字列が与えられ、同期操作を繰り返し実行できます。長さを選択します。`len`、最初の文字列でその長さの部分文字列を選択して反転し、2 番目の文字列で同じ長さの部分文字列を個別に選択して同様に反転します。 選択した位置は一致している必要はありません。 
 
-The goal is not to directly transform one string into the other, but to determine whether there exists a sequence of such paired reversals that makes the two strings identical at the end.
+目的は、一方の文字列をもう一方の文字列に直接変換することではなく、最後に 2 つの文字列を同一にするような一連のペアの反転が存在するかどうかを判断することです。 
 
- The key observation is that each operation preserves a strong global structure: both strings are being modified by reversals of equal-sized segments, but their relative multiset of characters never changes in a way that depends on position matching. それぞれの動きは各文字列内の文字を独立して並べ替えますが、常に両方の文字列の「強さ」がグローバルに反映される方法で行われます。 
+重要な観察点は、各操作が強力なグローバル構造を保持していることです。両方の文字列は同じサイズのセグメントの反転によって変更されますが、それらの相対的な文字のマルチセットは、位置の一致に依存する方法で変更されることはありません。 それぞれの動きは各文字列内の文字を独立して並べ替えますが、常に両方の文字列の「強さ」がグローバルに反映される方法で行われます。 
 
 制約の観点から見ると、すべてのテスト ケースの合計の長さは最大でも`2 · 10^5`。 これにより、操作をシミュレートしたり順列の構成を探索しようとするソリューションは除外されます。 任意の部分文字列の反転についての推論でも、階乗の複雑さに直接つながります。 解決策は、問題をテスト ケースごとの単純な構造不変チェックに分解する必要があります。理想的には線形または線形演算です。`n`。 
 
@@ -39,7 +39,7 @@ s = "ab"
 t = "ba"
 ```単純なマルチセットベースのチェックでは「YES」と表示されますが、同期の制約によっては、より複雑な場合に許可された操作を通じてそれらを調整できるとは限りません。 実際の条件は単なる文字数よりも厳密ですが、それでも単純なパリティベースの不変式にきれいに削減されます。 
 
-文字列の位置が 1 か所だけ異なる場合、別の特殊なケースが発生します。```
+文字列の 1 つの位置のみが異なる場合、別の特殊なケースが発生します。```
 s = "abcde"
 t = "abXde"
 ```たとえ不一致が 1 つだけ存在するとしても、同期反転のグローバル制約はローカル修正が独立していないことを意味するため、実現可能性はローカル修正能力ではなくグローバル パリティ構造に依存します。 
@@ -156,7 +156,7 @@ t = badc
 
  | 測定 | 複雑さ | 説明 |
  | --- | --- | --- |
- | 時間 | テストあたり O(n log n) | 文字列の並べ替えが頻度比較に影響を及ぼします。 
+ | 時間 | テストあたり O(n log n) | 文字列の並べ替えが頻度の比較に影響を及ぼします。 
 | スペース | O(1) エクストラ (26 カウンター) | 文字カウントまたはソートされた出力のみが使用されます。 
 
 テスト全体の長さは次のとおりです。`2 · 10^5`したがって、テストごとの並べ替えでも、一般的な制約の下では十分に効率的です。 不一致スキャンは線形であり、並べ替えに比べて無視できます。 
