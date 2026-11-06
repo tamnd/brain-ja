@@ -206,6 +206,6 @@ assert run("1\n2\n2 1\n") is not None, "order variation"
 
  ## 特殊なケース
 
- 微妙なエッジケースが発生するのは、`b_i`に近いです`2n`となり、これ以上の数は利用できなくなります。 たとえば、次の場合`b_i = 2n`, no valid partner exists, and the algorithm correctly fails immediately when scanning for a larger element.
+ 微妙なエッジケースが発生するのは、`b_i`に近いです`2n`となり、これ以上の数は利用できなくなります。 たとえば、次の場合`b_i = 2n`、有効なパートナーが存在せず、アルゴリズムはより大きな要素をスキャンするときに正しく失敗します。 
 
- Another case arises when early choices consume small intermediate numbers that are required later. アルゴリズムは常に最小の有効なパートナーを選択するため、大きなギャップを不必要に「無駄に」することがなくなり、将来のステップの柔軟性が維持されます。 This greedy choice ensures that if a solution exists, it is never destroyed by an early overly aggressive assignment.
+別のケースは、初期の選択が後で必要になる小さな中間数値を消費する場合に発生します。 アルゴリズムは常に最小の有効なパートナーを選択するため、大きなギャップを不必要に「無駄に」することがなくなり、将来のステップの柔軟性が維持されます。 この貪欲な選択により、ソリューションが存在する場合、初期の過度に積極的な割り当てによってそのソリューションが破壊されることがなくなります。
