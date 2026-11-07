@@ -50,7 +50,7 @@ draft: false
 0 1 0 1
 0 0 0 1
 0 0 0 1
-```すべての点は 1 本の垂直線上にあります。 幅がゼロなので、長方形は存在しません。 正しい答えは、`NO`。 
+```All points lie on one vertical line. Width is zero, so no rectangle exists. 正しい答えは、`NO`。 
 
 バグのもう 1 つの原因は、エンドポイントの順序が逆になっていることです。 これら 2 つのセグメントは、同じ幾何学的な線を表します。```
 0 0 3 0
