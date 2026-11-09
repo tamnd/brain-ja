@@ -2,23 +2,23 @@
  タイトル: 「CF 1571B - 叙事詩小説」
  説明: 「計算しなければなりません$$(cdots((x1otimes x2)otimes x3)otimescdotsotimes x{10^6}),$$と$$xk=1.111111.$$させて$$sk=(cdots((x1otimes x2)otimescdots)otimes xk).$$すべての加算は有効十進数 8 桁に四捨五入されるため、反復は次のようになります。$$sk=operatorname{fl}(s{k-1}+1." date: "2026-06-10T11:21:46+07:00" tags: ["codeforces", "competitive-programming", "*special", "math"] categories: ["algorithms"] codeforces_contest: 1571 codeforces_index: "B" codeforces_contest_name: "Kotlin Heroes: Episode 8" rating: 1300 weight: 1571 solve_time_s: 178 verified: false draft: false --- [CF 1571B - Epic Novel](https://codeforces.com/problemset/problem/1571/B) **Rating:** 1300   **Tags:** *special, math   **Solve time:** 2m 58s   **Verified:** no   ## Solution ## (a) We must compute$$(\cdots((x_1\otimes x_2)\otimes x_3)\otimes\cdots\otimes x_{10^6}),$$
 with
-$$x_k=1.111111。$$
+$$x_k=1.111111.$$
 Let
-$$s_k=(\cdots((x_1\otimes x_2)\otimes\cdots)\otimes x_k)。$$
+$$s_k=(\cdots((x_1\otimes x_2)\otimes\cdots)\otimes x_k).$$
 Since every addition is rounded to eight significant decimal digits, the recurrence is
-$$s_k=\オペレーター名{fl}(s_{k-1}+1.111111)。$$
+$$s_k=\operatorname{fl}(s_{k-1}+1.111111).$$
 The exact sum after $k$ terms is
 $$1.111111\,k.$$
 The important observation is that once the partial sum reaches about $10^6$, the spacing between adjacent eight-digit floating-decimal numbers is
 $$10^{6-8+1}=10^{-1}=0.1。$$
 Thus numbers near $10^6$ are represented only to the nearest tenth.
 Now
-$$1.111111 = 11\times 0.1 + 0.011111。$$
+$$1.111111 = 11\times 0.1 + 0.011111.$$
 Each addition contributes $0.011111$ beyond an exact multiple of $0.1$. Because rounding occurs after every step, these small excesses are repeatedly lost. The accumulated rounding error is positive and grows roughly linearly.
 Carrying out the recurrence in eight-digit decimal arithmetic gives
 $$s_{10^6}=1111110.0。$$
 The exact sum is
-$$10^6\cdot 1.111111 = 1111111.0、$$
+$$10^6\cdot 1.111111 = 1111111.0,$$
 so the final answer is smaller by $1.0$.
 Hence
 $$(\cdots((x_1\otimes x_2)\otimes\cdots\otimes x_{10^6}))
