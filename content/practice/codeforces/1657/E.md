@@ -26,21 +26,27 @@ draft: false
 
  完全なグラフがあります`n`ラベル付きの頂点。 すべてのエッジは、次の間の整数の重みを受け取ります。`1`そして`k`。 
 
-頂点`1`特別な役割を果たします。 頂点を中心とする星を考えます`1`、すべてのエッジで構成されます`(1, v)`のために`v > 1`。 この星の総重量はこれらの合計です。`n - 1`エッジの重み。 
+頂点`1` plays a special role. Consider the star centered at vertex `1`、すべてのエッジで構成されます`(1, v)`のために`v > 1`。 この星の総重量はこれらの合計です。`n - 1` edge weights.
 
-グラフの最小スパニング ツリーの重みがそのスターの重みと正確に等しい場合、そのグラフは美しいと呼ばれます。 
+A graph is called beautiful when the weight of its minimum spanning tree is exactly equal to the weight of that star.
 
-タスクは、この条件を満たす完全な重み付きグラフの数を数えることです (剰余)`998244353`。 
+The task is to count how many complete weighted graphs satisfy this condition, modulo `998244353`.
 
-制約は、ソリューションが高度に組み合わせ的である必要があることを示す最初のヒントです。 250 頂点の完全なグラフには 31,000 以上のエッジが含まれます。 すべてのエッジの割り当てを書き出すことさえ不可能です。 可能な重み付きグラフの数は次のとおりです。$$k^{\binom n2},$$それは天文学的な大きさです。 
+The constraints are the first hint that the solution must be heavily combinatorial. A complete graph on 250 vertices contains more than 31,000 edges. Even writing down all edge assignments is impossible. The number of possible weighted graphs is
 
-両方なので`n`そして`k`せいぜい`250`、大まかに言うと動的プログラミング ソリューションです。`O(n^2 k)`または`O(n^3)`州は現実的です。 個々のグラフや MST 計算について直接推論しようとするものは、完全に手の届かないところにあります。 
+$$k^{\binom n2},$$
 
-難しいのは、MST 状態が実際に何を意味するのかを理解することです。 
+which is astronomically large.
 
-3つの頂点を考えてみましょう`1, u, v`。 仮定する$$w(u,v) < \max(w(1,u), w(1,v)).$$次に、星型では、2 つの端のうち重い方になります。`(1,u)`そして`(1,v)`で置き換えることができます`(u,v)`、厳密に小さい重量のスパニング ツリーを生成します。 そうなると、星は最適ではなくなります。 
+Since both `n` and `k` are at most `250`, a dynamic programming solution with roughly `O(n^2 k)` or `O(n^3)` states is realistic. Anything that tries to reason about individual graphs or MST computations directly is completely out of reach.
 
-たとえば、次の場合$$w(1,u)=5,\quad w(1,v)=3,\quad w(u,v)=2,$$スターには貢献がある`5 + 3`これら 2 つの頂点からですが、エッジを置き換えます`(1,u)`による`(u,v)`総重量を減らす`3`。 
+The tricky part is understanding what the MST condition actually means.
+
+Consider three vertices `1, u, v`。 仮定する$$w(u,v) < \max(w(1,u), w(1,v)).$$次に、星型では、2 つの端のうち重い方になります。`(1,u)`そして`(1,v)`で置き換えることができます`(u,v)`, producing a spanning tree with strictly smaller weight. That would make the star non-optimal.
+
+For example, if
+
+$$w(1,u)=5,\quad w(1,v)=3,\quad w(u,v)=2,$$スターには貢献がある`5 + 3`これら 2 つの頂点からですが、エッジを置き換えます`(1,u)`による`(u,v)`総重量を減らす`3`。 
 
 不注意なアプローチでは、星自体が MST であるかどうかを確認するだけになる可能性があります。 実際の条件はさらに強力です。MST の重みはスターの重みと等しくなければなりません。 スターはすでにスパニング ツリーであるため、等しいということは、スターが最小のスパニング ツリーでなければならないことを意味します。 
 
