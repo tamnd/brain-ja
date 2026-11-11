@@ -55,9 +55,9 @@ draft: false
 6. 青の勝利がまだ残っている場合は、ブロックの後に B を 1 つ追加します。 減少`b`それに応じて。 
 7. すべてのブロックが処理されるまで続行します。 結果の文字列は正確に`r`Rさんと`b`B を使用し、連続する R の最大数を最小化します。 
 
-これが機能する理由は、R を次のように分割することにより、`b+1`ブロックとインターリーブ B の場合、連続する R のシーケンスはこれを超えることはできません`ceil(r / (b+1))`, which is the minimal possible maximum streak given the number of B's available to separate R's. This property holds regardless of the specific counts of r and b, as it ensures the R's are as evenly spread as possible.
+これが機能する理由は、R を次のように分割することにより、`b+1`ブロックとインターリーブ B の場合、連続する R のシーケンスはこれを超えることはできません`ceil(r / (b+1))`、これは、R を分離するために利用できる B の数を考慮した最小の可能な最大ストリークです。 この特性は、R が可能な限り均等に分散されることを保証するため、r と b の特定の数に関係なく当てはまります。 
 
- ## Python ソリューション```python
+## Python ソリューション```python
 import sys
 input = sys.stdin.readline
 
