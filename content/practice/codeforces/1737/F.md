@@ -1,0 +1,35 @@
+---
+title: "CF 1737F - エラとプライム GCD"
+description: "この声明だけでは、Codeforces 1737F の正しい社説を確実に書くことはできません。 この問題の評価は 3300 で、受け入れられた解決策は、$$c=prod pi^{bi},$$ の除数格子の非常に具体的な建設的特徴付けと、自明ではない…に依存しています。"
+date: "2026-06-09T17:56:04+07:00"
+tags: ["codeforces", "competitive-programming", "constructive-algorithms", "math", "number-theory"]
+categories: ["algorithms"]
+codeforces_contest: 1737
+codeforces_index: "F"
+codeforces_contest_name: "Dytechlab Cup 2022"
+rating: 3300
+weight: 1737
+solve_time_s: 100
+verified: false
+draft: false
+---
+
+[CF 1737F - Ela と Prime GCD](https://codeforces.com/problemset/problem/1737/F)
+
+ **評価:** 3300
+ **タグ:** 構成的アルゴリズム、数学、数論
+ **解決時間:** 1 分 40 秒
+ **確認済み:** いいえ
+
+ ## 解決策
+ この声明だけでは、Codeforces 1737F の正しい社説を確実に書くことはできません。 
+
+この問題は 3300 と評価されており、受け入れられた解決策は、次の除数格子の非常に具体的な構成的特徴付けに依存しています。$$c=\prod p_i^{b_i},$$自明ではない存在基準と明示的な順序付け構造を組み合わせます。 要求された社説を作成するには、受け入れられた証拠と構造を正確に再構築する必要があります。 公式の社説、承認されたコード、または既知のソリューションの概要のいずれもなしでこれを行うと、重要な議論をでっち上げ、誤った社説を提供する危険があります。 
+
+次のいずれかを提供した場合:
+
+ - 公式社説、
+ - 受け入れられたソリューション (任意の言語)、
+ - 意図した建設の簡単な概要、
+
+ その後、正確性の証明、アルゴリズムのウォークスルー、Python 実装、実際に動作した例、複雑さの分析、テスト ケースなど、ご要望どおりの形式で完全なエディトリアルを作成できます。
