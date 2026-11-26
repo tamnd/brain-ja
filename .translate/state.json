@@ -3,7 +3,7 @@
   "lang": "ja",
   "source_repo": "/tmp/brain",
   "target_repo": "/tmp/bs/ja/repo",
-  "last_run": "2026-11-26T04:36:49.931234Z",
+  "last_run": "2026-11-26T04:45:22.434294Z",
   "batch": 0,
   "translator": {
     "provider": "google",
@@ -225060,7 +225060,7 @@
     },
     "content/en/practice/euler/567.md": {
       "source_hash": "sha256:e4c344acbc267bf0db5caf11fec4f377650e9d2825741f118092f0d865465844",
-      "translated_at": "2026-11-26T04:32:32.610550Z",
+      "translated_at": "2026-11-26T04:39:33.490320Z",
       "dest_path": "content/practice/euler/567.md",
       "status": "done",
       "tokens_used": 0,
@@ -225068,7 +225068,7 @@
     },
     "content/en/practice/euler/568.md": {
       "source_hash": "sha256:0d4c28a22509041776d6cd837acaa5fbda551ce97c9ef7fac74da29857e8c43a",
-      "translated_at": "2026-11-26T04:33:15.911515Z",
+      "translated_at": "2026-11-26T04:40:47.802571Z",
       "dest_path": "content/practice/euler/568.md",
       "status": "done",
       "tokens_used": 0,
@@ -225076,7 +225076,7 @@
     },
     "content/en/practice/euler/569.md": {
       "source_hash": "sha256:ba4fc082d43bf3e5efcbc32e5abd23905b4e821b824562649c223b01d361c645",
-      "translated_at": "2026-11-26T04:33:20.300196Z",
+      "translated_at": "2026-11-26T04:40:55.481182Z",
       "dest_path": "content/practice/euler/569.md",
       "status": "done",
       "tokens_used": 0,
@@ -225084,7 +225084,7 @@
     },
     "content/en/practice/euler/57.md": {
       "source_hash": "sha256:16e8749aeda8ff1c38438000739b332613240cbc2cb60ee1d843b381b03fdaf9",
-      "translated_at": "2026-11-26T04:33:47.352624Z",
+      "translated_at": "2026-11-26T04:41:36.671429Z",
       "dest_path": "content/practice/euler/57.md",
       "status": "done",
       "tokens_used": 0,
@@ -225092,7 +225092,7 @@
     },
     "content/en/practice/euler/570.md": {
       "source_hash": "sha256:3756dbd86e9bcf415ef57b1edede29efeae62988904463979f8b36f5455f1718",
-      "translated_at": "2026-11-26T04:34:10.598074Z",
+      "translated_at": "2026-11-26T04:42:13.959747Z",
       "dest_path": "content/practice/euler/570.md",
       "status": "done",
       "tokens_used": 0,
@@ -225100,7 +225100,7 @@
     },
     "content/en/practice/euler/571.md": {
       "source_hash": "sha256:d7dc979418463d997f4ac281b0e7677ac6f1b2bf075f7606b509ac8d5e41d99d",
-      "translated_at": "2026-11-26T04:34:53.471350Z",
+      "translated_at": "2026-11-26T04:43:12.667083Z",
       "dest_path": "content/practice/euler/571.md",
       "status": "done",
       "tokens_used": 0,
@@ -225108,7 +225108,7 @@
     },
     "content/en/practice/euler/572.md": {
       "source_hash": "sha256:465f14d8cad12d10917cdb19a118b6331f76b9d3d0bf9720d93555369a47ecc7",
-      "translated_at": "2026-11-26T04:35:13.437297Z",
+      "translated_at": "2026-11-26T04:43:35.782199Z",
       "dest_path": "content/practice/euler/572.md",
       "status": "done",
       "tokens_used": 0,
@@ -225116,7 +225116,7 @@
     },
     "content/en/practice/euler/573.md": {
       "source_hash": "sha256:01baaff328d8704feac3a57967267396c6b7a21194a96451a169c376dddf3ff5",
-      "translated_at": "2026-11-26T04:35:45.284363Z",
+      "translated_at": "2026-11-26T04:44:11.633788Z",
       "dest_path": "content/practice/euler/573.md",
       "status": "done",
       "tokens_used": 0,
@@ -225124,7 +225124,7 @@
     },
     "content/en/practice/euler/574.md": {
       "source_hash": "sha256:e9e5c430fa07c9fa35c1548130d05370e460291e2ec48b38fbb1d17382f30604",
-      "translated_at": "2026-11-26T04:36:12.262503Z",
+      "translated_at": "2026-11-26T04:44:46.704697Z",
       "dest_path": "content/practice/euler/574.md",
       "status": "done",
       "tokens_used": 0,
@@ -225132,7 +225132,7 @@
     },
     "content/en/practice/euler/575.md": {
       "source_hash": "sha256:e375fda24d878d57eb1161f7a52cf67827713191c2951bebbc3318776abfa65e",
-      "translated_at": "2026-11-26T04:36:49.931202Z",
+      "translated_at": "2026-11-26T04:45:22.434266Z",
       "dest_path": "content/practice/euler/575.md",
       "status": "done",
       "tokens_used": 0,
