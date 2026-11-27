@@ -3,7 +3,7 @@
   "lang": "ja",
   "source_repo": "/tmp/brain",
   "target_repo": "/tmp/bs/ja/repo",
-  "last_run": "2026-11-27T19:11:34.215090Z",
+  "last_run": "2026-11-27T19:49:32.634104Z",
   "batch": 0,
   "translator": {
     "provider": "google",
@@ -231214,6 +231214,86 @@
       "source_hash": "sha256:eac93c3a6803bd93ae3caefec0cbd5bd49370be1b71a195365bc748b16ca37c9",
       "translated_at": "2026-11-27T19:11:34.215059Z",
       "dest_path": "content/practice/kvant/math/126.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/kvant/math/1260.md": {
+      "source_hash": "sha256:c87cf686433fc80692fbe479d1423aa9351fafba25467273a7a671015c4fe7b9",
+      "translated_at": "2026-11-27T19:36:43.615535Z",
+      "dest_path": "content/practice/kvant/math/1260.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/kvant/math/1261.md": {
+      "source_hash": "sha256:758af0141f660aeadfbdfc8350de0b27bad354ec116c9520699f6186d62c9d39",
+      "translated_at": "2026-11-27T19:37:13.978896Z",
+      "dest_path": "content/practice/kvant/math/1261.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/kvant/math/1262.md": {
+      "source_hash": "sha256:4ed64eb16ae68513c14a6a7672e66e23f6ae3b8846ed6fa6f4a1fe900b4df17a",
+      "translated_at": "2026-11-27T19:38:29.178993Z",
+      "dest_path": "content/practice/kvant/math/1262.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/kvant/math/1263.md": {
+      "source_hash": "sha256:df59f8a9d9ea4d9dd9980c645b8b5f17e3d4ed5993cf3280536be8d7d7862cee",
+      "translated_at": "2026-11-27T19:40:35.181156Z",
+      "dest_path": "content/practice/kvant/math/1263.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/kvant/math/1264.md": {
+      "source_hash": "sha256:2d3445ff0047d57d693c5970306e857dd82c8a2c9fb346ed5ba23a19bccc2864",
+      "translated_at": "2026-11-27T19:42:13.378907Z",
+      "dest_path": "content/practice/kvant/math/1264.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/kvant/math/1265.md": {
+      "source_hash": "sha256:858191e0f7e4d63dde904aef7fca7173a140e6d598f8ed03eacef25e64988127",
+      "translated_at": "2026-11-27T19:43:24.651746Z",
+      "dest_path": "content/practice/kvant/math/1265.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/kvant/math/1266.md": {
+      "source_hash": "sha256:e66fb6f6c77612f8df07de12a371bf1ecc53ed7491143e1400a16092040b4d07",
+      "translated_at": "2026-11-27T19:44:11.089075Z",
+      "dest_path": "content/practice/kvant/math/1266.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/kvant/math/1267.md": {
+      "source_hash": "sha256:141cfc82078ced9a55320564fe373a54ca19994ac012c9a682330960b7f86de1",
+      "translated_at": "2026-11-27T19:45:51.383767Z",
+      "dest_path": "content/practice/kvant/math/1267.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/kvant/math/1268.md": {
+      "source_hash": "sha256:e07ed2df1b6cda6ac18b389dbf6e270c4a52ee38e0def84ca8798445ad199437",
+      "translated_at": "2026-11-27T19:47:15.877435Z",
+      "dest_path": "content/practice/kvant/math/1268.md",
+      "status": "done",
+      "tokens_used": 0,
+      "provider": "google"
+    },
+    "content/en/practice/kvant/math/1269.md": {
+      "source_hash": "sha256:7f554a2d9e2e48e287d7a27641e37eb513ea05536ebda69504710f9e00f448d5",
+      "translated_at": "2026-11-27T19:49:32.634072Z",
+      "dest_path": "content/practice/kvant/math/1269.md",
       "status": "done",
       "tokens_used": 0,
       "provider": "google"
